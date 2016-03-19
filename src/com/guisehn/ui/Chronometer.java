@@ -44,10 +44,9 @@ public class Chronometer {
         
         startTime = System.currentTimeMillis();
         
-        timer = new Timer(1, (ActionEvent) -> {
-            listener.actionPerformed(new ActionEvent(this, 0, getTime()));
-        });
-        
+        publish();
+
+        timer = new Timer(1, (ActionEvent) -> { publish(); });
         timer.start();
     }
     
@@ -55,6 +54,10 @@ public class Chronometer {
         if (timer != null) {
             timer.stop();
         }
+    }
+    
+    private void publish() {
+        listener.actionPerformed(new ActionEvent(this, 0, getTime()));
     }
     
 }
