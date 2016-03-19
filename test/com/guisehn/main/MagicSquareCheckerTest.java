@@ -19,50 +19,50 @@ public class MagicSquareCheckerTest {
         MagicSquareChecker checker;
         
         checker = new MagicSquareChecker(1);
-        assertTrue(checker.checkUniqueNumbers(new int[] { 1 }));
+        assertTrue(checker.checkUniqueNumbers(new Integer[] { 1 }));
         
         checker = new MagicSquareChecker(2);
-        assertTrue(checker.checkUniqueNumbers(new int[] { 1, 2 }));
-        assertFalse(checker.checkUniqueNumbers(new int[] { 1, 1 }));
+        assertTrue(checker.checkUniqueNumbers(new Integer[] { 1, 2 }));
+        assertFalse(checker.checkUniqueNumbers(new Integer[] { 1, 1 }));
         
         checker = new MagicSquareChecker(3);
-        assertTrue(checker.checkUniqueNumbers(new int[] { 1, 2, 3, 4, 5, 6,
+        assertTrue(checker.checkUniqueNumbers(new Integer[] { 1, 2, 3, 4, 5, 6,
             7, 8, 9 }));
-        assertFalse(checker.checkUniqueNumbers(new int[] { 1, 1, 3, 4, 5, 6,
+        assertFalse(checker.checkUniqueNumbers(new Integer[] { 1, 1, 3, 4, 5, 6,
             7, 8, 9 }));
         
         checker = new MagicSquareChecker(4);
-        assertTrue(checker.checkUniqueNumbers(new int[] { 1, 2, 3, 4, 5, 6,
+        assertTrue(checker.checkUniqueNumbers(new Integer[] { 1, 2, 3, 4, 5, 6,
             7, 8, 9, 10, 11, 12, 13, 14, 15, 16 }));
-        assertFalse(checker.checkUniqueNumbers(new int[] { 1, 2, 3, 4, 5, 6,
+        assertFalse(checker.checkUniqueNumbers(new Integer[] { 1, 2, 3, 4, 5, 6,
             7, 8, 9, 10, 11, 12, 13, 14, 15, 15 }));
         
         checker = new MagicSquareChecker(5);
-        assertTrue(checker.checkUniqueNumbers(new int[] { 1, 2, 3, 4, 5, 6,
+        assertTrue(checker.checkUniqueNumbers(new Integer[] { 1, 2, 3, 4, 5, 6,
             7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
             24, 25 }));
-        assertFalse(checker.checkUniqueNumbers(new int[] { 1, 2, 3, 4, 5, 6,
+        assertFalse(checker.checkUniqueNumbers(new Integer[] { 1, 2, 3, 4, 5, 6,
             7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 16, 18, 19, 20, 21, 22, 23,
             24, 25 }));
     }
     
     @Test
     public void testCheckMainDiagonalReturnsTrue() {
-        int[] square;
+        Integer[] square;
         
         // 1x1
-        square = new int[] { 1 };
+        square = new Integer[] { 1 };
         assertTrue(new MagicSquareChecker(1).checkMainDiagonal(square));
 
         // 2x2
-        square = new int[] {
+        square = new Integer[] {
             2, 0,
             0, 3
         };
         assertTrue(new MagicSquareChecker(2).checkMainDiagonal(square));
         
         // 3x3
-        square = new int[] {
+        square = new Integer[] {
             4, 0, 0,
             0, 5, 0,
             0, 0, 6
@@ -70,7 +70,7 @@ public class MagicSquareCheckerTest {
         assertTrue(new MagicSquareChecker(3).checkMainDiagonal(square));
 
         // 4x4
-        square = new int[] {
+        square = new Integer[] {
             7, 0, 0, 0 ,
             0, 8, 0, 0 ,
             0, 0, 9, 0 ,
@@ -79,7 +79,7 @@ public class MagicSquareCheckerTest {
         assertTrue(new MagicSquareChecker(4).checkMainDiagonal(square));
         
         // 5x5
-        square = new int[] {
+        square = new Integer[] {
             11, 0 , 0 , 0 , 0 ,
             0 , 12, 0 , 0 , 0 ,
             0 , 0 , 13, 0 , 0 ,
@@ -91,21 +91,21 @@ public class MagicSquareCheckerTest {
     
     @Test
     public void testCheckMainDiagonalReturnsFalse() {
-        int[] square;
+        Integer[] square;
         
         // 1x1
-        square = new int[] { 2 };
+        square = new Integer[] { 2 };
         assertFalse(new MagicSquareChecker(1).checkMainDiagonal(square));
 
         // 2x2
-        square = new int[] {
+        square = new Integer[] {
             2, 0,
             0, 4
         };
         assertFalse(new MagicSquareChecker(2).checkMainDiagonal(square));
         
         // 3x3
-        square = new int[] {
+        square = new Integer[] {
             4, 0, 0,
             0, 5, 0,
             0, 0, 7
@@ -113,7 +113,7 @@ public class MagicSquareCheckerTest {
         assertFalse(new MagicSquareChecker(3).checkMainDiagonal(square));
 
         // 4x4
-        square = new int[] {
+        square = new Integer[] {
             7, 0, 0, 0 ,
             0, 8, 0, 0 ,
             0, 0, 9, 0 ,
@@ -122,7 +122,7 @@ public class MagicSquareCheckerTest {
         assertFalse(new MagicSquareChecker(4).checkMainDiagonal(square));
         
         // 5x5
-        square = new int[] {
+        square = new Integer[] {
             11, 0 , 0 , 0 , 0 ,
             0 , 12, 0 , 0 , 0 ,
             0 , 0 , 13, 0 , 0 ,
@@ -134,21 +134,21 @@ public class MagicSquareCheckerTest {
     
     @Test
     public void testCheckSecondaryDiagonalReturnsTrue() {
-        int[] square;
+        Integer[] square;
         
         // 1x1
-        square = new int[] { 1 };
+        square = new Integer[] { 1 };
         assertTrue(new MagicSquareChecker(1).checkSecondaryDiagonal(square));
 
         // 2x2
-        square = new int[] {
+        square = new Integer[] {
             0, 2,
             3, 0
         };
         assertTrue(new MagicSquareChecker(2).checkSecondaryDiagonal(square));
         
         // 3x3
-        square = new int[] {
+        square = new Integer[] {
             0, 0, 4,
             0, 5, 0,
             6, 0, 0
@@ -156,7 +156,7 @@ public class MagicSquareCheckerTest {
         assertTrue(new MagicSquareChecker(3).checkSecondaryDiagonal(square));
 
         // 4x4
-        square = new int[] {
+        square = new Integer[] {
             0 , 0, 0, 7,
             0 , 0, 8, 0,
             0 , 9, 0, 0,
@@ -165,7 +165,7 @@ public class MagicSquareCheckerTest {
         assertTrue(new MagicSquareChecker(4).checkSecondaryDiagonal(square));
         
         // 5x5
-        square = new int[] {
+        square = new Integer[] {
             0 , 0 , 0 , 0 , 11,
             0 , 0 , 0 , 12, 0 ,
             0 , 0 , 13, 0 , 0 ,
@@ -177,21 +177,21 @@ public class MagicSquareCheckerTest {
     
     @Test
     public void testCheckSecondaryDiagonalReturnsFalse() {
-        int[] square;
+        Integer[] square;
         
         // 1x1
-        square = new int[] { 2 };
+        square = new Integer[] { 2 };
         assertFalse(new MagicSquareChecker(1).checkSecondaryDiagonal(square));
 
         // 2x2
-        square = new int[] {
+        square = new Integer[] {
             0, 2,
             4, 0
         };
         assertFalse(new MagicSquareChecker(2).checkSecondaryDiagonal(square));
         
         // 3x3
-        square = new int[] {
+        square = new Integer[] {
             0, 0, 4,
             0, 5, 0,
             7, 0, 0
@@ -199,7 +199,7 @@ public class MagicSquareCheckerTest {
         assertFalse(new MagicSquareChecker(3).checkSecondaryDiagonal(square));
 
         // 4x4
-        square = new int[] {
+        square = new Integer[] {
             0 , 0, 0, 7,
             0 , 0, 8, 0,
             0 , 9, 0, 0,
@@ -208,7 +208,7 @@ public class MagicSquareCheckerTest {
         assertFalse(new MagicSquareChecker(4).checkSecondaryDiagonal(square));
         
         // 5x5
-        square = new int[] {
+        square = new Integer[] {
             0 , 0 , 0 , 0 , 11,
             0 , 0 , 0 , 12, 0 ,
             0 , 0 , 13, 0 , 0 ,
@@ -220,9 +220,9 @@ public class MagicSquareCheckerTest {
     
     @Test
     public void testCheckColumnsReturnsTrue() {
-        int[] square;
+        Integer[] square;
         
-        square = new int[] {
+        square = new Integer[] {
             7 , 7 , 7 , 7 ,
             8 , 8 , 8 , 8 ,
             9 , 9 , 9 , 9 ,
@@ -233,9 +233,9 @@ public class MagicSquareCheckerTest {
     
     @Test
     public void testCheckColumnsReturnsFalse() {
-        int[] square;
+        Integer[] square;
         
-        square = new int[] {
+        square = new Integer[] {
             7 , 7 , 7 , 7 ,
             8 , 8 , 8 , 8 ,
             9 , 9 , 9 , 9 ,
@@ -243,7 +243,7 @@ public class MagicSquareCheckerTest {
         };
         assertFalse(new MagicSquareChecker(4).checkColumns(square));
         
-        square = new int[] {
+        square = new Integer[] {
             7 , 7 , 7 , 7 ,
             8 , 8 , 8 , 8 ,
             9 , 8 , 9 , 9 ,
@@ -251,7 +251,7 @@ public class MagicSquareCheckerTest {
         };
         assertFalse(new MagicSquareChecker(4).checkColumns(square));
 
-        square = new int[] {
+        square = new Integer[] {
             7 , 7 , 7 , 7 ,
             8 , 8 , 7 , 8 ,
             9 , 9 , 9 , 9 ,
@@ -259,7 +259,7 @@ public class MagicSquareCheckerTest {
         };
         assertFalse(new MagicSquareChecker(4).checkColumns(square));
 
-        square = new int[] {
+        square = new Integer[] {
             7 , 7 , 7 , 7 ,
             8 , 8 , 8 , 8 ,
             9 , 9 , 9 , 9 ,
@@ -270,9 +270,9 @@ public class MagicSquareCheckerTest {
     
     @Test
     public void testCheckLinesReturnsTrue() {
-        int[] square;
+        Integer[] square;
         
-        square = new int[] {
+        square = new Integer[] {
             7, 8, 9, 10,
             7, 8, 9, 10,
             7, 8, 9, 10,
@@ -283,9 +283,9 @@ public class MagicSquareCheckerTest {
     
     @Test
     public void testCheckLinesReturnsFalse() {
-        int[] square;
+        Integer[] square;
         
-        square = new int[] {
+        square = new Integer[] {
             6, 8, 9, 10,
             7, 8, 9, 10,
             7, 8, 9, 10,
@@ -293,7 +293,7 @@ public class MagicSquareCheckerTest {
         };
         assertFalse(new MagicSquareChecker(4).checkLines(square));
         
-        square = new int[] {
+        square = new Integer[] {
             7, 8, 9, 10,
             7, 7, 9, 10,
             7, 8, 9, 10,
@@ -301,7 +301,7 @@ public class MagicSquareCheckerTest {
         };
         assertFalse(new MagicSquareChecker(4).checkLines(square));
 
-        square = new int[] {
+        square = new Integer[] {
             7, 8, 9, 10,
             7, 8, 9, 10,
             7, 8, 8, 10,
@@ -309,7 +309,7 @@ public class MagicSquareCheckerTest {
         };
         assertFalse(new MagicSquareChecker(4).checkLines(square));
 
-         square = new int[] {
+         square = new Integer[] {
             7, 8, 9, 10,
             7, 8, 9, 10,
             7, 8, 9, 10,
@@ -320,14 +320,14 @@ public class MagicSquareCheckerTest {
 
     @Test
     public void testIsMagicReturnsTrue() {
-        int[] square;
+        Integer[] square;
         
         // 1x1
-        square = new int[] { 1 };
+        square = new Integer[] { 1 };
         assertTrue(new MagicSquareChecker(1).isMagic(square, false));
         
         // 3x3
-        square = new int[] {
+        square = new Integer[] {
             2, 7, 6,
             9, 5, 1,
             4, 3, 8
@@ -335,7 +335,7 @@ public class MagicSquareCheckerTest {
         assertTrue(new MagicSquareChecker(3).isMagic(square, false));
 
         // 4x4
-        square = new int[] {
+        square = new Integer[] {
             1 , 12, 8 , 13,
             14, 7 , 11, 2 ,
             15, 6 , 10, 3 ,
@@ -344,7 +344,7 @@ public class MagicSquareCheckerTest {
         assertTrue(new MagicSquareChecker(4).isMagic(square, false));
         
         // 5x5
-        square = new int[] {
+        square = new Integer[] {
             23, 6 , 19, 2 , 15,
             4 , 12, 25, 8 , 16,
             10, 18, 1 , 14, 22,
@@ -356,14 +356,14 @@ public class MagicSquareCheckerTest {
     
     @Test
     public void testIsMagicReturnsFalse() {
-        int[] square;
+        Integer[] square;
         
         // 1x1
-        square = new int[] { 2 };
+        square = new Integer[] { 2 };
         assertFalse(new MagicSquareChecker(1).isMagic(square, false));
         
         // 3x3
-        square = new int[] {
+        square = new Integer[] {
             7, 2, 6,
             9, 5, 1,
             4, 3, 8
@@ -371,7 +371,7 @@ public class MagicSquareCheckerTest {
         assertFalse(new MagicSquareChecker(3).isMagic(square, false));
 
         // 4x4
-        square = new int[] {
+        square = new Integer[] {
             12, 1, 8 , 13,
             14, 7 , 11, 2 ,
             15, 6 , 10, 3 ,
@@ -380,7 +380,7 @@ public class MagicSquareCheckerTest {
         assertFalse(new MagicSquareChecker(4).isMagic(square, false));
         
         // 5x5
-        square = new int[] {
+        square = new Integer[] {
             6 , 23, 19, 2 , 15,
             4 , 12, 25, 8 , 16,
             10, 18, 1 , 14, 22,
