@@ -2,14 +2,14 @@ package com.guisehn.main;
 
 public class Permutator {
 
-    private final Integer[] array;
+    private final int[] array;
     private final int[] swappings;
     
     private long permutationCount;
     private boolean firstCall;
     private boolean ended;
 
-    public Permutator(Integer[] array) {
+    public Permutator(int[] array) {
         this.array = array.clone();
         this.permutationCount = 0;
         this.firstCall = true;
@@ -25,7 +25,7 @@ public class Permutator {
         return permutationCount;
     }
 
-    public Integer[] next() {
+    public int[] next() {
         if (ended) {
             return null;
         }

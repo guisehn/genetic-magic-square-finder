@@ -3,7 +3,9 @@ package com.guisehn.main;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class MagicSquareFinder {
     
@@ -13,7 +15,7 @@ public class MagicSquareFinder {
     private final ActionListener listener;
     private final int limit;
     private final int size;
-    private final List<Integer[]> foundSquares;
+    private final List<int[]> foundSquares;
 
     private Thread thread;
     private Permutator permutator;
@@ -55,7 +57,7 @@ public class MagicSquareFinder {
         
         MagicSquareChecker checker = new MagicSquareChecker(size);
 
-        Integer[] square = buildInitialSquare();
+        int[] square = buildInitialSquare();
         permutator = new Permutator(square);
         
         while ((square = permutator.next()) != null) {
@@ -79,24 +81,15 @@ public class MagicSquareFinder {
         }
     }
     
-    private Integer[] buildInitialSquare() {
-        final Integer[] square = new Integer[(int)Math.pow(size, 2)];
-        
-        for (int i = 0; i < square.length; i++) {
-            square[i] = i + 1;
-        }
-        
-        return square;
+    private int[] buildInitialSquare() {
+        return IntStream.rangeClosed(1, (int)Math.pow(size, 2)).toArray();
     }
     
-    private String serializeSquare(Integer[] square) {
-        String[] numbers = new String[square.length];
-        
-        for (int i = 0; i < square.length; i++) {
-            numbers[i] = square[i] + "";
-        }
+    private String serializeSquare(int[] square) {
+        String[] numbersAsStrings = Arrays.stream(square).mapToObj(i -> i + "")
+            .toArray(String[]::new);
 
-        return String.join(",", numbers);
+        return String.join(",", numbersAsStrings);
     }
     
 }

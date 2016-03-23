@@ -23,25 +23,25 @@ public class MagicSquareChecker {
         return magicValue;
     }
     
-    public boolean isMagic(Integer[] square, boolean checkUniqueNumbers) {
+    public boolean isMagic(int[] square, boolean checkUniqueNumbers) {
         return checkMainDiagonal(square) && checkSecondaryDiagonal(square)
             && checkLines(square) && checkColumns(square)
             && (checkUniqueNumbers ? checkUniqueNumbers(square) : true);
     }
     
-    public boolean checkUniqueNumbers(Integer[] square) {
+    public boolean checkUniqueNumbers(int[] square) {
         return Arrays.stream(square).distinct().count() == square.length;
     }
     
-    public boolean checkMainDiagonal(Integer[] square) {
+    public boolean checkMainDiagonal(int[] square) {
         return sumValuesForIndexes(square, mainDiagonalIndexes) == magicValue;
     }
     
-    public boolean checkSecondaryDiagonal(Integer[] square) {
+    public boolean checkSecondaryDiagonal(int[] square) {
         return sumValuesForIndexes(square, secondaryDiagonalIndexes) == magicValue;
     }
     
-    public boolean checkLines(Integer[] square) {
+    public boolean checkLines(int[] square) {
         for (int i = 0; i < square.length; i += size) {
             int[] indexes = IntStream.range(i, i + size).toArray();
             
@@ -53,7 +53,7 @@ public class MagicSquareChecker {
         return true;
     }
     
-    public boolean checkColumns(Integer[] square) {
+    public boolean checkColumns(int[] square) {
         for (int i = 0; i < size; i++) {
             final int j = i; // Java won't let me use the variable i inside
                              // the `map` function over the stream ಠ_ಠ
@@ -70,7 +70,7 @@ public class MagicSquareChecker {
         return true;
     }
     
-    private int sumValuesForIndexes(Integer[] square, int[] indexes) {   
+    private int sumValuesForIndexes(int[] square, int[] indexes) {   
         return Arrays.stream(indexes)
             .map(i -> square[i])
             .reduce((a, b) -> a + b)
