@@ -3,12 +3,14 @@ package com.guisehn.ui;
 import com.guisehn.main.MagicSquareFinder;
 import java.awt.event.ActionEvent;
 import static javax.swing.JOptionPane.showMessageDialog;
+import javax.swing.Timer;
 
 public class MainScreen extends javax.swing.JFrame {
 
-    private final int LIMIT = 10;
-    
+    private final int LIMIT = 10;    
     private final Chronometer chronometer;
+    private final Timer permutationCountTimer;
+
     private MagicSquareFinder finder;
 
     public MainScreen() {
@@ -18,8 +20,15 @@ public class MainScreen extends javax.swing.JFrame {
             chronometerLabel.setText(e.getActionCommand());
         });
         
+        permutationCountTimer = new Timer(1000, (ActionEvent) -> {
+            if (finder != null) {
+                setPermutationCounterLabelText(finder.getPermutationCount());
+            }
+        });
+        
         resultsTextArea.setEditable(false);
         chronometerLabel.setVisible(false);
+        permutationCountLabel.setVisible(false);
     }
 
     private void startChronometer() {
@@ -27,6 +36,18 @@ public class MainScreen extends javax.swing.JFrame {
         chronometerLabel.setVisible(true);
 
         chronometer.start();
+    }
+    
+    private void startPermutationCounter() {
+        setPermutationCounterLabelText(0);
+        permutationCountLabel.setVisible(true);
+        
+        permutationCountTimer.start();
+    }
+    
+    private void setPermutationCounterLabelText(long count) {
+        permutationCountLabel.setText(String.format("%,d", count)
+            + " permutações realizadas");
     }
     
     private void startFinder(int size) {
@@ -44,20 +65,25 @@ public class MainScreen extends javax.swing.JFrame {
             if (eventType == MagicSquareFinder.MAGIC_SQUARE_FOUND_EVENT) {
                 String square = e.getActionCommand();
                 
-                textToAppend = "Matriz " + finder.getCounter()
+                textToAppend = "Matriz " + finder.getAmountOfSquaresFound()
+                    + " (permutação #" + finder.getPermutationCount() + ")"
                     + " encontrada aos " + chronometer.getTime()
                     + ":\n" + SquareFormatter.format(square);
             } else if (eventType == MagicSquareFinder.SEARCH_ENDED_EVENT) {
-                textToAppend = "Busca finalizada: " + e.getActionCommand() +
-                    " matrizes encontradas.";
+                textToAppend = "Busca finalizada: " + e.getActionCommand()
+                    + " matrizes inteligentes encontradas";
 
+                permutationCountTimer.stop();
                 chronometer.stop();
+                
+                setPermutationCounterLabelText(finder.getPermutationCount());
             }
             
             resultsTextArea.setText(currentText + "\n\n" + textToAppend);
         });
         
         finder.start();
+        startPermutationCounter();
     }
     
     private int getSquareSizeValue() {
@@ -80,11 +106,14 @@ public class MainScreen extends javax.swing.JFrame {
         squareSizeTextField = new javax.swing.JTextField();
         startButton = new javax.swing.JButton();
         chronometerLabel = new javax.swing.JLabel();
+        permutationCountLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         resultsTextArea.setColumns(20);
         resultsTextArea.setRows(5);
+        resultsTextArea.setBorder(null);
+        resultsTextArea.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jScrollPane1.setViewportView(resultsTextArea);
 
         squareSizeLabel.setText("Tamanho da matriz:");
@@ -99,6 +128,8 @@ public class MainScreen extends javax.swing.JFrame {
         chronometerLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         chronometerLabel.setText("[Chronometer]");
 
+        permutationCountLabel.setText("[Permutation count]");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -106,13 +137,16 @@ public class MainScreen extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(squareSizeLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(squareSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(permutationCountLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(chronometerLabel)))
                 .addContainerGap())
@@ -124,10 +158,13 @@ public class MainScreen extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(squareSizeLabel)
                     .addComponent(squareSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(startButton)
-                    .addComponent(chronometerLabel))
+                    .addComponent(startButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(permutationCountLabel)
+                    .addComponent(chronometerLabel))
                 .addContainerGap())
         );
 
@@ -137,7 +174,7 @@ public class MainScreen extends javax.swing.JFrame {
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
         int size = getSquareSizeValue();
         
-        if (size == -1) {
+        if (size <= 0) {
             showMessageDialog(null, "Entre com um valor inteiro e positivo");
             squareSizeTextField.requestFocus();
             return;
@@ -185,6 +222,7 @@ public class MainScreen extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel chronometerLabel;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel permutationCountLabel;
     private javax.swing.JTextArea resultsTextArea;
     private javax.swing.JLabel squareSizeLabel;
     private javax.swing.JTextField squareSizeTextField;

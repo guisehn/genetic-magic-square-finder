@@ -2,6 +2,8 @@ package com.guisehn.main;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MagicSquareFinder {
     
@@ -11,19 +13,24 @@ public class MagicSquareFinder {
     private final ActionListener listener;
     private final int limit;
     private final int size;
+    private final List<Integer[]> foundSquares;
 
     private Thread thread;
-    private int counter;
+    private Permutator permutator;
 
     public MagicSquareFinder(int size, int limit, ActionListener listener) {
         this.limit = limit;
         this.size = size;
         this.listener = listener;
-        this.counter = 0;
+        this.foundSquares = new ArrayList<>();
     }
     
-    public int getCounter() {
-        return counter;
+    public int getAmountOfSquaresFound() {
+        return foundSquares.size();
+    }
+
+    public long getPermutationCount() {
+        return permutator.getPermutationCount();
     }
     
     public void start() {
@@ -39,39 +46,57 @@ public class MagicSquareFinder {
     
     public void stop() {
         if (thread != null) {
-            System.out.println("parou!");
             thread.interrupt();
         }
     }
     
     public void search() {
-        for (counter = 1; counter <= limit; counter++) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                thread.interrupt(); // When this exception is thrown, Java
-                                    // puts the thread into an active
-                                    // state again ಠ_ಠ
-                break;
-            }
-            
-            if (thread.isInterrupted()) {
-                break;
-            }
-            
-            listener.actionPerformed(new ActionEvent(this,
-                MAGIC_SQUARE_FOUND_EVENT,
-                "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16"));
-        }
+        foundSquares.clear();
         
-        if (thread.isInterrupted()) {
-            return;
-        }
-        
-        listener.actionPerformed(new ActionEvent(this, SEARCH_ENDED_EVENT,
-            limit + ""));
+        MagicSquareChecker checker = new MagicSquareChecker(size);
 
-        stop();
+        Integer[] square = buildInitialSquare();
+        permutator = new Permutator(square);
+        
+        while ((square = permutator.next()) != null) {
+            if (thread.isInterrupted() || foundSquares.size() == limit) {
+                break;
+            }
+            
+            if (checker.isMagic(square, false)) {
+                foundSquares.add(square);
+                
+                listener.actionPerformed(new ActionEvent(this,
+                    MAGIC_SQUARE_FOUND_EVENT, serializeSquare(square)));
+            }
+        }
+        
+        if (!thread.isInterrupted()) {
+            listener.actionPerformed(new ActionEvent(this, SEARCH_ENDED_EVENT,
+                foundSquares.size() + ""));
+
+            stop();
+        }
+    }
+    
+    private Integer[] buildInitialSquare() {
+        final Integer[] square = new Integer[(int)Math.pow(size, 2)];
+        
+        for (int i = 0; i < square.length; i++) {
+            square[i] = i + 1;
+        }
+        
+        return square;
+    }
+    
+    private String serializeSquare(Integer[] square) {
+        String[] numbers = new String[square.length];
+        
+        for (int i = 0; i < square.length; i++) {
+            numbers[i] = square[i] + "";
+        }
+
+        return String.join(",", numbers);
     }
     
 }

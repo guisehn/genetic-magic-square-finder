@@ -46,7 +46,7 @@ public class Chronometer {
         
         publish();
 
-        timer = new Timer(1, (ActionEvent) -> { publish(); });
+        timer = new Timer(100, (ActionEvent) -> { publish(); });
         timer.start();
     }
     
