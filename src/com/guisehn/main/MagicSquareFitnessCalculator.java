@@ -3,14 +3,14 @@ package com.guisehn.main;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-public class MagicSquareChecker {
+public class MagicSquareFitnessCalculator {
     
     private final int size;
     private final int magicValue;
     private final int[] mainDiagonalIndexes;
     private final int[] secondaryDiagonalIndexes;
     
-    public MagicSquareChecker(int size) {
+    public MagicSquareFitnessCalculator(int size) {
         this.size = size;
         this.magicValue = (size + (int)Math.pow(size, 3)) / 2;
         
@@ -23,37 +23,48 @@ public class MagicSquareChecker {
         return magicValue;
     }
     
-    public boolean isMagic(int[] square, boolean checkUniqueNumbers) {
-        return checkMainDiagonal(square) && checkSecondaryDiagonal(square)
-            && checkLines(square) && checkColumns(square)
-            && (checkUniqueNumbers ? checkUniqueNumbers(square) : true);
+    public int calculateFitness(int[] square, boolean checkUniqueNumbers) {
+        if (checkUniqueNumbers && !checkUniqueNumbers(square)) {
+            return -1;
+        }
+        
+        return calculateMainDiagonalFitness(square)
+            + calculateSecondaryDiagonalFitness(square)
+            + calculateLinesFitnessSum(square)
+            + calculateColumnsFitnessSum(square);
     }
     
     public boolean checkUniqueNumbers(int[] square) {
         return Arrays.stream(square).distinct().count() == square.length;
     }
     
-    public boolean checkMainDiagonal(int[] square) {
-        return sumValuesForIndexes(square, mainDiagonalIndexes) == magicValue;
+    public int calculateMainDiagonalFitness(int[] square) {
+        int sum = sumValuesForIndexes(square, mainDiagonalIndexes);
+        return Math.abs(magicValue - sum);
     }
     
-    public boolean checkSecondaryDiagonal(int[] square) {
-        return sumValuesForIndexes(square, secondaryDiagonalIndexes) == magicValue;
+    public int calculateSecondaryDiagonalFitness(int[] square) {
+        int sum = sumValuesForIndexes(square, secondaryDiagonalIndexes);
+        return Math.abs(magicValue - sum);
     }
     
-    public boolean checkLines(int[] square) {
+    public int calculateLinesFitnessSum(int[] square) {
+        int sum = 0;
+        
         for (int i = 0; i < square.length; i += size) {
             int[] indexes = IntStream.range(i, i + size).toArray();
+            int lineSum = sumValuesForIndexes(square, indexes);
+            int difference = Math.abs(magicValue - lineSum);
             
-            if (sumValuesForIndexes(square, indexes) != magicValue) {
-                return false;
-            }
+            sum += difference;
         }
         
-        return true;
+        return sum;
     }
     
-    public boolean checkColumns(int[] square) {
+    public int calculateColumnsFitnessSum(int[] square) {
+        int sum = 0;
+        
         for (int i = 0; i < size; i++) {
             final int j = i; // Java won't let me use the variable i inside
                              // the `map` function over the stream ಠ_ಠ
@@ -62,12 +73,13 @@ public class MagicSquareChecker {
                 .map(n -> j + (n * size))
                 .toArray();
             
-            if (sumValuesForIndexes(square, indexes) != magicValue) {
-                return false;
-            }
+            int columnSum = sumValuesForIndexes(square, indexes);
+            int difference = Math.abs(magicValue - columnSum);
+            
+            sum += difference;
         }
         
-        return true;
+        return sum;
     }
     
     private int sumValuesForIndexes(int[] square, int[] indexes) {   

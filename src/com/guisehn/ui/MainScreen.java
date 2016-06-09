@@ -20,9 +20,9 @@ public class MainScreen extends javax.swing.JFrame {
             chronometerLabel.setText(e.getActionCommand());
         });
         
-        permutationCountTimer = new Timer(1000, (ActionEvent) -> {
+       permutationCountTimer = new Timer(1000, (ActionEvent) -> {
             if (finder != null) {
-                setPermutationCounterLabelText(finder.getPermutationCount());
+                //setPermutationCounterLabelText(finder.getPermutationCount());
             }
         });
         
@@ -54,10 +54,10 @@ public class MainScreen extends javax.swing.JFrame {
         resultsTextArea.setText("Buscando...");
         
         if (finder != null) {
-            finder.stop();
+            // finder.stop();
         }
         
-        finder = new MagicSquareFinder(size, LIMIT, (ActionEvent e) -> {
+        /*finder = new MagicSquareFinder(size, LIMIT, (ActionEvent e) -> {
             final int eventType = e.getID();
             final String currentText = resultsTextArea.getText();
             String textToAppend = "";
@@ -80,7 +80,7 @@ public class MainScreen extends javax.swing.JFrame {
             }
             
             resultsTextArea.setText(currentText + "\n\n" + textToAppend);
-        });
+        }); */
         
         finder.start();
         startPermutationCounter();
