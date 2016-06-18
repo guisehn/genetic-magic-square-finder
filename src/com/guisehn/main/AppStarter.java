@@ -16,7 +16,9 @@ public class AppStarter {
         System.out.println("Digite a probabilidade de mutação:");
         double mutationProbability = in.nextDouble();
         
-        MagicSquareFinder finder = new MagicSquareFinder(size, populationSize,
+        MagicSquareFinder finder = new MagicSquareFinder(size,
+            populationSize,
+            (int)(populationSize * 0.05),
             mutationProbability);
 
         finder.start();

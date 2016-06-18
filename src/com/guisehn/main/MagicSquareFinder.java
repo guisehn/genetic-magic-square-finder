@@ -4,26 +4,30 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public class MagicSquareFinder {
     
     private final int size;
     private final int arraySize;
     private final int populationSize;
+    private final int eliteSize;
     private final double mutationProbability;
-
+    
     private final MagicSquareFitnessCalculator fitnessCalculator;
     private final RandomMagicSquareGenerator randomGenerator;
     private final MagicSquareRepairer repairer;
     private final IndividualComparator comparator;
     private final Random random = new Random();
     
-    public MagicSquareFinder(int size, int populationSize, double mutationProbability) {
+    public MagicSquareFinder(int size, int populationSize, int eliteSize, double mutationProbability) {
         this.size = size;
         this.arraySize = (int)Math.pow(size, 2);
         this.populationSize = populationSize;
+        this.eliteSize = eliteSize;
         this.mutationProbability = mutationProbability;
 
         this.fitnessCalculator = new MagicSquareFitnessCalculator(size);
@@ -38,30 +42,21 @@ public class MagicSquareFinder {
         
         while (true) {
             ++generationCount;
-            
-            /*if (generationCount % 1000 == 0) {
-                population = generateInitialPopulation();
-            }*/
-            
+
             Collections.sort(population, comparator);
             
-            System.out.println("Geração " + generationCount);
-            System.out.println("---");
-            
-            for (int i = 0; i < populationSize; i++) {
-                Individual individual = population.get(i);
+            if (generationCount == 1 || generationCount % 1000 == 0) {
+                System.out.println("Geração " + generationCount);
                 
-                System.out.println(Arrays.toString(individual.getSquare()) +
-                    " - Fitness = " + individual.getFitness());
-            }
-            
-            if(generationCount == 5){
-                break;
+                System.out.println("Elite:");
+                for (int i = 0; i < eliteSize; i++) {
+                    System.out.println("Melhor fitness = " + population.get(i));
+                }
+                
+                System.out.println("---");                
             }
             
             createNewGeneration(population);
-            
-            System.out.println("===");
         }
     }
     
@@ -73,7 +68,7 @@ public class MagicSquareFinder {
             Individual i1 = Utils.getRandom(population);
             Individual i2 = Utils.getRandom(population);
             
-            matingPool.add(i1.getFitness() > i2.getFitness() ? i1 : i2);
+            matingPool.add(i1.getFitness() > i2.getFitness() ? i2 : i2);
         }
         
         return matingPool;
@@ -82,31 +77,45 @@ public class MagicSquareFinder {
     private void createNewGeneration(List<Individual> population) {
         List<Individual> matingPool = createMatingPool(population);
 
-        population.clear();
+        // Elitismo. Mantém os melhores N indivíduos (que estão no inicio
+        // da população, já que ela é ordenada pelo fitness) para a próxima
+        // geração.
+        population.subList(eliteSize, populationSize).clear();
         
         while (population.size() < populationSize) {
             Individual i1 = Utils.getRandom(matingPool);
             Individual i2 = Utils.getRandom(matingPool);
-            Individual child = crossover(i1, i2);
             
-            population.add(child);
+            // Não permite que indivíduo cruze consigo mesmo pois irá gerar
+            // filho idêntico.
+            if (i1 == i2) {
+                continue;
+            }
+            
+            Individual child1 = crossover(i1, i2);
+            
+            population.add(child1);
         }
     }
     
     private Individual crossover(Individual i1, Individual i2) {
-        Individual child;
-
-        int middle = arraySize / 2;
+        int maxIndex = arraySize - 1;
+        int cutPoint = random.nextInt(maxIndex - 1) + 1;
         int[] square1 = i1.getSquare();
         int[] square2 = i2.getSquare();
         int[] newSquare = new int[arraySize];
+        Set<Integer> used = new HashSet<>();
         
-        // pega metade de um e metade de outro
-        for (int i = 0; i < arraySize; i++) {
-            if (i <= middle) {
-                newSquare[i] = square1[i];
-            } else {
-                newSquare[i] = square2[i];
+        for (int i = 0; i < cutPoint; i++) {
+            newSquare[i] = square1[i];
+            used.add(newSquare[i]);
+        }
+        
+        for (int i = 0, j = cutPoint; j < arraySize; i++) {
+            int n = square2[i];
+
+            if (!used.contains(n)) {
+                newSquare[j++] = square2[i];
             }
         }
         
@@ -119,13 +128,12 @@ public class MagicSquareFinder {
             newSquare[index2] = aux;
         }
         
-        // reparação
-        child = new Individual(newSquare, fitnessCalculator);
+        Individual child = new Individual(newSquare, fitnessCalculator);
         
-        if (child.getFitness() == -1) {
-            repairer.repair(child.getSquare());
-            child.updateFitness();
-        }
+        /*System.out.println("CUT POINT: " + cutPoint);
+        System.out.println("PAI 1 = " + Arrays.toString(i1.getSquare()) + " - Fitness : " + i1.getFitness());
+        System.out.println("PAI 2 = " + Arrays.toString(i2.getSquare()) + " - Fitness : " + i2.getFitness());
+        System.out.println("FILHO = " + Arrays.toString(child.getSquare()) + " - Fitness : " + child.getFitness());*/
         
         return child;
     }
@@ -173,6 +181,11 @@ class Individual {
 
     public final void updateFitness() {
         this.fitness = fitnessCalculator.calculateFitness(square, true);
+    }
+    
+    @Override
+    public String toString() {
+        return "(" + fitness + ") " + Arrays.toString(square);
     }
 }
 
