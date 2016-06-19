@@ -1,13 +1,14 @@
 package com.guisehn.main;
 
+import com.guisehn.crossover.Crossover1;
+import com.guisehn.crossover.Crossover2;
+import com.guisehn.crossover.CrossoverOperator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 public class MagicSquareFinder {
     
@@ -19,8 +20,8 @@ public class MagicSquareFinder {
     
     private final MagicSquareFitnessCalculator fitnessCalculator;
     private final RandomMagicSquareGenerator randomGenerator;
-    private final MagicSquareRepairer repairer;
     private final IndividualComparator comparator;
+    private final CrossoverOperator crossoverOperator;
     private final Random random = new Random();
     
     public MagicSquareFinder(int size, int populationSize, int eliteSize, double mutationProbability) {
@@ -31,7 +32,7 @@ public class MagicSquareFinder {
         this.mutationProbability = mutationProbability;
 
         this.fitnessCalculator = new MagicSquareFitnessCalculator(size);
-        this.repairer = new MagicSquareRepairer(size);
+        this.crossoverOperator = new Crossover2();
         this.randomGenerator = new RandomMagicSquareGenerator(size);
         this.comparator = new IndividualComparator();
     }
@@ -92,50 +93,34 @@ public class MagicSquareFinder {
                 continue;
             }
             
-            Individual child1 = crossover(i1, i2);
-            
-            population.add(child1);
+            Individual[] children = crossoverAndMutate(i1, i2);
+            population.addAll(Arrays.asList(children));
         }
     }
     
-    private Individual crossover(Individual i1, Individual i2) {
-        int maxIndex = arraySize - 1;
-        int cutPoint = random.nextInt(maxIndex - 1) + 1;
-        int[] square1 = i1.getSquare();
-        int[] square2 = i2.getSquare();
-        int[] newSquare = new int[arraySize];
-        Set<Integer> used = new HashSet<>();
-        
-        for (int i = 0; i < cutPoint; i++) {
-            newSquare[i] = square1[i];
-            used.add(newSquare[i]);
-        }
-        
-        for (int i = 0, j = cutPoint; j < arraySize; i++) {
-            int n = square2[i];
-
-            if (!used.contains(n)) {
-                newSquare[j++] = square2[i];
-            }
-        }
-        
+    private Individual[] crossoverAndMutate(Individual i1, Individual i2) {
+        int[][] children = crossoverOperator.crossover(i1.getSquare(),
+                i2.getSquare());
+ 
         // mutação
-        if (Math.random() <= mutationProbability) {
-            int index1 = random.nextInt(arraySize);
-            int index2 = random.nextInt(arraySize);
-            int aux = newSquare[index1];
-            newSquare[index1] = newSquare[index2];
-            newSquare[index2] = aux;
+        for (int[] child : children) {
+            if (Math.random() <= mutationProbability) {
+                int index1 = random.nextInt(arraySize);
+                int index2 = random.nextInt(arraySize);
+                int aux = child[index1];
+                child[index1] = child[index2];
+                child[index2] = aux;
+            }   
         }
         
-        Individual child = new Individual(newSquare, fitnessCalculator);
+        // transforma pra Individual
+        Individual[] individuals = new Individual[children.length];
         
-        /*System.out.println("CUT POINT: " + cutPoint);
-        System.out.println("PAI 1 = " + Arrays.toString(i1.getSquare()) + " - Fitness : " + i1.getFitness());
-        System.out.println("PAI 2 = " + Arrays.toString(i2.getSquare()) + " - Fitness : " + i2.getFitness());
-        System.out.println("FILHO = " + Arrays.toString(child.getSquare()) + " - Fitness : " + child.getFitness());*/
+        for (int i = 0; i < individuals.length; i++) {
+            individuals[i] = new Individual(children[i], fitnessCalculator);
+        }
         
-        return child;
+        return individuals;
     }
     
     private List<Individual> generateInitialPopulation() {
@@ -156,37 +141,6 @@ public class MagicSquareFinder {
         return String.join(",", numbersAsStrings);
     }
     
-}
-
-class Individual {
-    private final MagicSquareFitnessCalculator fitnessCalculator;
-    private final int[] square;
-
-    private int fitness;
-    
-    public Individual(int[] square, MagicSquareFitnessCalculator fitnessCalculator) {
-        this.square = square;
-        this.fitnessCalculator = fitnessCalculator;
-
-        updateFitness();
-    }
-
-    public int[] getSquare() {
-        return square;
-    }
-
-    public int getFitness() {
-        return fitness;
-    }
-
-    public final void updateFitness() {
-        this.fitness = fitnessCalculator.calculateFitness(square, true);
-    }
-    
-    @Override
-    public String toString() {
-        return "(" + fitness + ") " + Arrays.toString(square);
-    }
 }
 
 class IndividualComparator implements Comparator<Individual> {
