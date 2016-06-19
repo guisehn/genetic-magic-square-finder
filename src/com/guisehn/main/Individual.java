@@ -26,6 +26,6 @@ public class Individual {
 
     @Override
     public String toString() {
-        return "(" + fitness + ") " + Arrays.toString(square);
+        return "(" + getFitness() + ") " + Arrays.toString(square);
     }
 }

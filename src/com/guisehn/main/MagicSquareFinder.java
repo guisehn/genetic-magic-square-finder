@@ -41,20 +41,25 @@ public class MagicSquareFinder {
         List<Individual> population = generateInitialPopulation();
         int generationCount = 0;
         
+        StringBuilder output = new StringBuilder();
+        
         while (true) {
             ++generationCount;
 
             Collections.sort(population, comparator);
             
+            output.append("Geração " + generationCount + "\n");
+            output.append("População:\n");
+
+            for (int i = 0; i < populationSize; i++) {
+                output.append(population.get(i) + "\n");
+            }
+            
+            output.append("---\n");
+            
             if (generationCount == 1 || generationCount % 1000 == 0) {
-                System.out.println("Geração " + generationCount);
-                
-                System.out.println("Elite:");
-                for (int i = 0; i < eliteSize; i++) {
-                    System.out.println("Melhor fitness = " + population.get(i));
-                }
-                
-                System.out.println("---");                
+                System.out.println(output.toString());
+                output.setLength(0);
             }
             
             createNewGeneration(population);
@@ -69,7 +74,11 @@ public class MagicSquareFinder {
             Individual i1 = Utils.getRandom(population);
             Individual i2 = Utils.getRandom(population);
             
-            matingPool.add(i1.getFitness() > i2.getFitness() ? i2 : i2);
+            if (i1 == i2) {
+                continue;
+            }
+            
+            matingPool.add(i1.getFitness() > i2.getFitness() ? i1 : i2);
         }
         
         return matingPool;
@@ -94,7 +103,22 @@ public class MagicSquareFinder {
             }
             
             Individual[] children = crossoverAndMutate(i1, i2);
-            population.addAll(Arrays.asList(children));
+            
+            for (Individual child : children) {
+                String representation = child.toString();
+                boolean duplicate = false;
+                
+                for (Individual individual : population) {
+                    if (representation.equals(individual.toString())) {
+                        duplicate = true;
+                        break;
+                    }
+                }
+                
+                if (!duplicate) {
+                    population.add(child);
+                }
+            }
         }
     }
     
