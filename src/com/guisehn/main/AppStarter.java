@@ -13,12 +13,15 @@ public class AppStarter {
         System.out.println("Digite o tamanho da população:");
         int populationSize = in.nextInt();
         
+        System.out.println("Digite o tamanho da elite:");
+        int eliteSize = in.nextInt();
+        
         System.out.println("Digite a probabilidade de mutação:");
         double mutationProbability = in.nextDouble();
         
         MagicSquareFinder finder = new MagicSquareFinder(size,
             populationSize,
-            (int)(populationSize * 0.05),
+            eliteSize,
             mutationProbability);
 
         finder.start();
