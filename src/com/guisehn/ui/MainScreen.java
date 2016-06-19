@@ -26,9 +26,9 @@ public class MainScreen extends javax.swing.JFrame {
             }
         });
         
-        resultsTextArea.setEditable(false);
+        foundSquaresTextArea.setEditable(false);
         chronometerLabel.setVisible(false);
-        permutationCountLabel.setVisible(false);
+        generationCountLabel.setVisible(false);
     }
 
     private void startChronometer() {
@@ -40,18 +40,18 @@ public class MainScreen extends javax.swing.JFrame {
     
     private void startPermutationCounter() {
         setPermutationCounterLabelText(0);
-        permutationCountLabel.setVisible(true);
+        generationCountLabel.setVisible(true);
         
         permutationCountTimer.start();
     }
     
     private void setPermutationCounterLabelText(long count) {
-        permutationCountLabel.setText(String.format("%,d", count)
+        generationCountLabel.setText(String.format("%,d", count)
             + " permutações realizadas");
     }
     
     private void startFinder(int size) {
-        resultsTextArea.setText("Buscando...");
+        foundSquaresTextArea.setText("Buscando...");
         
         if (finder != null) {
             // finder.stop();
@@ -90,6 +90,21 @@ public class MainScreen extends javax.swing.JFrame {
         String text = squareSizeTextField.getText();
         return text.matches("[0-9]+") ? Integer.valueOf(text) : -1;
     }
+
+    private int getPopulationSizeValue() {
+        String text = populationSizeTextField.getText();
+        return text.matches("[0-9]+") ? Integer.valueOf(text) : -1;
+    }
+    
+    private int getEliteSizeValue() {
+        String text = eliteSizeTextField.getText();
+        return text.matches("[0-9]+") ? Integer.valueOf(text) : 0;
+    }
+    
+    private int getMutationProbabilityValue() {
+        String text = mutationProbabilityTextField.getText();
+        return text.matches("0*(100|[0-9]{1,2})?") ? Integer.valueOf(text) : -1;
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -101,24 +116,34 @@ public class MainScreen extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        resultsTextArea = new javax.swing.JTextArea();
+        foundSquaresTextArea = new javax.swing.JTextArea();
         squareSizeLabel = new javax.swing.JLabel();
         squareSizeTextField = new javax.swing.JTextField();
         startButton = new javax.swing.JButton();
         chronometerLabel = new javax.swing.JLabel();
-        permutationCountLabel = new javax.swing.JLabel();
+        generationCountLabel = new javax.swing.JLabel();
+        populationSizeLabel = new javax.swing.JLabel();
+        populationSizeTextField = new javax.swing.JTextField();
+        eliteSizeLabel = new javax.swing.JLabel();
+        eliteSizeTextField = new javax.swing.JTextField();
+        mutationProbabilityLabel = new javax.swing.JLabel();
+        mutationProbabilityTextField = new javax.swing.JTextField();
+        foundSquaresLabel = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        generationHistoryTextArea = new javax.swing.JTextArea();
+        generationHistoryLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        resultsTextArea.setColumns(20);
-        resultsTextArea.setRows(5);
-        resultsTextArea.setBorder(null);
-        resultsTextArea.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jScrollPane1.setViewportView(resultsTextArea);
+        foundSquaresTextArea.setColumns(20);
+        foundSquaresTextArea.setRows(5);
+        foundSquaresTextArea.setBorder(null);
+        foundSquaresTextArea.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jScrollPane1.setViewportView(foundSquaresTextArea);
 
         squareSizeLabel.setText("Tamanho da matriz:");
 
-        startButton.setText("Buscar");
+        startButton.setText("Iniciar");
         startButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 startButtonActionPerformed(evt);
@@ -128,27 +153,77 @@ public class MainScreen extends javax.swing.JFrame {
         chronometerLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         chronometerLabel.setText("[Chronometer]");
 
-        permutationCountLabel.setText("[Permutation count]");
+        generationCountLabel.setText("[Generation count]");
+
+        populationSizeLabel.setText("Tamanho da população:");
+
+        populationSizeTextField.setText("200");
+
+        eliteSizeLabel.setText("Tamanho da elite:");
+
+        eliteSizeTextField.setText("20");
+        eliteSizeTextField.setToolTipText("");
+
+        mutationProbabilityLabel.setText("Chance de mutação (%):");
+
+        mutationProbabilityTextField.setText("5");
+        mutationProbabilityTextField.setToolTipText("");
+
+        foundSquaresLabel.setText("Matrizes encontradas");
+
+        generationHistoryTextArea.setColumns(20);
+        generationHistoryTextArea.setRows(5);
+        generationHistoryTextArea.setBorder(null);
+        generationHistoryTextArea.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jScrollPane2.setViewportView(generationHistoryTextArea);
+
+        generationHistoryLabel.setText("Histórico do algoritmo genético");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(squareSizeLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(squareSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(permutationCountLabel)
+                        .addComponent(generationCountLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(chronometerLabel)))
+                        .addComponent(chronometerLabel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(squareSizeLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(squareSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(populationSizeLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(populationSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(31, 31, 31)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(eliteSizeLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(eliteSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(mutationProbabilityLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(mutationProbabilityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 260, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(foundSquaresLabel)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(generationHistoryLabel)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -158,12 +233,27 @@ public class MainScreen extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(squareSizeLabel)
                     .addComponent(squareSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(startButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
+                    .addComponent(eliteSizeLabel)
+                    .addComponent(eliteSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(permutationCountLabel)
+                    .addComponent(populationSizeLabel)
+                    .addComponent(populationSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mutationProbabilityLabel)
+                    .addComponent(mutationProbabilityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(startButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(foundSquaresLabel)
+                    .addComponent(generationHistoryLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(generationCountLabel)
                     .addComponent(chronometerLabel))
                 .addContainerGap())
         );
@@ -173,15 +263,42 @@ public class MainScreen extends javax.swing.JFrame {
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
         int size = getSquareSizeValue();
+        int populationSize = getPopulationSizeValue();
+        int eliteSize = getEliteSizeValue();
+        int mutationProbability = getMutationProbabilityValue();
         
         if (size <= 0) {
-            showMessageDialog(null, "Entre com um valor inteiro e positivo");
+            showMessageDialog(null, "O tamanho da matriz deve ser um valor"
+                + " inteiro e positivo");
             squareSizeTextField.requestFocus();
             return;
         }
         
+        if (populationSize <= 0) {
+            showMessageDialog(null, "O tamanho da população deve ser um valor"
+                + " inteiro e positivo");
+            populationSizeTextField.requestFocus();
+            return; 
+        }
+        
+        System.out.println(eliteSize);
+        
+        if (eliteSize >= populationSize) {
+            showMessageDialog(null, "O tamanho da elite deve ser menor que o"
+                + " tamanho da população geral");
+            populationSizeTextField.requestFocus();
+            return; 
+        }
+        
+        if (mutationProbability == -1) {
+            showMessageDialog(null, "A chance de mutação deve ser um valor"
+                + " inteiro de 0 e 100");
+            mutationProbabilityTextField.requestFocus();
+            return;            
+        }
+        
         startChronometer();
-        startFinder(size);
+        //startFinder(size);
     }//GEN-LAST:event_startButtonActionPerformed
 
     /**
@@ -221,9 +338,19 @@ public class MainScreen extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel chronometerLabel;
+    private javax.swing.JLabel eliteSizeLabel;
+    private javax.swing.JTextField eliteSizeTextField;
+    private javax.swing.JLabel foundSquaresLabel;
+    private javax.swing.JTextArea foundSquaresTextArea;
+    private javax.swing.JLabel generationCountLabel;
+    private javax.swing.JLabel generationHistoryLabel;
+    private javax.swing.JTextArea generationHistoryTextArea;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel permutationCountLabel;
-    private javax.swing.JTextArea resultsTextArea;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel mutationProbabilityLabel;
+    private javax.swing.JTextField mutationProbabilityTextField;
+    private javax.swing.JLabel populationSizeLabel;
+    private javax.swing.JTextField populationSizeTextField;
     private javax.swing.JLabel squareSizeLabel;
     private javax.swing.JTextField squareSizeTextField;
     private javax.swing.JButton startButton;
