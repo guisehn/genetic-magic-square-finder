@@ -23,9 +23,14 @@ public class Individual {
 
         return fitness;
     }
+    
+    public String toString(boolean includeFitness) {
+        return Arrays.toString(square) +
+            (includeFitness ? " - Fitness: " + getFitness() : "");
+    }
 
     @Override
     public String toString() {
-        return "(" + getFitness() + ") " + Arrays.toString(square);
+        return toString(false);
     }
 }

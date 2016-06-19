@@ -29,14 +29,10 @@ public class Chronometer {
         diff = Math.round(diff % (60 * 1000));
 
         final long seconds = diff / 1000;
-        diff = Math.round(diff % 1000);
-
-        final long centiseconds = diff / 10;
 
         return decimalFormatter.format(hours) + ":" 
             + decimalFormatter.format(minutes) + ":"
-            + decimalFormatter.format(seconds) + "."
-            + decimalFormatter.format(centiseconds);
+            + decimalFormatter.format(seconds);
     }
     
     public void start() {

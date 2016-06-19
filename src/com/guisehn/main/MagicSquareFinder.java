@@ -88,7 +88,7 @@ public class MagicSquareFinder {
             log.append("População:\n");
 
             for (int i = 0; i < populationSize; i++) {
-                log.append(population.get(i)).append("\n");
+                log.append(population.get(i).toString(true)).append("\n");
             }
             
             log.append("---\n");

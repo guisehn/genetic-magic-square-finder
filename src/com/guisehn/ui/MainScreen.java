@@ -2,6 +2,7 @@ package com.guisehn.ui;
 
 import com.guisehn.main.MagicSquareFinder;
 import java.awt.event.ActionEvent;
+import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.Timer;
 
@@ -62,9 +63,18 @@ public class MainScreen extends javax.swing.JFrame {
             (ActionEvent e) -> {
                 final int eventType = e.getID();
 
-                if (eventType == MagicSquareFinder.LOG_EVENT) {
-                    String textToAppend = e.getActionCommand();
-                    generationLogTextArea.append(textToAppend);
+                try {
+                    if (eventType == MagicSquareFinder.LOG_EVENT) {
+                        String textToAppend = e.getActionCommand();
+                        generationLogTextArea.append(textToAppend);
+                    }
+                } catch (OutOfMemoryError err) {
+                    JOptionPane.showMessageDialog(null, "Estouro de memória!",
+                        "Erro", JOptionPane.ERROR_MESSAGE);
+                    
+                    chronometer.stop();
+
+                    throw err;
                 }
             }
         );
