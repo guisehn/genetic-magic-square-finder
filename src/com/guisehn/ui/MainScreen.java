@@ -7,9 +7,8 @@ import javax.swing.Timer;
 
 public class MainScreen extends javax.swing.JFrame {
 
-    private final int LIMIT = 10;    
     private final Chronometer chronometer;
-    private final Timer permutationCountTimer;
+    private final Timer generationCountTimer;
 
     private MagicSquareFinder finder;
 
@@ -20,9 +19,9 @@ public class MainScreen extends javax.swing.JFrame {
             chronometerLabel.setText(e.getActionCommand());
         });
         
-       permutationCountTimer = new Timer(1000, (ActionEvent) -> {
+       generationCountTimer = new Timer(1000, (ActionEvent) -> {
             if (finder != null) {
-                //setPermutationCounterLabelText(finder.getPermutationCount());
+                setGenerationCounterLabelText(finder.getGenerationCount());
             }
         });
         
@@ -39,48 +38,36 @@ public class MainScreen extends javax.swing.JFrame {
     }
     
     private void startPermutationCounter() {
-        setPermutationCounterLabelText(0);
+        setGenerationCounterLabelText(0);
         generationCountLabel.setVisible(true);
         
-        permutationCountTimer.start();
+        generationCountTimer.start();
     }
     
-    private void setPermutationCounterLabelText(long count) {
+    private void setGenerationCounterLabelText(long count) {
         generationCountLabel.setText(String.format("%,d", count)
-            + " permutações realizadas");
+            + " gerações até agora");
     }
     
-    private void startFinder(int size) {
-        foundSquaresTextArea.setText("Buscando...");
+    private void startFinder(int size, int populationSize, int eliteSize, 
+            int mutationProbability) {
+        generationLogTextArea.setText("");
+        foundSquaresTextArea.setText("TO-DO!");
         
         if (finder != null) {
-            // finder.stop();
+            finder.stop();
         }
         
-        /*finder = new MagicSquareFinder(size, LIMIT, (ActionEvent e) -> {
-            final int eventType = e.getID();
-            final String currentText = resultsTextArea.getText();
-            String textToAppend = "";
-            
-            if (eventType == MagicSquareFinder.MAGIC_SQUARE_FOUND_EVENT) {
-                String square = e.getActionCommand();
-                
-                textToAppend = "Matriz " + finder.getAmountOfSquaresFound()
-                    + " (permutação #" + finder.getPermutationCount() + ")"
-                    + " encontrada aos " + chronometer.getTime()
-                    + ":\n" + SquareFormatter.format(square);
-            } else if (eventType == MagicSquareFinder.SEARCH_ENDED_EVENT) {
-                textToAppend = "Busca finalizada: " + e.getActionCommand()
-                    + " matrizes inteligentes encontradas";
+        finder = new MagicSquareFinder(size, populationSize, eliteSize, mutationProbability,
+            (ActionEvent e) -> {
+                final int eventType = e.getID();
 
-                permutationCountTimer.stop();
-                chronometer.stop();
-                
-                setPermutationCounterLabelText(finder.getPermutationCount());
+                if (eventType == MagicSquareFinder.LOG_EVENT) {
+                    String textToAppend = e.getActionCommand();
+                    generationLogTextArea.append(textToAppend);
+                }
             }
-            
-            resultsTextArea.setText(currentText + "\n\n" + textToAppend);
-        }); */
+        );
         
         finder.start();
         startPermutationCounter();
@@ -130,7 +117,7 @@ public class MainScreen extends javax.swing.JFrame {
         mutationProbabilityTextField = new javax.swing.JTextField();
         foundSquaresLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        generationHistoryTextArea = new javax.swing.JTextArea();
+        generationLogTextArea = new javax.swing.JTextArea();
         generationHistoryLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -171,11 +158,11 @@ public class MainScreen extends javax.swing.JFrame {
 
         foundSquaresLabel.setText("Matrizes encontradas");
 
-        generationHistoryTextArea.setColumns(20);
-        generationHistoryTextArea.setRows(5);
-        generationHistoryTextArea.setBorder(null);
-        generationHistoryTextArea.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jScrollPane2.setViewportView(generationHistoryTextArea);
+        generationLogTextArea.setColumns(20);
+        generationLogTextArea.setRows(5);
+        generationLogTextArea.setBorder(null);
+        generationLogTextArea.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jScrollPane2.setViewportView(generationLogTextArea);
 
         generationHistoryLabel.setText("Histórico do algoritmo genético");
 
@@ -298,7 +285,7 @@ public class MainScreen extends javax.swing.JFrame {
         }
         
         startChronometer();
-        //startFinder(size);
+        startFinder(size, populationSize, eliteSize, mutationProbability);
     }//GEN-LAST:event_startButtonActionPerformed
 
     /**
@@ -344,7 +331,7 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JTextArea foundSquaresTextArea;
     private javax.swing.JLabel generationCountLabel;
     private javax.swing.JLabel generationHistoryLabel;
-    private javax.swing.JTextArea generationHistoryTextArea;
+    private javax.swing.JTextArea generationLogTextArea;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel mutationProbabilityLabel;

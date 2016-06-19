@@ -1,16 +1,18 @@
 package com.guisehn.main;
 
-import com.guisehn.crossover.Crossover1;
 import com.guisehn.crossover.Crossover2;
 import com.guisehn.crossover.CrossoverOperator;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
 public class MagicSquareFinder {
+    
+    public static final int LOG_EVENT = 0;
     
     private final int size;
     private final int arraySize;
@@ -22,9 +24,14 @@ public class MagicSquareFinder {
     private final RandomMagicSquareGenerator randomGenerator;
     private final IndividualComparator comparator;
     private final CrossoverOperator crossoverOperator;
+    private final ActionListener listener;
     private final Random random = new Random();
+
+    private Thread thread;
+    private int generationCount;
     
-    public MagicSquareFinder(int size, int populationSize, int eliteSize, double mutationProbability) {
+    public MagicSquareFinder(int size, int populationSize, int eliteSize,
+            double mutationProbability, ActionListener listener) {
         this.size = size;
         this.arraySize = (int)Math.pow(size, 2);
         this.populationSize = populationSize;
@@ -32,34 +39,65 @@ public class MagicSquareFinder {
         this.mutationProbability = mutationProbability;
 
         this.fitnessCalculator = new MagicSquareFitnessCalculator(size);
-        this.crossoverOperator = new Crossover2();
         this.randomGenerator = new RandomMagicSquareGenerator(size);
+        this.crossoverOperator = new Crossover2();
         this.comparator = new IndividualComparator();
+        this.listener = listener;
     }
     
     public void start() {
-        List<Individual> population = generateInitialPopulation();
-        int generationCount = 0;
+        stop();
         
-        StringBuilder output = new StringBuilder();
+        thread = new Thread() {
+            @Override
+            public void run() {
+                search();
+            }
+        };
+        
+        thread.start();
+    }
+    
+    public void stop() {
+        if (thread != null) {
+            thread.interrupt();
+        }
+    }
+    
+    public int getGenerationCount() {
+        return generationCount;
+    }
+    
+    private void search() {
+        List<Individual> population = generateInitialPopulation();
+
+        generationCount = 0;
+        
+        StringBuilder log = new StringBuilder();
         
         while (true) {
+            if (thread.isInterrupted()) {
+                break;
+            }
+
             ++generationCount;
 
             Collections.sort(population, comparator);
             
-            output.append("Geração " + generationCount + "\n");
-            output.append("População:\n");
+            log.append("Geração ").append(generationCount).append("\n");
+            log.append("População:\n");
 
             for (int i = 0; i < populationSize; i++) {
-                output.append(population.get(i) + "\n");
+                log.append(population.get(i)).append("\n");
             }
             
-            output.append("---\n");
+            log.append("---\n");
             
             if (generationCount == 1 || generationCount % 1000 == 0) {
-                System.out.println(output.toString());
-                output.setLength(0);
+                listener.actionPerformed(new ActionEvent(this, LOG_EVENT,
+                        log.toString()));
+
+                log.setLength(0);
             }
             
             createNewGeneration(population);
@@ -157,14 +195,7 @@ public class MagicSquareFinder {
         
         return individuals;
     }
-    
-    private String serializeSquare(int[] square) {
-        String[] numbersAsStrings = Arrays.stream(square).mapToObj(i -> i + "")
-            .toArray(String[]::new);
 
-        return String.join(",", numbersAsStrings);
-    }
-    
 }
 
 class IndividualComparator implements Comparator<Individual> {
