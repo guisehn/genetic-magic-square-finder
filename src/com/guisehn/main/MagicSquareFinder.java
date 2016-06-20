@@ -165,7 +165,8 @@ public class MagicSquareFinder {
         ) {
             listener.actionPerformed(new ActionEvent(this, SEARCH_ENDED_EVENT,
                 null));
-
+            
+            publishAndClearLog();
             stop();
         }
     }
