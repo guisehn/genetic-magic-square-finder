@@ -10,6 +10,7 @@ public class MainScreen extends javax.swing.JFrame {
 
     private final Chronometer chronometer;
     private final Timer generationCountTimer;
+    private int amountFound;
 
     private MagicSquareFinder finder;
 
@@ -46,12 +47,13 @@ public class MainScreen extends javax.swing.JFrame {
     }
     
     private void setGenerationCounterLabelText(long count) {
-        generationCountLabel.setText(String.format("%,d", count)
-            + " gerações até agora");
+        generationCountLabel.setText("Geração " + String.format("%,d", count));
     }
     
     private void startFinder(int size, int populationSize, int eliteSize, 
             int mutationProbability) {
+        amountFound = 0;
+        
         generationLogTextArea.setText("");
 
         foundSquaresTextArea.setText("");
@@ -78,10 +80,15 @@ public class MainScreen extends javax.swing.JFrame {
                             break;
 
                         case MagicSquareFinder.MAGIC_SQUARE_FOUND_EVENT:
-                            foundSquaresTextArea.append("Encontrado aos ");
+                            foundSquaresTextArea.append("Quadrado " + (++amountFound) + " encontrado aos ");
                             foundSquaresTextArea.append(chronometerLabel.getText());
                             foundSquaresTextArea.append("\n" + textToAppend);
                             foundSquaresTextArea.append("\n---\n\n");
+                            break;
+                            
+                        case MagicSquareFinder.SEARCH_ENDED_EVENT:
+                            foundSquaresTextArea.append("Busca encerrada.");
+                            chronometer.stop();
                             break;
                     }
                 } catch (OutOfMemoryError err) {
@@ -204,11 +211,6 @@ public class MainScreen extends javax.swing.JFrame {
         clearLogCheckBox.setSelected(true);
         clearLogCheckBox.setText("Limpar histórico periodicamente");
         clearLogCheckBox.setToolTipText("");
-        clearLogCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clearLogCheckBoxActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -355,10 +357,6 @@ public class MainScreen extends javax.swing.JFrame {
             chronometer.stop();
         }
     }//GEN-LAST:event_stopButtonActionPerformed
-
-    private void clearLogCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearLogCheckBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clearLogCheckBoxActionPerformed
 
     /**
      * @param args the command line arguments

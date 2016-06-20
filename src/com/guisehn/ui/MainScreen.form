@@ -258,9 +258,6 @@
         <Property name="text" type="java.lang.String" value="Limpar hist&#xf3;rico periodicamente"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clearLogCheckBoxActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -1,7 +1,9 @@
 package com.guisehn.main;
 
+import com.guisehn.crossover.Crossover1;
 import com.guisehn.crossover.Crossover2;
 import com.guisehn.crossover.CrossoverOperator;
+import com.guisehn.crossover.CrossoverResult;
 import com.guisehn.ui.SquareFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +20,7 @@ public class MagicSquareFinder {
     
     public static final int LOG_EVENT = 0;
     public static final int MAGIC_SQUARE_FOUND_EVENT = 1;
+    public static final int SEARCH_ENDED_EVENT = 2;
     
     private final int size;
     private final int arraySize;
@@ -131,7 +134,7 @@ public class MagicSquareFinder {
 
         for (int i = 0; i < populationSize; i++) {
             population.add(new Individual(randomGenerator.generate(),
-                null, null, false, fitnessCalculator));
+                null, null, false, "", fitnessCalculator));
         }
     }
 
@@ -150,6 +153,20 @@ public class MagicSquareFinder {
             if (added) {
                 publishMagicSquare(magicSquare);
             }
+        }
+        
+        // Caso tenha encontrado 10 (ou o número máximo), encerra.
+        int amountFound = magicSquaresFound.size();
+        
+        if (!thread.isInterrupted() && (
+            (size == 1 && amountFound == 1) ||
+            (size == 3 && amountFound == 8) ||
+            amountFound >= 10)
+        ) {
+            listener.actionPerformed(new ActionEvent(this, SEARCH_ENDED_EVENT,
+                null));
+
+            stop();
         }
     }
     
@@ -184,8 +201,9 @@ public class MagicSquareFinder {
         sb.append(SquareFormatter.format(magicSquare.getSquare()));
         sb.append("\n");
         sb.append("\nNº da geração: ").append(generationCount);
-        sb.append("\nPai 1: ").append(Arrays.toString(magicSquare.getParent1()));
-        sb.append("\nPai 2: ").append(Arrays.toString(magicSquare.getParent2()));
+        sb.append("\nPai 1: ").append(magicSquare.getParent1() == null ? "(nenhum)" : Arrays.toString(magicSquare.getParent1()));
+        sb.append("\nPai 2: ").append(magicSquare.getParent2() == null ? "(nenhum)" : Arrays.toString(magicSquare.getParent2()));
+        sb.append("\n").append(magicSquare.getCrossoverDetails());
 
         listener.actionPerformed(new ActionEvent(this, MAGIC_SQUARE_FOUND_EVENT,
             sb.toString()));
@@ -264,8 +282,9 @@ public class MagicSquareFinder {
      * @return filhos gerados
      */
     private Individual[] crossoverAndMutate(Individual parent1, Individual parent2) {
-        int[][] children = crossoverOperator.crossover(parent1.getSquare(),
+        CrossoverResult result = crossoverOperator.crossover(parent1.getSquare(),
                 parent2.getSquare());
+        int[][] children = result.getChildren();
         boolean mutated = false;
  
         // Mutação
@@ -286,7 +305,7 @@ public class MagicSquareFinder {
         
         for (int i = 0; i < individuals.length; i++) {
             individuals[i] = new Individual(children[i], parent1.getSquare(),
-                parent2.getSquare(), mutated, fitnessCalculator);
+                parent2.getSquare(), mutated, result.getDetails(), fitnessCalculator);
         }
         
         return individuals;

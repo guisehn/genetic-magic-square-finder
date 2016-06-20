@@ -9,14 +9,17 @@ public class Individual {
     private final int[] parent1;
     private final int[] parent2;
     private final boolean mutated;
+    private final String crossoverDetails;
     private Integer fitness;
     
     public Individual(int[] square, int[] parent1, int[] parent2,
-            boolean mutated, MagicSquareFitnessCalculator fitnessCalculator) {
+            boolean mutated, String crossoverDetails,
+            MagicSquareFitnessCalculator fitnessCalculator) {
         this.square = square;
         this.parent1 = parent1;
         this.parent2 = parent2;
         this.mutated = mutated;
+        this.crossoverDetails = crossoverDetails;
         this.fitnessCalculator = fitnessCalculator;
     }
 
@@ -34,6 +37,10 @@ public class Individual {
 
     public boolean isMutated() {
         return mutated;
+    }
+
+    public String getCrossoverDetails() {
+        return crossoverDetails;
     }
 
     public int getFitness() {
