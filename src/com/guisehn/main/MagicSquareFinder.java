@@ -18,6 +18,8 @@ import java.util.Set;
 
 public class MagicSquareFinder {
     
+    public static final int ELITE_DEATH_PERIOD = 30_000;
+    
     public static final int LOG_EVENT = 0;
     public static final int MAGIC_SQUARE_FOUND_EVENT = 1;
     public static final int SEARCH_ENDED_EVENT = 2;
@@ -40,6 +42,7 @@ public class MagicSquareFinder {
 
     private Thread thread;
     private int generationCount;
+    private int amountOfGenerationsSinceLastMagicSquare;
     
     public MagicSquareFinder(int size, int populationSize, int eliteSize,
             double mutationProbability, ActionListener listener) {
@@ -96,7 +99,7 @@ public class MagicSquareFinder {
      * Inicia o algoritmo genético
      */
     private void startGeneticAlgorithm() {
-        generationCount = 0;
+        generationCount = amountOfGenerationsSinceLastMagicSquare = 0;
         log.setLength(0);
 
         generateInitialPopulation();
@@ -151,7 +154,14 @@ public class MagicSquareFinder {
             boolean added = magicSquaresFound.add(magicSquare);
 
             if (added) {
+                amountOfGenerationsSinceLastMagicSquare = 0;
                 publishMagicSquare(magicSquare);
+            } else {
+                /*System.out.println("achou igual!" + Arrays.toString(magicSquare.getSquare()));
+                System.out.println("pai1=" + Arrays.toString(magicSquare.getParent1()));
+                System.out.println("pai2=" + Arrays.toString(magicSquare.getParent2()));
+                System.out.println("crossover=" + magicSquare.getCrossoverDetails());
+                System.out.println("---");*/
             }
         }
         
@@ -238,13 +248,23 @@ public class MagicSquareFinder {
     private void createNewGeneration() {
         generationCount++;
 
+        // Mata a elite :-0
+        if (amountOfGenerationsSinceLastMagicSquare > ELITE_DEATH_PERIOD) {
+            population.subList(0, eliteSize).clear();
+            amountOfGenerationsSinceLastMagicSquare = 0;
+        } else {
+            amountOfGenerationsSinceLastMagicSquare++;
+        }
+        
         // Cruza os indivíduos
         List<Individual> matingPool = createMatingPool();
         
         // Elitismo. Mantém os melhores N indivíduos (que estão no inicio
         // da população, já que ela é ordenada pelo fitness) para a próxima
         // geração.
-        population.subList(eliteSize, populationSize).clear();
+        try {
+            population.subList(eliteSize, populationSize).clear();
+        } catch (java.lang.IndexOutOfBoundsException e) { }
 
         while (population.size() < populationSize) {
             Individual i1 = Utils.getRandom(matingPool);
