@@ -1,7 +1,13 @@
 package com.guisehn.ui;
 
 import com.guisehn.main.MagicSquareFinder;
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.Timer;
@@ -154,6 +160,9 @@ public class MainScreen extends javax.swing.JFrame {
         generationHistoryLabel = new javax.swing.JLabel();
         stopButton = new javax.swing.JButton();
         clearLogCheckBox = new javax.swing.JCheckBox();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        aboutMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -211,6 +220,20 @@ public class MainScreen extends javax.swing.JFrame {
         clearLogCheckBox.setSelected(true);
         clearLogCheckBox.setText("Limpar histórico periodicamente");
         clearLogCheckBox.setToolTipText("");
+
+        jMenu1.setText("Ajuda");
+
+        aboutMenuItem.setText("Sobre o programa");
+        aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aboutMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(aboutMenuItem);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -291,7 +314,7 @@ public class MainScreen extends javax.swing.JFrame {
                     .addComponent(generationHistoryLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -358,6 +381,14 @@ public class MainScreen extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_stopButtonActionPerformed
 
+    private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
+        try {
+            Desktop.getDesktop().browse(new URI("https://github.com/guisehn/genetic-magic-square-finder/blob/master/README.md"));
+        } catch (IOException | URISyntaxException ex) {
+            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_aboutMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -394,6 +425,7 @@ public class MainScreen extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JLabel chronometerLabel;
     private javax.swing.JCheckBox clearLogCheckBox;
     private javax.swing.JLabel eliteSizeLabel;
@@ -403,6 +435,8 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JLabel generationCountLabel;
     private javax.swing.JLabel generationHistoryLabel;
     private javax.swing.JTextArea generationLogTextArea;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel mutationProbabilityLabel;
