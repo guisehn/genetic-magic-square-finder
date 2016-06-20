@@ -4,8 +4,10 @@ import java.util.Arrays;
 
 public class SquareFormatter {
 
-    public static String format(String square) {
-        final String[] items = square.split(",");
+    public static String format(int[] square) {
+        String[] items = Arrays.stream(square).mapToObj(i -> i + "")
+            .toArray(String[]::new);
+        
         final int size = (int)Math.sqrt(items.length);
         final StringBuilder sb = new StringBuilder();
         

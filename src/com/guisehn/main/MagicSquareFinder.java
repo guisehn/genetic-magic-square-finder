@@ -2,17 +2,22 @@ package com.guisehn.main;
 
 import com.guisehn.crossover.Crossover2;
 import com.guisehn.crossover.CrossoverOperator;
+import com.guisehn.ui.SquareFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public class MagicSquareFinder {
     
     public static final int LOG_EVENT = 0;
+    public static final int MAGIC_SQUARE_FOUND_EVENT = 1;
     
     private final int size;
     private final int arraySize;
@@ -26,6 +31,9 @@ public class MagicSquareFinder {
     private final CrossoverOperator crossoverOperator;
     private final ActionListener listener;
     private final Random random = new Random();
+    private final Set<Individual> magicSquaresFound;
+    private final List<Individual> population;
+    private final StringBuilder log;
 
     private Thread thread;
     private int generationCount;
@@ -42,69 +50,152 @@ public class MagicSquareFinder {
         this.randomGenerator = new RandomMagicSquareGenerator(size);
         this.crossoverOperator = new Crossover2();
         this.comparator = new IndividualComparator();
+        this.magicSquaresFound = new HashSet<>();
+        this.population = new ArrayList<>();
+        this.log = new StringBuilder();
         this.listener = listener;
     }
     
+    /**
+     * Inicia busca
+     */
     public void start() {
         stop();
         
         thread = new Thread() {
             @Override
             public void run() {
-                search();
+                startGeneticAlgorithm();
             }
         };
         
         thread.start();
     }
     
+    /**
+     * Encerra busca
+     */
     public void stop() {
         if (thread != null) {
             thread.interrupt();
         }
     }
     
+    /**
+     * Retorna contagem de geração atual
+     * @return contagem de geração atual
+     */
     public int getGenerationCount() {
         return generationCount;
     }
     
-    private void search() {
-        List<Individual> population = generateInitialPopulation();
-
+    /**
+     * Inicia o algoritmo genético
+     */
+    private void startGeneticAlgorithm() {
         generationCount = 0;
-        
-        StringBuilder log = new StringBuilder();
-        
+        log.setLength(0);
+
+        generateInitialPopulation();
+
         while (true) {
             if (thread.isInterrupted()) {
                 break;
             }
-
-            ++generationCount;
-
-            Collections.sort(population, comparator);
             
-            log.append("Geração ").append(generationCount).append("\n");
-            log.append("População:\n");
-
-            for (int i = 0; i < populationSize; i++) {
-                log.append(population.get(i).toString(true)).append("\n");
-            }
+            sortPopulation();
+            addCurrentGenerationToLog();
             
-            log.append("---\n");
-            
+            // Publica o log para a saída a cada N gerações.
             if (generationCount == 1 || generationCount % 1000 == 0) {
-                listener.actionPerformed(new ActionEvent(this, LOG_EVENT,
-                        log.toString()));
-
-                log.setLength(0);
+                publishAndClearLog();
             }
             
-            createNewGeneration(population);
+            addAndPublishMagicSquares();
+            createNewGeneration();
         }
     }
     
-    private List<Individual> createMatingPool(List<Individual> population) {
+    /**
+     * Ordena população conforme a aptidão
+     */
+    private void sortPopulation() {
+        Collections.sort(population, comparator);
+    }
+    
+    /**
+     * Gera a população inicial aleatoriamente
+     */
+    private void generateInitialPopulation() {
+        population.clear();
+
+        for (int i = 0; i < populationSize; i++) {
+            population.add(new Individual(randomGenerator.generate(),
+                null, null, false, fitnessCalculator));
+        }
+    }
+
+    /**
+     * Caso existam novos quadrados mágicos na geração atual, adiciona-os
+     * na lista e publica para a saída
+     */
+    private void addAndPublishMagicSquares() {
+        Individual[] magicSquares = population.stream()
+            .filter(i -> i.getFitness() == 0)
+            .toArray(Individual[]::new);
+        
+        for (Individual magicSquare : magicSquares) {
+            boolean added = magicSquaresFound.add(magicSquare);
+
+            if (added) {
+                publishMagicSquare(magicSquare);
+            }
+        }
+    }
+    
+    /**
+     * Adiciona a geração atual para o log
+     */
+    private void addCurrentGenerationToLog() {
+        log.append("Geração ").append(generationCount).append("\n");
+        log.append("População:\n");
+
+        for (int i = 0; i < populationSize; i++) {
+            log.append(population.get(i).toString(true)).append("\n");
+        }
+
+        log.append("---\n");
+    }
+    
+    /**
+     * Publica o log para a saída e limpa-o
+     */
+    private void publishAndClearLog() {
+        listener.actionPerformed(new ActionEvent(this, LOG_EVENT, log.toString()));
+        log.setLength(0);
+    }
+    
+    /**
+     * Publica um quadrado mágico para a saída
+     * @param magicSquare Indivíduo contendo o quadrado mágico
+     */
+    private void publishMagicSquare(Individual magicSquare) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(SquareFormatter.format(magicSquare.getSquare()));
+        sb.append("\n");
+        sb.append("\nNº da geração: ").append(generationCount);
+        sb.append("\nPai 1: ").append(Arrays.toString(magicSquare.getParent1()));
+        sb.append("\nPai 2: ").append(Arrays.toString(magicSquare.getParent2()));
+
+        listener.actionPerformed(new ActionEvent(this, MAGIC_SQUARE_FOUND_EVENT,
+            sb.toString()));
+    }
+    
+    /**
+     * Seleciona os indivíduos para cruzamento utilizando torneio
+     * @return Indivíduos selecionados para cruzamento após torneio
+     */
+    private List<Individual> createMatingPool() {
         List<Individual> matingPool = new ArrayList<>();
         
         int poolSize = populationSize / 2;
@@ -122,14 +213,20 @@ public class MagicSquareFinder {
         return matingPool;
     }
     
-    private void createNewGeneration(List<Individual> population) {
-        List<Individual> matingPool = createMatingPool(population);
+    /**
+     * Cria nova geração
+     */
+    private void createNewGeneration() {
+        generationCount++;
 
+        // Cruza os indivíduos
+        List<Individual> matingPool = createMatingPool();
+        
         // Elitismo. Mantém os melhores N indivíduos (que estão no inicio
         // da população, já que ela é ordenada pelo fitness) para a próxima
         // geração.
         population.subList(eliteSize, populationSize).clear();
-        
+
         while (population.size() < populationSize) {
             Individual i1 = Utils.getRandom(matingPool);
             Individual i2 = Utils.getRandom(matingPool);
@@ -160,12 +257,21 @@ public class MagicSquareFinder {
         }
     }
     
-    private Individual[] crossoverAndMutate(Individual i1, Individual i2) {
-        int[][] children = crossoverOperator.crossover(i1.getSquare(),
-                i2.getSquare());
+    /**
+     * Faz crossover de dois indivíduos e mutação
+     * @param parent1 primeiro pai
+     * @param parent2 segundo pai
+     * @return filhos gerados
+     */
+    private Individual[] crossoverAndMutate(Individual parent1, Individual parent2) {
+        int[][] children = crossoverOperator.crossover(parent1.getSquare(),
+                parent2.getSquare());
+        boolean mutated = false;
  
-        // mutação
+        // Mutação
         for (int[] child : children) {
+            mutated = true;
+
             if (Math.random() <= mutationProbability) {
                 int index1 = random.nextInt(arraySize);
                 int index2 = random.nextInt(arraySize);
@@ -175,22 +281,12 @@ public class MagicSquareFinder {
             }   
         }
         
-        // transforma pra Individual
+        // Monta os objetos do tipo Individual
         Individual[] individuals = new Individual[children.length];
         
         for (int i = 0; i < individuals.length; i++) {
-            individuals[i] = new Individual(children[i], fitnessCalculator);
-        }
-        
-        return individuals;
-    }
-    
-    private List<Individual> generateInitialPopulation() {
-        List<Individual> individuals = new ArrayList<>();
-
-        for (int i = 0; i < populationSize; i++) {
-            individuals.add(new Individual(randomGenerator.generate(),
-                fitnessCalculator));
+            individuals[i] = new Individual(children[i], parent1.getSquare(),
+                parent2.getSquare(), mutated, fitnessCalculator);
         }
         
         return individuals;
