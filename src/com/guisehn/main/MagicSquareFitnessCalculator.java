@@ -28,41 +28,53 @@ public class MagicSquareFitnessCalculator {
             return -1;
         }
         
-        return calculateMainDiagonalFitness(square)
-            + calculateSecondaryDiagonalFitness(square)
-            + calculateLinesFitnessSum(square)
-            + calculateColumnsFitnessSum(square);
+        int linesDiff = calculateLinesFitnessSum(square, true);
+        int columnsDiff = calculateColumnsFitnessSum(square, true);
+        int mainDiagonalDiff = calculateMainDiagonalFitness(square, true);
+        int secondaryDiagonalDiff = calculateSecondaryDiagonalFitness(square, true);
+        
+        int linesSum = calculateLinesFitnessSum(square, false);
+        int columnsSum = calculateColumnsFitnessSum(square, false);
+        int mainDiagonalSum = calculateMainDiagonalFitness(square, false);
+        int secondaryDiagonalSum = calculateSecondaryDiagonalFitness(square, false);
+        int extra = Math.abs((linesSum + columnsSum + mainDiagonalSum + secondaryDiagonalSum) - (magicValue * ((size * 2) + 2)));
+        
+        return linesDiff + columnsDiff + mainDiagonalDiff + secondaryDiagonalDiff + extra;
     }
     
     public boolean checkUniqueNumbers(int[] square) {
         return Arrays.stream(square).distinct().count() == square.length;
     }
     
-    public int calculateMainDiagonalFitness(int[] square) {
+    public int calculateMainDiagonalFitness(int[] square, boolean diff) {
         int sum = sumValuesForIndexes(square, mainDiagonalIndexes);
-        return Math.abs(magicValue - sum);
+        return diff ? Math.abs(magicValue - sum) : sum;
     }
     
-    public int calculateSecondaryDiagonalFitness(int[] square) {
+    public int calculateSecondaryDiagonalFitness(int[] square, boolean diff) {
         int sum = sumValuesForIndexes(square, secondaryDiagonalIndexes);
-        return Math.abs(magicValue - sum);
+        return diff ? Math.abs(magicValue - sum) : sum;
     }
     
-    public int calculateLinesFitnessSum(int[] square) {
+    public int calculateLinesFitnessSum(int[] square, boolean diff) {
         int sum = 0;
         
         for (int i = 0; i < square.length; i += size) {
             int[] indexes = IntStream.range(i, i + size).toArray();
             int lineSum = sumValuesForIndexes(square, indexes);
-            int difference = Math.abs(magicValue - lineSum);
             
-            sum += difference;
+            if (diff) {
+                int difference = Math.abs(magicValue - lineSum);
+                sum += difference;
+            } else {
+                sum += lineSum;
+            }
         }
         
         return sum;
     }
     
-    public int calculateColumnsFitnessSum(int[] square) {
+    public int calculateColumnsFitnessSum(int[] square, boolean diff) {
         int sum = 0;
         
         for (int i = 0; i < size; i++) {
@@ -74,9 +86,13 @@ public class MagicSquareFitnessCalculator {
                 .toArray();
             
             int columnSum = sumValuesForIndexes(square, indexes);
-            int difference = Math.abs(magicValue - columnSum);
             
-            sum += difference;
+            if (diff) {
+                int difference = Math.abs(magicValue - columnSum);
+                sum += difference;
+            } else {
+                sum += columnSum;
+            }
         }
         
         return sum;
