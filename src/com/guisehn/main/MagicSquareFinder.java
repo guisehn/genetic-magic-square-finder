@@ -18,6 +18,8 @@ import java.util.Set;
 
 public class MagicSquareFinder {
     
+    private static final int ELITE_MAX_AGE = 50000;
+    
     public static final int LOG_EVENT = 0;
     public static final int MAGIC_SQUARE_FOUND_EVENT = 1;
     public static final int SEARCH_ENDED_EVENT = 2;
@@ -245,7 +247,11 @@ public class MagicSquareFinder {
         // da população, já que ela é ordenada pelo fitness) para a próxima
         // geração.
         population.subList(eliteSize, populationSize).clear();
-
+        
+        // Incrementa idade da elite e remove muito velhos.
+        population.forEach(Individual::increaseAge);
+        population.removeIf(c -> c.getAge() > ELITE_MAX_AGE);
+        
         while (population.size() < populationSize) {
             Individual i1 = Utils.getRandom(matingPool);
             Individual i2 = Utils.getRandom(matingPool);

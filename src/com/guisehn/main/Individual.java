@@ -11,6 +11,7 @@ public class Individual {
     private final boolean mutated;
     private final String crossoverDetails;
     private Integer fitness;
+    private int age;
     
     public Individual(int[] square, int[] parent1, int[] parent2,
             boolean mutated, String crossoverDetails,
@@ -21,6 +22,7 @@ public class Individual {
         this.mutated = mutated;
         this.crossoverDetails = crossoverDetails;
         this.fitnessCalculator = fitnessCalculator;
+        this.age = 0;
     }
 
     public int[] getSquare() {
@@ -37,6 +39,14 @@ public class Individual {
 
     public boolean isMutated() {
         return mutated;
+    }
+    
+    public int getAge() {
+        return age;
+    }
+    
+    public int increaseAge() {
+        return ++age;
     }
 
     public String getCrossoverDetails() {
