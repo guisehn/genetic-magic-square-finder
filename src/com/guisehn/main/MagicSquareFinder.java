@@ -225,6 +225,7 @@ public class MagicSquareFinder {
         sb.append("\nPai 1: ").append(magicSquare.getParent1() == null ? "(nenhum)" : Arrays.toString(magicSquare.getParent1()));
         sb.append("\nPai 2: ").append(magicSquare.getParent2() == null ? "(nenhum)" : Arrays.toString(magicSquare.getParent2()));
         sb.append("\n").append(magicSquare.getCrossoverDetails());
+        sb.append("\nHouve mutação? ").append(magicSquare.isMutated() ? "sim" : "não");
 
         listener.actionPerformed(new ActionEvent(this, MAGIC_SQUARE_FOUND_EVENT,
             sb.toString()));
@@ -324,14 +325,14 @@ public class MagicSquareFinder {
  
         // Mutação
         for (int[] child : children) {
-            mutated = true;
-
             if (Math.random() <= mutationProbability) {
                 int index1 = random.nextInt(arraySize);
                 int index2 = random.nextInt(arraySize);
                 int aux = child[index1];
+                
                 child[index1] = child[index2];
                 child[index2] = aux;
+                mutated = true;
             }   
         }
         
