@@ -106,11 +106,7 @@ public class MagicSquareFinder {
 
         generateInitialPopulation();
 
-        while (true) {
-            if (thread.isInterrupted()) {
-                break;
-            }
-            
+        while (!thread.isInterrupted()) {
             sortPopulation();
             addCurrentGenerationToLog();
             
@@ -120,6 +116,11 @@ public class MagicSquareFinder {
             }
             
             addAndPublishMagicSquares();
+            
+            if (checkForCompletion()) {
+                break;
+            }
+            
             createNewGeneration();
         }
     }
@@ -166,8 +167,13 @@ public class MagicSquareFinder {
                 System.out.println("---");*/
             }
         }
-        
-        // Caso tenha encontrado 10 (ou o número máximo), encerra.
+    }
+    
+    /**
+     * Verifica se já encontrou todos os quadrados mágicos esperados.
+     * @return Retorna verdadeiro se encontrou todos e deve encerrar algoritmo.
+     */
+    private boolean checkForCompletion() {
         int amountFound = magicSquaresFound.size();
         
         if (!thread.isInterrupted() && (
@@ -179,8 +185,10 @@ public class MagicSquareFinder {
                 null));
             
             publishAndClearLog();
-            stop();
+            return true;
         }
+        
+        return false;
     }
     
     /**
