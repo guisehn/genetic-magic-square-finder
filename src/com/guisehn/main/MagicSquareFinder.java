@@ -109,7 +109,7 @@ public class MagicSquareFinder {
             addCurrentGenerationToLog();
             
             // Publica o log para a saída a cada N gerações.
-            if (generationCount == 1 || generationCount % 1000 == 0) {
+            if (generationCount == 1 || generationCount % 500 == 0) {
                 publishAndClearLog();
             }
             
