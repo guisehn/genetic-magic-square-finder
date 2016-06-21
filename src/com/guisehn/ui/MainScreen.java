@@ -209,7 +209,7 @@ public class MainScreen extends javax.swing.JFrame {
 
         mutationProbabilityLabel.setText("Chance de mutação (%):");
 
-        mutationProbabilityTextField.setText("5");
+        mutationProbabilityTextField.setText("50");
         mutationProbabilityTextField.setToolTipText("");
         mutationProbabilityTextField.setNextFocusableComponent(startButton);
 
