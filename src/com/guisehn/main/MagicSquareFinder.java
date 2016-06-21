@@ -27,6 +27,7 @@ public class MagicSquareFinder {
     private final int eliteSize;
     private final int eliteDeathPeriod;
     private final double mutationProbability;
+    private final boolean allowDuplicates;
     
     private final MagicSquareFitnessCalculator fitnessCalculator;
     private final RandomMagicSquareGenerator randomGenerator;
@@ -44,13 +45,14 @@ public class MagicSquareFinder {
     
     public MagicSquareFinder(int size, int populationSize, int eliteSize,
              int eliteDeathPeriod, double mutationProbability,
-             ActionListener listener) {
+             boolean allowDuplicates, ActionListener listener) {
         this.size = size;
         this.arraySize = (int)Math.pow(size, 2);
         this.populationSize = populationSize;
         this.eliteSize = eliteSize;
         this.eliteDeathPeriod = eliteDeathPeriod;
         this.mutationProbability = mutationProbability;
+        this.allowDuplicates = allowDuplicates;
         
         this.fitnessCalculator = new MagicSquareFitnessCalculator(size);
         this.randomGenerator = new RandomMagicSquareGenerator(size);
@@ -278,20 +280,24 @@ public class MagicSquareFinder {
             
             Individual[] children = crossoverAndMutate(i1, i2);
             
-            for (Individual child : children) {
-                String representation = child.toString();
-                boolean duplicate = false;
-                
-                for (Individual individual : population) {
-                    if (representation.equals(individual.toString())) {
-                        duplicate = true;
-                        break;
+            if (allowDuplicates) {
+                population.addAll(Arrays.asList(children));
+            } else {
+                for (Individual child : children) {
+                    String representation = child.toString();
+                    boolean duplicate = false;
+
+                    for (Individual individual : population) {
+                        if (representation.equals(individual.toString())) {
+                            duplicate = true;
+                            break;
+                        }
                     }
-                }
-                
-                if (!duplicate) {
-                    population.add(child);
-                }
+
+                    if (!duplicate) {
+                        population.add(child);
+                    }
+                }   
             }
         }
     }

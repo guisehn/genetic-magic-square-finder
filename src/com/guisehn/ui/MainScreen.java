@@ -58,7 +58,8 @@ public class MainScreen extends javax.swing.JFrame {
     }
     
     private void startFinder(int size, int populationSize, int eliteSize, 
-            int eliteDeathPeriod, double mutationProbability) {
+            int eliteDeathPeriod, double mutationProbability,
+            boolean allowDuplicates) {
         amountFound = 0;
         
         generationLogTextArea.setText("");
@@ -70,7 +71,8 @@ public class MainScreen extends javax.swing.JFrame {
             finder.stop();
         }
         
-        finder = new MagicSquareFinder(size, populationSize, eliteSize, eliteDeathPeriod, mutationProbability,
+        finder = new MagicSquareFinder(size, populationSize, eliteSize,
+            eliteDeathPeriod, mutationProbability, allowDuplicates,
             (ActionEvent e) -> {
                 final int eventType = e.getID();
 
@@ -230,7 +232,6 @@ public class MainScreen extends javax.swing.JFrame {
         populationSizeTextField.setText("200");
         populationSizeTextField.setNextFocusableComponent(eliteSizeTextField);
 
-        allowDuplicatesCheckBox.setSelected(true);
         allowDuplicatesCheckBox.setText("Permitir indivíduos idênticos");
         allowDuplicatesCheckBox.setToolTipText("");
 
@@ -437,6 +438,7 @@ public class MainScreen extends javax.swing.JFrame {
         int eliteSize = getEliteSizeValue();
         int mutationProbability = getMutationProbabilityValue();
         int eliteDeathPeriod = getEliteDeathPeriod();
+        boolean allowDuplicates = allowDuplicatesCheckBox.isSelected();
         
         if (size <= 0) {
             showMessageDialog(null, "O tamanho da matriz deve ser um valor"
@@ -482,7 +484,7 @@ public class MainScreen extends javax.swing.JFrame {
         
         startChronometer();
         startFinder(size, populationSize, eliteSize, eliteDeathPeriod,
-            mutationProbability * 0.01);
+            mutationProbability * 0.01, allowDuplicates);
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
