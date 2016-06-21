@@ -4,7 +4,6 @@ import com.guisehn.crossover.Crossover1;
 import com.guisehn.crossover.Crossover2;
 import com.guisehn.crossover.CrossoverOperator;
 import com.guisehn.crossover.CrossoverResult;
-import com.guisehn.ui.SquareFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;

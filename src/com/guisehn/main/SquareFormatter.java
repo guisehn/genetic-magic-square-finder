@@ -1,4 +1,4 @@
-package com.guisehn.ui;
+package com.guisehn.main;
 
 import java.util.Arrays;
 
