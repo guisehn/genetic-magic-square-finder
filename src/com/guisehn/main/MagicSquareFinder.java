@@ -25,6 +25,7 @@ public class MagicSquareFinder {
     private final int arraySize;
     private final int populationSize;
     private final int eliteSize;
+    private final int eliteDeathPeriod;
     private final double mutationProbability;
     
     private final MagicSquareFitnessCalculator fitnessCalculator;
@@ -39,15 +40,18 @@ public class MagicSquareFinder {
 
     private Thread thread;
     private int generationCount;
+    private int amountOfGenerationsSinceLastNewMagicSquare;
     
     public MagicSquareFinder(int size, int populationSize, int eliteSize,
-            double mutationProbability, ActionListener listener) {
+             int eliteDeathPeriod, double mutationProbability,
+             ActionListener listener) {
         this.size = size;
         this.arraySize = (int)Math.pow(size, 2);
         this.populationSize = populationSize;
         this.eliteSize = eliteSize;
+        this.eliteDeathPeriod = eliteDeathPeriod;
         this.mutationProbability = mutationProbability;
-
+        
         this.fitnessCalculator = new MagicSquareFitnessCalculator(size);
         this.randomGenerator = new RandomMagicSquareGenerator(size);
         this.crossoverOperator = new Crossover2();
@@ -95,7 +99,7 @@ public class MagicSquareFinder {
      * Inicia o algoritmo genético
      */
     private void startGeneticAlgorithm() {
-        generationCount = 0;
+        generationCount = amountOfGenerationsSinceLastNewMagicSquare = 0;
         log.setLength(0);
 
         generateInitialPopulation();
@@ -150,7 +154,14 @@ public class MagicSquareFinder {
             boolean added = magicSquaresFound.add(magicSquare);
 
             if (added) {
+                amountOfGenerationsSinceLastNewMagicSquare = 0;
                 publishMagicSquare(magicSquare);
+            } else {
+                /*System.out.println("achou igual!" + Arrays.toString(magicSquare.getSquare()));
+                System.out.println("pai1=" + Arrays.toString(magicSquare.getParent1()));
+                System.out.println("pai2=" + Arrays.toString(magicSquare.getParent2()));
+                System.out.println("crossover=" + magicSquare.getCrossoverDetails());
+                System.out.println("---");*/
             }
         }
         
@@ -237,13 +248,23 @@ public class MagicSquareFinder {
     private void createNewGeneration() {
         generationCount++;
 
+        // Mata a elite a cada N gerações sem um novo quadrado mágico
+        if (eliteDeathPeriod != 0 && amountOfGenerationsSinceLastNewMagicSquare > eliteDeathPeriod) {
+            population.subList(0, eliteSize).clear();
+            amountOfGenerationsSinceLastNewMagicSquare = 0;
+        } else {
+            amountOfGenerationsSinceLastNewMagicSquare++;
+        }
+        
         // Cruza os indivíduos
         List<Individual> matingPool = createMatingPool();
         
         // Elitismo. Mantém os melhores N indivíduos (que estão no inicio
         // da população, já que ela é ordenada pelo fitness) para a próxima
         // geração.
-        population.subList(eliteSize, populationSize).clear();
+        try {
+            population.subList(eliteSize, populationSize).clear();
+        } catch (java.lang.IndexOutOfBoundsException e) { }
 
         while (population.size() < populationSize) {
             Individual i1 = Utils.getRandom(matingPool);

@@ -51,7 +51,9 @@
                       <Component id="startButton" min="-2" pref="102" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="stopButton" min="-2" pref="102" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="clearLogCheckBox" pref="445" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="274" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
@@ -74,22 +76,24 @@
                                       <Component id="populationSizeTextField" min="-2" pref="55" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Group type="102" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="eliteDeathPeriodLabel" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="eliteDeathPeriodTextField" min="-2" pref="66" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
                                       <Component id="eliteSizeLabel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="eliteSizeTextField" min="-2" pref="55" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Component id="mutationProbabilityLabel" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="mutationProbabilityTextField" min="-2" pref="55" max="-2" attributes="0"/>
+                                      <Component id="eliteSizeTextField" min="-2" pref="66" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="clearLogCheckBox" max="32767" attributes="0"/>
-                              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                              <Component id="mutationProbabilityLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="mutationProbabilityTextField" min="-2" pref="55" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -116,24 +120,37 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="squareSizeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="squareSizeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="eliteSizeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="eliteSizeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="clearLogCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="populationSizeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="populationSizeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="mutationProbabilityLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="mutationProbabilityTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="squareSizeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="squareSizeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="populationSizeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="populationSizeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="eliteSizeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="eliteSizeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="mutationProbabilityLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="mutationProbabilityTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="eliteDeathPeriodLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="eliteDeathPeriodTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="startButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="stopButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="clearLogCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -142,7 +159,7 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane2" pref="295" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" pref="374" max="32767" attributes="0"/>
                   <Component id="jScrollPane1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -183,6 +200,11 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="squareSizeTextField">
+      <Properties>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="populationSizeTextField"/>
+        </Property>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="startButton">
       <Properties>
@@ -211,6 +233,9 @@
     <Component class="javax.swing.JTextField" name="populationSizeTextField">
       <Properties>
         <Property name="text" type="java.lang.String" value="200"/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="eliteSizeTextField"/>
+        </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="eliteSizeLabel">
@@ -222,6 +247,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="180"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="eliteDeathPeriodTextField"/>
+        </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="mutationProbabilityLabel">
@@ -233,6 +261,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="5"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="startButton"/>
+        </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="foundSquaresLabel">
@@ -279,6 +310,20 @@
         <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="Limpar hist&#xf3;rico periodicamente"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="eliteDeathPeriodLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Per&#xed;odo de morte da elite:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="eliteDeathPeriodTextField">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="15000"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="mutationProbabilityTextField"/>
+        </Property>
       </Properties>
     </Component>
   </SubComponents>
