@@ -18,8 +18,6 @@ import java.util.Set;
 
 public class MagicSquareFinder {
     
-    public static final int ELITE_DEATH_PERIOD = 30_000;
-    
     public static final int LOG_EVENT = 0;
     public static final int MAGIC_SQUARE_FOUND_EVENT = 1;
     public static final int SEARCH_ENDED_EVENT = 2;
@@ -28,6 +26,7 @@ public class MagicSquareFinder {
     private final int arraySize;
     private final int populationSize;
     private final int eliteSize;
+    private final int eliteDeathPeriod;
     private final double mutationProbability;
     
     private final MagicSquareFitnessCalculator fitnessCalculator;
@@ -42,16 +41,18 @@ public class MagicSquareFinder {
 
     private Thread thread;
     private int generationCount;
-    private int amountOfGenerationsSinceLastMagicSquare;
+    private int amountOfGenerationsSinceLastNewMagicSquare;
     
     public MagicSquareFinder(int size, int populationSize, int eliteSize,
-            double mutationProbability, ActionListener listener) {
+             int eliteDeathPeriod, double mutationProbability,
+             ActionListener listener) {
         this.size = size;
         this.arraySize = (int)Math.pow(size, 2);
         this.populationSize = populationSize;
         this.eliteSize = eliteSize;
+        this.eliteDeathPeriod = eliteDeathPeriod;
         this.mutationProbability = mutationProbability;
-
+        
         this.fitnessCalculator = new MagicSquareFitnessCalculator(size);
         this.randomGenerator = new RandomMagicSquareGenerator(size);
         this.crossoverOperator = new Crossover2();
@@ -99,7 +100,7 @@ public class MagicSquareFinder {
      * Inicia o algoritmo genético
      */
     private void startGeneticAlgorithm() {
-        generationCount = amountOfGenerationsSinceLastMagicSquare = 0;
+        generationCount = amountOfGenerationsSinceLastNewMagicSquare = 0;
         log.setLength(0);
 
         generateInitialPopulation();
@@ -154,7 +155,7 @@ public class MagicSquareFinder {
             boolean added = magicSquaresFound.add(magicSquare);
 
             if (added) {
-                amountOfGenerationsSinceLastMagicSquare = 0;
+                amountOfGenerationsSinceLastNewMagicSquare = 0;
                 publishMagicSquare(magicSquare);
             } else {
                 /*System.out.println("achou igual!" + Arrays.toString(magicSquare.getSquare()));
@@ -248,12 +249,12 @@ public class MagicSquareFinder {
     private void createNewGeneration() {
         generationCount++;
 
-        // Mata a elite :-0
-        if (amountOfGenerationsSinceLastMagicSquare > ELITE_DEATH_PERIOD) {
+        // Mata a elite a cada N gerações sem um novo quadrado mágico
+        if (eliteDeathPeriod != 0 && amountOfGenerationsSinceLastNewMagicSquare > eliteDeathPeriod) {
             population.subList(0, eliteSize).clear();
-            amountOfGenerationsSinceLastMagicSquare = 0;
+            amountOfGenerationsSinceLastNewMagicSquare = 0;
         } else {
-            amountOfGenerationsSinceLastMagicSquare++;
+            amountOfGenerationsSinceLastNewMagicSquare++;
         }
         
         // Cruza os indivíduos

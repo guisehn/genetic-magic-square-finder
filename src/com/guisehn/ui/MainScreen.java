@@ -34,7 +34,8 @@ public class MainScreen extends javax.swing.JFrame {
         });
         
         foundSquaresTextArea.setEditable(false);
-        
+        generationLogTextArea.setEditable(false);
+
         chronometerLabel.setVisible(false);
         generationCountLabel.setVisible(false);
     }
@@ -57,7 +58,7 @@ public class MainScreen extends javax.swing.JFrame {
     }
     
     private void startFinder(int size, int populationSize, int eliteSize, 
-            int mutationProbability) {
+            int eliteDeathPeriod, double mutationProbability) {
         amountFound = 0;
         
         generationLogTextArea.setText("");
@@ -69,7 +70,7 @@ public class MainScreen extends javax.swing.JFrame {
             finder.stop();
         }
         
-        finder = new MagicSquareFinder(size, populationSize, eliteSize, mutationProbability,
+        finder = new MagicSquareFinder(size, populationSize, eliteSize, eliteDeathPeriod, mutationProbability,
             (ActionEvent e) -> {
                 final int eventType = e.getID();
 
@@ -132,6 +133,11 @@ public class MainScreen extends javax.swing.JFrame {
         return text.matches("0*(100|[0-9]{1,2})?") ? Integer.valueOf(text) : -1;
     }
     
+    private int getEliteDeathPeriod() {
+        String text = eliteDeathPeriodTextField.getText();
+        return text.matches("[0-9]+") ? Integer.valueOf(text) : -1;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -160,6 +166,8 @@ public class MainScreen extends javax.swing.JFrame {
         generationHistoryLabel = new javax.swing.JLabel();
         stopButton = new javax.swing.JButton();
         clearLogCheckBox = new javax.swing.JCheckBox();
+        eliteDeathPeriodLabel = new javax.swing.JLabel();
+        eliteDeathPeriodTextField = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
@@ -173,6 +181,8 @@ public class MainScreen extends javax.swing.JFrame {
         jScrollPane1.setViewportView(foundSquaresTextArea);
 
         squareSizeLabel.setText("Tamanho da matriz:");
+
+        squareSizeTextField.setNextFocusableComponent(populationSizeTextField);
 
         startButton.setText("Iniciar");
         startButton.addActionListener(new java.awt.event.ActionListener() {
@@ -189,16 +199,19 @@ public class MainScreen extends javax.swing.JFrame {
         populationSizeLabel.setText("Tamanho da população:");
 
         populationSizeTextField.setText("200");
+        populationSizeTextField.setNextFocusableComponent(eliteSizeTextField);
 
         eliteSizeLabel.setText("Tamanho da elite:");
 
         eliteSizeTextField.setText("180");
         eliteSizeTextField.setToolTipText("");
+        eliteSizeTextField.setNextFocusableComponent(eliteDeathPeriodTextField);
 
         mutationProbabilityLabel.setText("Chance de mutação (%):");
 
         mutationProbabilityTextField.setText("5");
         mutationProbabilityTextField.setToolTipText("");
+        mutationProbabilityTextField.setNextFocusableComponent(startButton);
 
         foundSquaresLabel.setText("Matrizes encontradas");
 
@@ -220,6 +233,12 @@ public class MainScreen extends javax.swing.JFrame {
         clearLogCheckBox.setSelected(true);
         clearLogCheckBox.setText("Limpar histórico periodicamente");
         clearLogCheckBox.setToolTipText("");
+
+        eliteDeathPeriodLabel.setText("Período de morte da elite:");
+
+        eliteDeathPeriodTextField.setText("15000");
+        eliteDeathPeriodTextField.setToolTipText("");
+        eliteDeathPeriodTextField.setNextFocusableComponent(mutationProbabilityTextField);
 
         jMenu1.setText("Ajuda");
 
@@ -245,7 +264,9 @@ public class MainScreen extends javax.swing.JFrame {
                         .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(stopButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(clearLogCheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
+                        .addGap(274, 274, 274))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -263,19 +284,21 @@ public class MainScreen extends javax.swing.JFrame {
                                         .addComponent(populationSizeLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(populationSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(31, 31, 31)
+                                .addGap(29, 29, 29)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(eliteDeathPeriodLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(eliteDeathPeriodTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(eliteSizeLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(eliteSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(mutationProbabilityLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(mutationProbabilityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(clearLogCheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(21, 21, 21))
+                                        .addComponent(eliteSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(27, 27, 27)
+                                .addComponent(mutationProbabilityLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(mutationProbabilityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(foundSquaresLabel)
@@ -292,29 +315,37 @@ public class MainScreen extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(squareSizeLabel)
-                    .addComponent(squareSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(eliteSizeLabel)
-                    .addComponent(eliteSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(clearLogCheckBox))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(populationSizeLabel)
-                    .addComponent(populationSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(mutationProbabilityLabel)
-                    .addComponent(mutationProbabilityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(squareSizeLabel)
+                            .addComponent(squareSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(populationSizeLabel)
+                            .addComponent(populationSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(eliteSizeLabel)
+                            .addComponent(eliteSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(mutationProbabilityLabel)
+                            .addComponent(mutationProbabilityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(eliteDeathPeriodLabel)
+                            .addComponent(eliteDeathPeriodTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(startButton)
-                    .addComponent(stopButton))
+                    .addComponent(stopButton)
+                    .addComponent(clearLogCheckBox))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(foundSquaresLabel)
                     .addComponent(generationHistoryLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -331,6 +362,7 @@ public class MainScreen extends javax.swing.JFrame {
         int populationSize = getPopulationSizeValue();
         int eliteSize = getEliteSizeValue();
         int mutationProbability = getMutationProbabilityValue();
+        int eliteDeathPeriod = getEliteDeathPeriod();
         
         if (size <= 0) {
             showMessageDialog(null, "O tamanho da matriz deve ser um valor"
@@ -353,6 +385,13 @@ public class MainScreen extends javax.swing.JFrame {
             return; 
         }
         
+        if (eliteDeathPeriod < 0) {
+            showMessageDialog(null, "O período de morte da elite deve ser um número" +
+                "inteiro maior ou igual a 0. Use 0 para que a elite nunca morra.");
+            eliteDeathPeriodTextField.requestFocus();
+            return; 
+        }
+        
         if (mutationProbability == -1) {
             showMessageDialog(null, "A chance de mutação deve ser um valor"
                 + " inteiro de 0 e 100");
@@ -368,7 +407,8 @@ public class MainScreen extends javax.swing.JFrame {
         }
         
         startChronometer();
-        startFinder(size, populationSize, eliteSize, mutationProbability);
+        startFinder(size, populationSize, eliteSize, eliteDeathPeriod,
+            mutationProbability * 0.01);
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
@@ -428,6 +468,8 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JLabel chronometerLabel;
     private javax.swing.JCheckBox clearLogCheckBox;
+    private javax.swing.JLabel eliteDeathPeriodLabel;
+    private javax.swing.JTextField eliteDeathPeriodTextField;
     private javax.swing.JLabel eliteSizeLabel;
     private javax.swing.JTextField eliteSizeTextField;
     private javax.swing.JLabel foundSquaresLabel;
