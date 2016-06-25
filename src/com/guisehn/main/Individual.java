@@ -10,6 +10,7 @@ public class Individual {
     private final int[] parent2;
     private final int[] mutationPoints;
     private final String crossoverDetails;
+    private boolean belongsToElite;
     private Integer fitness;
     
     public Individual(int[] square, int[] parent1, int[] parent2,
@@ -21,6 +22,7 @@ public class Individual {
         this.mutationPoints = mutationPoints;
         this.crossoverDetails = crossoverDetails;
         this.fitnessCalculator = fitnessCalculator;
+        this.belongsToElite = false;
     }
 
     public int[] getSquare() {
@@ -43,6 +45,14 @@ public class Individual {
         return mutationPoints != null;
     }
 
+    public boolean belongsToElite() {
+        return belongsToElite;
+    }
+
+    public void setBelongsToElite(boolean belongsToElite) {
+        this.belongsToElite = belongsToElite;
+    }
+
     public String getCrossoverDetails() {
         return crossoverDetails;
     }
@@ -53,6 +63,31 @@ public class Individual {
         }
 
         return fitness;
+    }
+    
+    public String getGenerationDetails(boolean showBelongsToElite) {
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append("Pai 1: ").append(parent1 == null ? "(nenhum)" : Arrays.toString(parent1));
+        sb.append("\nPai 2: ").append(parent2 == null ? "(nenhum)" : Arrays.toString(parent2));
+        
+        if (showBelongsToElite) {
+            sb.append("\nElite: ").append(belongsToElite() ? "sim" : "não");
+        }
+        
+        if (!crossoverDetails.isEmpty()) {
+            sb.append("\n").append(crossoverDetails);
+        }
+        
+        sb.append("\nHouve mutação? ");
+
+        if (isMutated()) {
+            sb.append("sim, em ").append(Arrays.toString(mutationPoints));
+        } else {
+            sb.append("não");
+        }
+        
+        return sb.toString();
     }
     
     public String toString(boolean includeFitness) {

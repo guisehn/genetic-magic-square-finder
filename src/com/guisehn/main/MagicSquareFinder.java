@@ -1,6 +1,5 @@
 package com.guisehn.main;
 
-import com.guisehn.crossover.Crossover1;
 import com.guisehn.crossover.Crossover2;
 import com.guisehn.crossover.CrossoverOperator;
 import com.guisehn.crossover.CrossoverResult;
@@ -30,6 +29,7 @@ public class MagicSquareFinder {
     private final int maximumCrossoverPoint;
     private final double mutationProbability;
     private final boolean allowDuplicates;
+    private final boolean showGenerationDetails;
     
     private final MagicSquareFitnessCalculator fitnessCalculator;
     private final RandomMagicSquareGenerator randomGenerator;
@@ -48,7 +48,8 @@ public class MagicSquareFinder {
     public MagicSquareFinder(int size, int populationSize, int eliteSize,
              int eliteDeathPeriod, double mutationProbability,
              boolean allowDuplicates, int minimumCrossoverPoint,
-             int maximumCrossoverPoint, ActionListener listener) {
+             int maximumCrossoverPoint, boolean showGenerationDetails,
+             ActionListener listener) {
         this.size = size;
         this.arraySize = (int)Math.pow(size, 2);
         this.populationSize = populationSize;
@@ -58,6 +59,7 @@ public class MagicSquareFinder {
         this.allowDuplicates = allowDuplicates;
         this.minimumCrossoverPoint = minimumCrossoverPoint;
         this.maximumCrossoverPoint = maximumCrossoverPoint;
+        this.showGenerationDetails = showGenerationDetails;
         
         this.fitnessCalculator = new MagicSquareFitnessCalculator(size);
         this.randomGenerator = new RandomMagicSquareGenerator(size);
@@ -116,7 +118,7 @@ public class MagicSquareFinder {
             addCurrentGenerationToLog();
             
             // Publica o log para a saída a cada N gerações.
-            if (generationCount == 1 || generationCount % 500 == 0) {
+            if (generationCount == 0 || generationCount % 200 == 0) {
                 publishAndClearLog();
             }
             
@@ -128,6 +130,8 @@ public class MagicSquareFinder {
             
             createNewGeneration();
         }
+        
+        stop();
     }
     
     /**
@@ -200,14 +204,23 @@ public class MagicSquareFinder {
      * Adiciona a geração atual para o log
      */
     private void addCurrentGenerationToLog() {
-        log.append("Geração ").append(generationCount).append("\n");
-        log.append("População:\n");
+        log.append("======================\nGeração ").append(generationCount)
+            .append("\n======================");
 
-        for (int i = 0; i < populationSize; i++) {
-            log.append(population.get(i).toString(true)).append("\n");
+        int i = 0;
+        
+        for (Individual individual : population) {
+            if (showGenerationDetails) {
+                log.append("\nIndivíduo ").append(++i);
+            }
+            
+            log.append("\n").append(individual.toString(true));
+            
+            if (showGenerationDetails) {
+                log.append("\n").append(individual.getGenerationDetails(true))
+                    .append("\n---");
+            }
         }
-
-        log.append("---\n");
     }
     
     /**
@@ -227,16 +240,7 @@ public class MagicSquareFinder {
         sb.append(SquareFormatter.format(magicSquare.getSquare()));
         sb.append("\n");
         sb.append("\nNº da geração: ").append(generationCount);
-        sb.append("\nPai 1: ").append(magicSquare.getParent1() == null ? "(nenhum)" : Arrays.toString(magicSquare.getParent1()));
-        sb.append("\nPai 2: ").append(magicSquare.getParent2() == null ? "(nenhum)" : Arrays.toString(magicSquare.getParent2()));
-        sb.append("\n").append(magicSquare.getCrossoverDetails());
-        sb.append("\nHouve mutação? ");
-        
-        if (magicSquare.isMutated()) {
-            sb.append("sim, em ").append(Arrays.toString(magicSquare.getMutationPoints()));
-        } else {
-            sb.append("não");
-        }
+        sb.append("\n").append(magicSquare.getGenerationDetails(false));
 
         listener.actionPerformed(new ActionEvent(this, MAGIC_SQUARE_FOUND_EVENT,
             sb.toString()));
@@ -286,8 +290,11 @@ public class MagicSquareFinder {
         // geração.
         try {
             population.subList(eliteSize, populationSize).clear();
+            population.stream().forEach(individual -> {
+                individual.setBelongsToElite(true);
+            });
         } catch (java.lang.IndexOutOfBoundsException e) { }
-
+        
         while (population.size() < populationSize) {
             Individual i1 = Utils.getRandom(matingPool);
             Individual i2 = Utils.getRandom(matingPool);
@@ -359,7 +366,8 @@ public class MagicSquareFinder {
         
         for (int i = 0; i < individuals.length; i++) {
             individuals[i] = new Individual(children[i], parent1.getSquare(),
-                parent2.getSquare(), mutationPoints, result.getDetails(), fitnessCalculator);
+                parent2.getSquare(), mutationPoints, result.getDetails(),
+                fitnessCalculator);
         }
         
         return individuals;
