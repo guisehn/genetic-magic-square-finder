@@ -74,7 +74,7 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
                                       <Component id="generationHistoryLabel" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="639" max="32767" attributes="0"/>
+                                      <EmptySpace pref="606" max="32767" attributes="0"/>
                                   </Group>
                                   <Component id="jScrollPane2" max="32767" attributes="0"/>
                               </Group>
@@ -511,10 +511,8 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <Component id="showGenerationDetailsCheckBox" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="46" max="32767" attributes="0"/>
-              </Group>
+              <Component id="showGenerationDetailsCheckBox" min="-2" max="-2" attributes="0"/>
+              <Component id="saveToFileCheckBox" min="-2" max="-2" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -522,7 +520,9 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="showGenerationDetailsCheckBox" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="77" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="saveToFileCheckBox" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="48" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -531,6 +531,11 @@
         <Component class="javax.swing.JCheckBox" name="showGenerationDetailsCheckBox">
           <Properties>
             <Property name="text" type="java.lang.String" value="Exibir hist&#xf3;rico completo"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="saveToFileCheckBox">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Gravar hist&#xf3;rico completo em arquivo"/>
           </Properties>
         </Component>
       </SubComponents>

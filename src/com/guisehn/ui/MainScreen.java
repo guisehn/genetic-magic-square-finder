@@ -3,9 +3,16 @@ package com.guisehn.ui;
 import com.guisehn.main.MagicSquareFinder;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -19,6 +26,7 @@ public class MainScreen extends javax.swing.JFrame {
     private int amountFound;
     private int previousSquareSize;
 
+    private PrintWriter printWriter;
     private MagicSquareFinder finder;
 
     public MainScreen() {
@@ -86,6 +94,38 @@ public class MainScreen extends javax.swing.JFrame {
         generationCountLabel.setText("Geração " + String.format("%,d", count));
     }
     
+    private void generateFileWriter() {
+        closeFileWriter();
+        
+        File logsFolder = new File("logs");
+        
+        if (!logsFolder.exists()) {
+            logsFolder.mkdir();
+        }
+        
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+        
+        try {
+            String fileName = dateFormat.format(new Date()) + ".txt";
+            printWriter = new PrintWriter("logs/" + fileName, "UTF-8");
+        } catch (FileNotFoundException | UnsupportedEncodingException ex) {
+            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void appendToFile(String str) {
+        if (printWriter != null) {
+            printWriter.append(str);
+        }
+    }
+    
+    private void closeFileWriter() {
+        if (printWriter != null) {
+            printWriter.close();
+            printWriter = null;
+        }
+    }
+    
     private void startFinder(int size, int populationSize, int eliteSize, 
             int eliteDeathPeriod, double mutationProbability,
             boolean allowDuplicates, int minimumCrossoverPoint,
@@ -99,6 +139,10 @@ public class MainScreen extends javax.swing.JFrame {
         
         if (finder != null) {
             finder.stop();
+        }
+        
+        if (saveToFileCheckBox.isSelected()) {
+            generateFileWriter();
         }
         
         finder = new MagicSquareFinder(size, populationSize, eliteSize,
@@ -116,6 +160,7 @@ public class MainScreen extends javax.swing.JFrame {
                                 generationLogTextArea.setText("");
                             }
 
+                            appendToFile(textToAppend);
                             generationLogTextArea.append(textToAppend);
                             break;
 
@@ -128,6 +173,7 @@ public class MainScreen extends javax.swing.JFrame {
                             
                         case MagicSquareFinder.SEARCH_ENDED_EVENT:
                             foundSquaresTextArea.append("Busca encerrada.");
+                            closeFileWriter();
                             chronometer.stop();
                             break;
                     }
@@ -136,7 +182,7 @@ public class MainScreen extends javax.swing.JFrame {
                         "Erro", JOptionPane.ERROR_MESSAGE);
                     
                     chronometer.stop();
-
+                    
                     throw err;
                 }
             }
@@ -221,6 +267,7 @@ public class MainScreen extends javax.swing.JFrame {
         maximumCrossoverPointLabel = new javax.swing.JLabel();
         outputPanel = new javax.swing.JPanel();
         showGenerationDetailsCheckBox = new javax.swing.JCheckBox();
+        saveToFileCheckBox = new javax.swing.JCheckBox();
         menuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
@@ -433,20 +480,23 @@ public class MainScreen extends javax.swing.JFrame {
 
         showGenerationDetailsCheckBox.setText("Exibir histórico completo");
 
+        saveToFileCheckBox.setText("Gravar histórico completo em arquivo");
+
         javax.swing.GroupLayout outputPanelLayout = new javax.swing.GroupLayout(outputPanel);
         outputPanel.setLayout(outputPanelLayout);
         outputPanelLayout.setHorizontalGroup(
             outputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(outputPanelLayout.createSequentialGroup()
-                .addComponent(showGenerationDetailsCheckBox)
-                .addGap(0, 46, Short.MAX_VALUE))
+            .addComponent(showGenerationDetailsCheckBox)
+            .addComponent(saveToFileCheckBox)
         );
         outputPanelLayout.setVerticalGroup(
             outputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(outputPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(showGenerationDetailsCheckBox)
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(saveToFileCheckBox)
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         jMenu1.setText("Ajuda");
@@ -493,7 +543,7 @@ public class MainScreen extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(generationHistoryLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 639, Short.MAX_VALUE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 606, Short.MAX_VALUE))
                                     .addComponent(jScrollPane2)))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -608,6 +658,8 @@ public class MainScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
+        closeFileWriter();
+        
         if (finder != null) {
             finder.stop();
         }
@@ -699,6 +751,7 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JPanel populationPanel;
     private javax.swing.JLabel populationSizeLabel;
     private javax.swing.JTextField populationSizeTextField;
+    private javax.swing.JCheckBox saveToFileCheckBox;
     private javax.swing.JCheckBox showGenerationDetailsCheckBox;
     private javax.swing.JLabel squareSizeLabel;
     private javax.swing.JTextField squareSizeTextField;
