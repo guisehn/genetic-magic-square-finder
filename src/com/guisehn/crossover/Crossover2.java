@@ -8,10 +8,11 @@ public class Crossover2 implements CrossoverOperator {
     private final Random random = new Random();
     
     @Override
-    public CrossoverResult crossover(int[] square1, int[] square2) {
+    public CrossoverResult crossover(int[] square1, int[] square2,
+            int minimumCrossoverPoint, int maximumCrossoverPoint) {
         int[] inv1 = buildInversionSequenceFromSquare(square1);
         int[] inv2 = buildInversionSequenceFromSquare(square2);
-        int crossoverPoint = generateCrossoverPoint(square1.length);
+        int crossoverPoint = generateCrossoverPoint(minimumCrossoverPoint, maximumCrossoverPoint);
 
         int[] invCross1 = crossInversionSequences(inv1, inv2, crossoverPoint);
         int[] invCross2 = crossInversionSequences(inv2, inv1, crossoverPoint);
@@ -21,14 +22,11 @@ public class Crossover2 implements CrossoverOperator {
         
         return new CrossoverResult(
             new int[][] { child1, child2 },
-            "Ponto de crossover: " + crossoverPoint);
+            "Ponto de cruzamento: " + crossoverPoint);
     }
     
-    private int generateCrossoverPoint(int length) {
-        int maxIndex = length - 1;
-        int point = maxIndex == 0 ? 0 : random.nextInt(maxIndex - 1) + 1;
-
-        return point;
+    private int generateCrossoverPoint(int min, int max) {
+        return random.nextInt((max - min) + 1) + min;
     }
     
     private int[] crossInversionSequences(int[] inv1, int[] inv2,

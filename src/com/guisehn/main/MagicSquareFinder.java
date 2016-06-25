@@ -26,6 +26,8 @@ public class MagicSquareFinder {
     private final int populationSize;
     private final int eliteSize;
     private final int eliteDeathPeriod;
+    private final int minimumCrossoverPoint;
+    private final int maximumCrossoverPoint;
     private final double mutationProbability;
     private final boolean allowDuplicates;
     
@@ -45,7 +47,8 @@ public class MagicSquareFinder {
     
     public MagicSquareFinder(int size, int populationSize, int eliteSize,
              int eliteDeathPeriod, double mutationProbability,
-             boolean allowDuplicates, ActionListener listener) {
+             boolean allowDuplicates, int minimumCrossoverPoint,
+             int maximumCrossoverPoint, ActionListener listener) {
         this.size = size;
         this.arraySize = (int)Math.pow(size, 2);
         this.populationSize = populationSize;
@@ -53,6 +56,8 @@ public class MagicSquareFinder {
         this.eliteDeathPeriod = eliteDeathPeriod;
         this.mutationProbability = mutationProbability;
         this.allowDuplicates = allowDuplicates;
+        this.minimumCrossoverPoint = minimumCrossoverPoint;
+        this.maximumCrossoverPoint = maximumCrossoverPoint;
         
         this.fitnessCalculator = new MagicSquareFitnessCalculator(size);
         this.randomGenerator = new RandomMagicSquareGenerator(size);
@@ -140,7 +145,7 @@ public class MagicSquareFinder {
 
         for (int i = 0; i < populationSize; i++) {
             population.add(new Individual(randomGenerator.generate(),
-                null, null, false, "", fitnessCalculator));
+                null, null, null, "", fitnessCalculator));
         }
     }
 
@@ -225,7 +230,13 @@ public class MagicSquareFinder {
         sb.append("\nPai 1: ").append(magicSquare.getParent1() == null ? "(nenhum)" : Arrays.toString(magicSquare.getParent1()));
         sb.append("\nPai 2: ").append(magicSquare.getParent2() == null ? "(nenhum)" : Arrays.toString(magicSquare.getParent2()));
         sb.append("\n").append(magicSquare.getCrossoverDetails());
-        sb.append("\nHouve mutação? ").append(magicSquare.isMutated() ? "sim" : "não");
+        sb.append("\nHouve mutação? ");
+        
+        if (magicSquare.isMutated()) {
+            sb.append("sim, em ").append(Arrays.toString(magicSquare.getMutationPoints()));
+        } else {
+            sb.append("não");
+        }
 
         listener.actionPerformed(new ActionEvent(this, MAGIC_SQUARE_FOUND_EVENT,
             sb.toString()));
@@ -319,20 +330,27 @@ public class MagicSquareFinder {
      */
     private Individual[] crossoverAndMutate(Individual parent1, Individual parent2) {
         CrossoverResult result = crossoverOperator.crossover(parent1.getSquare(),
-                parent2.getSquare());
+                parent2.getSquare(), minimumCrossoverPoint, maximumCrossoverPoint);
+
         int[][] children = result.getChildren();
-        boolean mutated = false;
+        int[] mutationPoints = null;
  
         // Mutação
         for (int[] child : children) {
             if (Math.random() <= mutationProbability) {
-                int index1 = random.nextInt(arraySize);
-                int index2 = random.nextInt(arraySize);
-                int aux = child[index1];
+                int index1, index2;
                 
+                do {
+                    index1 = random.nextInt(arraySize);
+                    index2 = random.nextInt(arraySize);
+                }
+                while (index1 == index2);
+                
+                int aux = child[index1];
                 child[index1] = child[index2];
                 child[index2] = aux;
-                mutated = true;
+
+                mutationPoints = new int[] { index1, index2 };
             }   
         }
         
@@ -341,7 +359,7 @@ public class MagicSquareFinder {
         
         for (int i = 0; i < individuals.length; i++) {
             individuals[i] = new Individual(children[i], parent1.getSquare(),
-                parent2.getSquare(), mutated, result.getDetails(), fitnessCalculator);
+                parent2.getSquare(), mutationPoints, result.getDetails(), fitnessCalculator);
         }
         
         return individuals;

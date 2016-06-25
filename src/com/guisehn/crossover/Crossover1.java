@@ -9,10 +9,11 @@ public class Crossover1 implements CrossoverOperator {
     private final Random random = new Random();
     
     @Override
-    public CrossoverResult crossover(int[] square1, int[] square2) {
+    public CrossoverResult crossover(int[] square1, int[] square2,
+        int minimumCrossoverPoint, int maximumCrossoverPoint) {
         int arraySize = square1.length;
         int maxIndex = arraySize - 1;
-        int crossoverPoint = maxIndex == 0 ? 0 : random.nextInt(maxIndex - 1) + 1;
+        int crossoverPoint = generateCrossoverPoint(minimumCrossoverPoint, maximumCrossoverPoint);
         int[] newSquare = new int[arraySize];
         Set<Integer> used = new HashSet<>();
         
@@ -30,7 +31,11 @@ public class Crossover1 implements CrossoverOperator {
         }
         
         return new CrossoverResult(new int[][] { newSquare },
-            "Ponto de crossover: " + crossoverPoint);
+            "Ponto de cruzamento: " + crossoverPoint);
+    }
+    
+    private int generateCrossoverPoint(int min, int max) {
+        return random.nextInt((max - min) + 1) + min;
     }
     
 }

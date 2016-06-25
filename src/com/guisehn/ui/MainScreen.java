@@ -9,19 +9,24 @@ import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.Timer;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public class MainScreen extends javax.swing.JFrame {
 
     private final Chronometer chronometer;
     private final Timer generationCountTimer;
     private int amountFound;
+    private int previousSquareSize;
 
     private MagicSquareFinder finder;
 
     public MainScreen() {
         initComponents();
+        
+        resetCrossoverPoints();
+        
+        previousSquareSize = getSquareSizeValue();
         
         chronometer = new Chronometer((ActionEvent e) -> {
             chronometerLabel.setText(e.getActionCommand());
@@ -38,6 +43,30 @@ public class MainScreen extends javax.swing.JFrame {
 
         chronometerLabel.setVisible(false);
         generationCountLabel.setVisible(false);
+    }
+    
+    private int getMinimumCrossoverPointAllowed() {
+        return 0;
+    }
+    
+    private int getMaximumCrossoverPointAllowed(int size) {
+        return (size * size) - 1;
+    }
+    
+    private void resetCrossoverPoints() {
+        int size = getSquareSizeValue();
+        int min = getMinimumCrossoverPointAllowed();
+        int max = getMaximumCrossoverPointAllowed(size);
+        
+        if (size > 1) {
+            min++;
+            max--;
+        }
+        
+        if (size > 0) {
+            minimumCrossoverPointTextField.setText("" + min);
+            maximumCrossoverPointTextField.setText("" + max);
+        }
     }
 
     private void startChronometer() {
@@ -59,7 +88,8 @@ public class MainScreen extends javax.swing.JFrame {
     
     private void startFinder(int size, int populationSize, int eliteSize, 
             int eliteDeathPeriod, double mutationProbability,
-            boolean allowDuplicates) {
+            boolean allowDuplicates, int minimumCrossoverPoint,
+            int maximumCrossoverPoint) {
         amountFound = 0;
         
         generationLogTextArea.setText("");
@@ -73,6 +103,7 @@ public class MainScreen extends javax.swing.JFrame {
         
         finder = new MagicSquareFinder(size, populationSize, eliteSize,
             eliteDeathPeriod, mutationProbability, allowDuplicates,
+            minimumCrossoverPoint, maximumCrossoverPoint,
             (ActionEvent e) -> {
                 final int eventType = e.getID();
 
@@ -113,6 +144,16 @@ public class MainScreen extends javax.swing.JFrame {
         
         finder.start();
         startPermutationCounter();
+    }
+
+    private int getMinimumCrossoverPointValue() {
+        String text = minimumCrossoverPointTextField.getText();
+        return text.matches("[0-9]+") ? Integer.valueOf(text) : -1;
+    }
+
+    private int getMaximumCrossoverPointValue() {
+        String text = maximumCrossoverPointTextField.getText();
+        return text.matches("[0-9]+") ? Integer.valueOf(text) : -1;
     }
     
     private int getSquareSizeValue() {
@@ -174,10 +215,10 @@ public class MainScreen extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         mutationProbabilityTextField = new javax.swing.JTextField();
         mutationProbabilityLabel = new javax.swing.JLabel();
-        crossoverPointLabel = new javax.swing.JLabel();
+        minimumCrossoverPointLabel = new javax.swing.JLabel();
         minimumCrossoverPointTextField = new javax.swing.JTextField();
-        crossoverPointUpToLabel = new javax.swing.JLabel();
         maximumCrossoverPointTextField = new javax.swing.JTextField();
+        maximumCrossoverPointLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
@@ -230,6 +271,11 @@ public class MainScreen extends javax.swing.JFrame {
 
         squareSizeTextField.setText("4");
         squareSizeTextField.setNextFocusableComponent(populationSizeTextField);
+        squareSizeTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                squareSizeTextFieldFocusLost(evt);
+            }
+        });
 
         populationSizeLabel.setText("Tamanho da população:");
 
@@ -245,10 +291,10 @@ public class MainScreen extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(squareSizeLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(squareSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(populationSizeLabel)
@@ -257,7 +303,7 @@ public class MainScreen extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(allowDuplicatesCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -272,7 +318,7 @@ public class MainScreen extends javax.swing.JFrame {
                     .addComponent(populationSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(allowDuplicatesCheckBox)
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Elitismo"));
@@ -297,9 +343,8 @@ public class MainScreen extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(eliteSizeLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(eliteSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(eliteDeathPeriodLabel)
@@ -330,15 +375,15 @@ public class MainScreen extends javax.swing.JFrame {
 
         mutationProbabilityLabel.setText("Chance de mutação (%):");
 
-        crossoverPointLabel.setText("Ponto de crossover:");
+        minimumCrossoverPointLabel.setText("Ponto mínimo:");
 
         minimumCrossoverPointTextField.setToolTipText("");
         minimumCrossoverPointTextField.setNextFocusableComponent(startButton);
 
-        crossoverPointUpToLabel.setText("a");
-
         maximumCrossoverPointTextField.setToolTipText("");
         maximumCrossoverPointTextField.setNextFocusableComponent(startButton);
+
+        maximumCrossoverPointLabel.setText("Ponto máximo:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -348,18 +393,17 @@ public class MainScreen extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(mutationProbabilityLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(mutationProbabilityTextField))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(crossoverPointLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(minimumCrossoverPointTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(crossoverPointUpToLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(maximumCrossoverPointTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(minimumCrossoverPointLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(minimumCrossoverPointTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(mutationProbabilityLabel)
+                            .addComponent(maximumCrossoverPointLabel))
+                        .addGap(9, 9, 9)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(mutationProbabilityTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                            .addComponent(maximumCrossoverPointTextField))))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -367,15 +411,17 @@ public class MainScreen extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(crossoverPointLabel)
-                    .addComponent(minimumCrossoverPointTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(crossoverPointUpToLabel)
-                    .addComponent(maximumCrossoverPointTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(minimumCrossoverPointLabel)
+                    .addComponent(minimumCrossoverPointTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(maximumCrossoverPointLabel)
+                    .addComponent(maximumCrossoverPointTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mutationProbabilityLabel)
                     .addComponent(mutationProbabilityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addGap(38, 38, 38))
         );
 
         jMenu1.setText("Ajuda");
@@ -406,10 +452,10 @@ public class MainScreen extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(chronometerLabel))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(3, 3, 3)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
@@ -436,10 +482,9 @@ public class MainScreen extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(startButton)
@@ -451,7 +496,7 @@ public class MainScreen extends javax.swing.JFrame {
                     .addComponent(generationHistoryLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -469,6 +514,10 @@ public class MainScreen extends javax.swing.JFrame {
         int eliteSize = getEliteSizeValue();
         int mutationProbability = getMutationProbabilityValue();
         int eliteDeathPeriod = getEliteDeathPeriod();
+        int minimumCrossoverPoint = getMinimumCrossoverPointValue();
+        int minimumCrossoverPointAllowed = getMinimumCrossoverPointAllowed();
+        int maximumCrossoverPoint = getMaximumCrossoverPointValue();
+        int maximumCrossoverPointAllowed = getMaximumCrossoverPointAllowed(size);
         boolean allowDuplicates = allowDuplicatesCheckBox.isSelected();
         
         if (size <= 0) {
@@ -506,6 +555,15 @@ public class MainScreen extends javax.swing.JFrame {
             return;            
         }
         
+        if (minimumCrossoverPoint < minimumCrossoverPointAllowed ||
+                maximumCrossoverPoint > maximumCrossoverPointAllowed) {
+            showMessageDialog(null, "Os pontos mínimos e máximos de crossover são" +
+                " respectivamente " + minimumCrossoverPointAllowed + " e " +
+                maximumCrossoverPointAllowed + "\npara matrizes " + size + "x" +
+                size + ".");
+            return;
+        }
+        
         if (size == 2) {
             JOptionPane.showMessageDialog(null,
                 "Não existem quadrados mágicos 2x2. Mas iremos deixar o "
@@ -515,7 +573,8 @@ public class MainScreen extends javax.swing.JFrame {
         
         startChronometer();
         startFinder(size, populationSize, eliteSize, eliteDeathPeriod,
-            mutationProbability * 0.01, allowDuplicates);
+            mutationProbability * 0.01, allowDuplicates,
+            minimumCrossoverPoint, maximumCrossoverPoint);
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
@@ -535,6 +594,15 @@ public class MainScreen extends javax.swing.JFrame {
             Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_aboutMenuItemActionPerformed
+
+    private void squareSizeTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_squareSizeTextFieldFocusLost
+        int size = getSquareSizeValue();
+
+        if (size != previousSquareSize) {
+            previousSquareSize = size;
+            resetCrossoverPoints();
+        }
+    }//GEN-LAST:event_squareSizeTextFieldFocusLost
 
     /**
      * @param args the command line arguments
@@ -576,8 +644,6 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JCheckBox allowDuplicatesCheckBox;
     private javax.swing.JLabel chronometerLabel;
     private javax.swing.JCheckBox clearLogCheckBox;
-    private javax.swing.JLabel crossoverPointLabel;
-    private javax.swing.JLabel crossoverPointUpToLabel;
     private javax.swing.JLabel eliteDeathPeriodLabel;
     private javax.swing.JTextField eliteDeathPeriodTextField;
     private javax.swing.JLabel eliteSizeLabel;
@@ -594,7 +660,9 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel maximumCrossoverPointLabel;
     private javax.swing.JTextField maximumCrossoverPointTextField;
+    private javax.swing.JLabel minimumCrossoverPointLabel;
     private javax.swing.JTextField minimumCrossoverPointTextField;
     private javax.swing.JLabel mutationProbabilityLabel;
     private javax.swing.JTextField mutationProbabilityTextField;

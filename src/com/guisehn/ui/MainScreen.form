@@ -56,10 +56,10 @@
                               <Component id="chronometerLabel" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
-                              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                              <Component id="jPanel1" min="-2" pref="234" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
@@ -97,11 +97,9 @@
           <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jPanel3" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jPanel1" max="32767" attributes="0"/>
-                      <Component id="jPanel2" max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="jPanel1" max="32767" attributes="0"/>
+                  <Component id="jPanel2" max="32767" attributes="0"/>
+                  <Component id="jPanel3" alignment="0" min="-2" pref="130" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -116,7 +114,7 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane2" pref="441" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" pref="435" max="32767" attributes="0"/>
                   <Component id="jScrollPane1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -231,10 +229,10 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
                       <Group type="102" attributes="0">
                           <Component id="squareSizeLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="squareSizeTextField" min="-2" pref="55" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
@@ -247,7 +245,7 @@
               </Group>
               <Group type="102" alignment="0" attributes="0">
                   <Component id="allowDuplicatesCheckBox" min="-2" pref="246" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="12" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -266,7 +264,7 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="allowDuplicatesCheckBox" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="7" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -284,6 +282,9 @@
               <ComponentRef name="populationSizeTextField"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="squareSizeTextFieldFocusLost"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="populationSizeLabel">
           <Properties>
@@ -322,9 +323,8 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           <Component id="eliteSizeLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="eliteSizeTextField" min="-2" pref="66" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -403,19 +403,20 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="mutationProbabilityLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="mutationProbabilityTextField" max="32767" attributes="0"/>
+                          <Component id="minimumCrossoverPointLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="minimumCrossoverPointTextField" min="-2" pref="40" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="crossoverPointLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="minimumCrossoverPointTextField" min="-2" pref="35" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="crossoverPointUpToLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="maximumCrossoverPointTextField" min="-2" pref="34" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="mutationProbabilityLabel" min="-2" max="-2" attributes="0"/>
+                              <Component id="maximumCrossoverPointLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="mutationProbabilityTextField" pref="40" max="32767" attributes="0"/>
+                              <Component id="maximumCrossoverPointTextField" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -427,17 +428,20 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="crossoverPointLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="minimumCrossoverPointLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="minimumCrossoverPointTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="crossoverPointUpToLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="maximumCrossoverPointTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="maximumCrossoverPointLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="maximumCrossoverPointTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="mutationProbabilityLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="mutationProbabilityTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="36" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -457,9 +461,9 @@
             <Property name="text" type="java.lang.String" value="Chance de muta&#xe7;&#xe3;o (%):"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="crossoverPointLabel">
+        <Component class="javax.swing.JLabel" name="minimumCrossoverPointLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Ponto de crossover:"/>
+            <Property name="text" type="java.lang.String" value="Ponto m&#xed;nimo:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="minimumCrossoverPointTextField">
@@ -470,17 +474,17 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="crossoverPointUpToLabel">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="a"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JTextField" name="maximumCrossoverPointTextField">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value=""/>
             <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
               <ComponentRef name="startButton"/>
             </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="maximumCrossoverPointLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Ponto m&#xe1;ximo:"/>
           </Properties>
         </Component>
       </SubComponents>
