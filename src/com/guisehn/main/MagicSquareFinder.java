@@ -221,6 +221,8 @@ public class MagicSquareFinder {
                     .append("\n---");
             }
         }
+        
+        log.append("\n");
     }
     
     /**
