@@ -4,19 +4,44 @@ Trabalho Prático de Inteligência Artificial - UNISC 2016/1
 
 Alunos: Gabriel Bittencourt, Guilherme Sehn, Mateus Leonhardt
 
-Este aplicativo encontra quadrados mágicos através de algoritmo genético. Quadrados mágicos são matrizes quadradas onde
-a soma de todas as linhas e colunas, e das diagonais principais e secundárias, resultam no mesmo valor, e não podem possuir números repetidos. Abaixo
-um exemplo de um quadrado mágico 3x3.
+Este aplicativo encontra [quadrados mágicos](https://pt.wikipedia.org/wiki/Quadrado_m%C3%A1gico) através de algoritmo genético. Um quadrado mágico é uma tabela quadrada de números em progressão aritmética em que a soma de cada coluna, de cada linha e das duas diagonais são iguais.
 
-```
-2 7 6
-9 5 1
-4 3 8
-```
+![Quadrado mágico](https://wikimedia.org/api/rest_v1/media/math/render/svg/3bc23e727d4029de3d46c2b70b8eafd4fa718b70)
 
-## Definições fixas
+## Opções do programa
+![User interface](https://cloud.githubusercontent.com/assets/830208/16548042/c9d52c22-4157-11e6-8f2f-a925643891bb.png)
 
-As definições abaixo são fixas no aplicativo e não é possível mudá-las através da interface de usuário.
+### População
+
+As opções disponíveis são:
+
+1. **Tamanho da matriz:** tamanho do lado do quadrado mágico a ser encontrado.
+
+2. **Tamanho da população:** quantidade de indivíduos na população. Este número é fixo para todas as gerações.
+
+3. **Permitir indivíduos idênticos:** o algoritmo tende a gerar indivíduos idênticos enquanto avança, dificultando a convergência. Se esta opção é marcada, o algoritmo não irá permitir indivíduos duplicados na população. Quando isso ocorrer, se um cruzamento resultar em um indivíduo que já está na próxima geração, este será descartado e outros dois pais serão selecionados dentro da *mating pool* para gerar um novo indivíduo. É recomendado manter esta opção ativa para convergência mais rápida.
+
+### Elitismo
+
+1. **Tamanho da elite:** a quantidade de indivíduos com maior aptidão entre a população que serão transferidos para a próxima geração automaticamente. Deve ser menor que o tamanho da população, caso contrário o algoritmo não irá gerar novos indivíduos. Caso seja definido como 0, não haverá elitismo na execução do algoritmo genético. Nos testes realizados, foi percebido que uma elite grande em relação à população acelera a convergência.
+
+2. **Período de morte da elite**: valor que indica a quantidade máxima de gerações em que a elite pode sobreviver sem que o algoritmo encontre novos quadrados mágicos. Se o valor 0 for informado, esta opção é desabilitada. Se um número positivo *N* for informado, após *N* gerações do algoritmo genético sem resultar em novos quadrados mágicos, a elite será desconsiderada da *mating pool* e não será transferida para a próxima geração. Após isso, uma nova elite será formada através do cruzamento dos indivíduos restantes na população. Manter esta opção ativada geralmente melhora a performance do algoritmo genético para este problema específico.
+
+### Cruzamento
+
+1. **Ponto mínimo e ponto máximo:** o cruzamento implementado no programa é de um ponto apenas. Este ponto é gerado aleatoriamente, e o usuário pode informar nestes campos os pontos mínimos e máximo aceitos, que podem ir de `0` até `N-1`, onde `N` é o tamanho do vetor do quadrado mágico (9 para um quadrado 3x3). Mais informações podem ser vistas na seção sobre [função de cruzamento](#função-de-cruzamento).
+
+2. **Chance de mutação:** porcentagem dos novos indivíduos gerados por cruzamento que sofrerão [mutação](#funcionamento-da-mutação).
+
+### Saída
+
+1. **Exibir histórico completo:** Se marcado, o sistema irá exibir informações completas sobre a origem dos indivíduos na seção de histórico (primeiro pai, segundo pai, se faz parte da elite, e pontos de mutação). Para melhor performance, recomenda-se deixar desativado.
+
+2. **Gravar histórico completo em arquivo:** Se marcado, irá criar um novo arquivo na pasta `output` no mesmo diretório onde o programa se encontra com todo o histórico de gerações. Recomenda-se deixar desmarcado para melhor performance e evitar uso de espaço em disco. **Importante: os arquivos gerados podem se tornar grandes rapidamente devido a quantidade de dados gerados. Uma execução para quadrados 4x4 pode ocupar mais de 1 GB de dados de histórico.**
+
+3. **Limpar histórico periodicamente:** Caso esteja desmarcado, o aplicativo tentará mostrar o histórico completo de gerações do algoritmo genético na tela. **Importante: É recomendado manter ativado, caso contrário haverá estouro de memória após um determinado tempo de execução.**
+
+## Técnicas utilizadas
 
 ### Representação do indivíduo
 
@@ -87,76 +112,76 @@ Aptidão = soma de todos N = 9+0+9+3+0+3+0+0 = 24
 ### Seleção para cruzamento
 Os indivíduos são selecionados para cruzamento através da [técnica de torneio](https://en.wikipedia.org/wiki/Tournament_selection). O tamanho da *mating pool* é sempre igual à metade do tamanho da população.
 
-Sendo o tamanho da população 200, teremos um `mating pool` do tamanho 100. A cada geração, instancia-se uma *mating pool* vazia. Selecionam-se dois indivíduos aleatórios na população, e o que tiver maior cálculo de aptidão entre eles é inserido na *mating pool*. Caso ocorra empate, o segundo indivíduo selecionado é adicionado à *mating pool*. Repete-se o processo até que a lista seja preenchida completamente.
+Sendo o tamanho da população 200, teremos um `mating pool` do tamanho 100. A cada geração, instancia-se uma *mating pool* vazia. Selecionam-se dois indivíduos aleatórios na população, e o que tiver maior cálculo de aptidão entre eles é inserido na *mating pool*. Caso ocorra empate, um dos indivíduos é selecionado para a *mating pool*. Repete-se o processo até que a lista chegue no tamanho esperado.
 
 ### Função de cruzamento
-Uma das características de quadrados mágicos é não poder repetir elementos, ou seja, não podemos ter genes repetidos no nosso vetor de representaçào do indivíduo. Os métodos de cruzamento mais básicos são inviáveis pois geram indivíduos inválidos com probabilidade muito alta. Por conta disso, tornou-se necessário buscar um método de cruzamento mais sofisticado.
+Uma das características de quadrados mágicos é não poder repetir elementos, ou seja, não é permitido ter genes repetidos no vetor de representaçào do indivíduo. Os métodos de cruzamento mais básicos são inviáveis pois geram indivíduos inválidos com probabilidade muito alta. Por conta disso, torna-se necessário buscar um método de cruzamento mais sofisticado.
 
-Utilizamos a função de cruzamento proposta no artigo [Genetic Algorithm Solution of the TSP Avoiding Special Crossover and Mutation](http://www.ceng.metu.edu.tr/~ucoluk/research/publications/tspnew.pdf) do autor Göktürk Üçoluk. Ele propõe um método de cruzamento para o problema do caixeiro-viajante (ou TSP, de *travelling salesman problem*), mas que também pode ser utilizado para o problema do quadrado mágico, visto que ambos utilizam codificação por permutação, na qual os genes não podem se repetir.
+Foi utilizada a função de cruzamento proposta no artigo [*Genetic Algorithm Solution of the TSP Avoiding Special Crossover and Mutation*](http://www.ceng.metu.edu.tr/~ucoluk/research/publications/tspnew.pdf) pelo autor Göktürk Üçoluk. O artigo propõe um método de cruzamento para o [*TSP - Travelling Salesman Problem*](https://en.wikipedia.org/wiki/Travelling_salesman_problem) (problema do caixeiro-viajante), mas que também pode ser utilizado para o problema do quadrado mágico, visto que ambos utilizam codificação por permutação, na qual os genes não podem se repetir.
 
 Cada cruzamento utiliza dois indivíduos como parentes. Para cada parente é calculado um vetor denominado sequência de inversão, que é uma representação alternativa e reversível do mesmo indivíduo. Por reversível entende-se que, através da sequência de inversão, é possível recalcular a representação original do indivíduo.
 
 #### Cálculo da sequência de inversão
 
-Inicia-se um vetor `V` com o mesmo tamanho do vetor que representa o indivíduo. Consideramos, para facilitar a explicação, que o vetor inicia no índice 1. Na implementação, no entanto, torna-se necessário um cálculo adicional já que o primeiro índice de um vetor é `0` na linguagem de programação Java.
+Inicia-se o cálculo com um vetor vazio `inv` com o mesmo tamanho do vetor que representa o indivíduo. Para facilitar a explicação desta etapa, será considerado que o vetor inicia no índice 1.
 
-Para cada posição do vetor (seja `i` a posição do vetor), procura-se a localização de `i` no vetor de representação original do quadrado mágico, e conta-se quantos indivíduos à esquerda de `i` possuem valor maior que ele. O resultado desta conta é o valor na posição `i` da sequência de inversão.
+Para cada posição do vetor (seja `i` a posição do vetor), procura-se a localização do número `i` no vetor de representação original do quadrado mágico, e conta-se quantos indivíduos à esquerda de `i` possuem valor maior que ele. O resultado desta conta é o valor na posição `i` da sequência de inversão.
 
 ##### Exemplo
 
-Para o vetor de representação normal `[2, 7, 6, 9, 5, 1, 4, 3, 8]`, iniciamos um novo vetor de mesmo tamanho que irá representar a sua sequência de inversão. Executamos, iniciando de 1, os seguintes cálculos:
+Para o vetor de representação normal `[2, 7, 6, 9, 5, 1, 4, 3, 8]`, iniciamos um novo vetor de mesmo tamanho que irá representar a sua sequência de inversão. Executa-se, iniciando de 1, os seguintes cálculos:
 
-1. O valor 1 está localizado na sexta posição do vetor original. À esquerda, possuimos cinco números maiores: 2, 7, 6, 9 e 5. Portanto, o valor na posição 1 da sequência de inversão será 5.
+1. O valor 1 está localizado na sexta posição do vetor original. À esquerda, possuimos cinco números maiores: 2, 7, 6, 9 e 5. Portanto, o valor na posição 1 da sequência de inversão será 5. Nesse passo, `inv = [5, _, _, _, _, _, _, _, _]`.
 
-2. O valor 2 está localizado na primeira posição do vetor original. À esquerda, não possuimos nenhum número, portanto o valor na posição 2 da sequência de inversão será 0.
+2. O valor 2 está localizado na primeira posição do vetor original. À esquerda, não possuimos nenhum número, portanto o valor na posição 2 da sequência de inversão será 0. Nesse passo, `inv = [5, 0, _, _, _, _, _, _, _]`.
 
-3. O valor 3 está localizado na oitava posição do vetor original. À esquerda, possuimos cinco números maiores: 7, 6, 9, 5 e 4. Portanto, o valor na posição 3 da sequência de inversão será 5.
+3. O valor 3 está localizado na oitava posição do vetor original. À esquerda, possuimos cinco números maiores: 7, 6, 9, 5 e 4. Portanto, o valor na posição 3 da sequência de inversão será 5. Nesse passo, `inv = [5, 0, 5, _, _, _, _, _, _]`.
 
-4. O valor 4 está localizado na sétima posição do vetor original. À esquerda, possuimos quatro números maiores: 7, 6, 9 e 5. Portanto, o valor na posição 4 da sequência de inversão será 4.
+4. O valor 4 está localizado na sétima posição do vetor original. À esquerda, possuimos quatro números maiores: 7, 6, 9 e 5. Portanto, o valor na posição 4 da sequência de inversão será 4. Nesse passo, `inv = [5, 0, 5, 4, _, _, _, _, _]`.
 
-E assim por diante... Ao final, teremos a seguinte sequência de inversão calculada para este indivíduo:
+Repetem-se estes passos para as demais posições, e ao final encontra-se a seguinte sequência de inversão calculada para este indivíduo:
 
 `[5, 0, 5, 4, 3, 1, 0, 1, 0]`
 
-Esta representação é mais favorável para o cruzamento pois nela podemos repetir números sem gerar quadrados inválidos, e ao final, podemos reverter o cruzamento para a representação original do vetor tendo como resultado um quadrado mágico válido, sem genes de valores repetidos.
+Esta representação é adequada para o cruzamento pois nela é permitido repetir genes mantendo ainda assim uma representação válida de quadrado mágico. Ao final, reverte-se os filhos do cruzamento para a representação original do vetor tendo como resultado um quadrado mágico válido, sem genes de valores repetidos.
 
 #### Geração dos filhos
 
-Tendo a sequência de inversão calculada para os dois parentes, é utilizado o cruzamento de um ponto para gerar dois filhos. O ponto de cruzamento é gerado aleatoriamente entre os limites `A` e `B` definidos na interface do aplicativo. O ponto pode ser de `0` a `N-1`, sendo N o tamanho do vetor (N=9 para quadrados 3x3). Nesse momento estamos representando o vetor iniciando no índice 0.
+Tendo a sequência de inversão calculada para os dois parentes, é utilizado o cruzamento simples de um ponto para gerar dois filhos. O ponto de cruzamento é gerado aleatoriamente entre os limites `A` e `B` definidos na interface do aplicativo. O ponto pode ser de `0` a `N-1`, sendo N o tamanho do vetor (N é 9 para quadrados 3x3). Para a descrição desta etapa, será considerado que o vetor se inicia no índice 0.
 
 ##### Exemplo
 
-Tendo duas sequências de inversão `[5, 0, 5, 4, 3, 1, 0, 1, 0]` (parente 1) e `[1, 6, 6, 0, 0, 0, 2, 1, 0]` (parente 2), e ponto de cruzamento 5, geramos dois filhos.
+Tendo duas sequências de inversão `[5, 0, 5, 4, 3, 1, 0, 1, 0]` (parente 1) e `[1, 6, 6, 0, 0, 0, 2, 1, 0]` (parente 2), e ponto de cruzamento 5, são gerados dois filhos.
 
 O primeiro possui uma cópia até a posição 5 (inclusive) do parente 1 e o restante do parente 2, e o segundo possui uma cópia até a posição 5 (inclusive) do parente 2 e o restante do parente 1. Portanto:
 
 - Filho 1 = `[5, 0, 5, 4, 3, 1, 2, 1, 0]`
 - Filho 2 = `[1, 6, 6, 0, 0, 0, 0, 1, 0]`
 
-Os filhos estão representados como sequência de inversão. Agora é necessário transformá-los de volta para a representação por permutação do problema.
+Os filhos, assim como os pais, estão representados como sequências de inversão. Agora é necessário transformá-los de volta para a representação original do problema (por permutação).
 
 #### Reversão da sequência de inversão
 
-Para transformar um vetor na sequência de inversão para a representação comum do quadrado mágico, primeiro precisamos compor um vetor intermediário.
+Para transformar um vetor na sequência de inversão para a representação original do quadrado mágico (permutação), é necessário primeiro  compor um vetor intermediário.
 
 ##### Composição do vetor intermediário
 
-Chamaremos o vetor intermediário como `pos`, e o vetor de sequência de inversão como `inv`.
+O vetor intermediário será chamado de `pos`, e o vetor de sequência de inversão como `inv`.
 
 O algoritmo é descrito abaixo:
 
-1. Iniciar o vetor `pos` com a mesma quantidade de posições que `inv`.
+1. Iniciar o vetor `pos` vazio com a mesma quantidade de posições que `inv`.
 2. Iniciar iteração (`i`) de `N-1` (última posição do vetor) até `0` (primeira posição do vetor), Dentro dessa iteração:
   1. Copiar `inv[i]` para `pos[i]`
-  2. Comparar todos os valores à direita do índice `i` em `pos` com `inv`. Para cada item que é maior em `pos` que em `inv`, incrementá-lo.
+  2. Comparar todos os valores à direita do índice `i` em `pos` com `inv`. Para cada item à direita do índice `i` em `pos` maior que `inv[i]`, incrementar o índice em `pos`.
   
-Tendo o vetor intermediário (`pos`) formado, podemos utilizá-lo para montar o vetor na representação original.
+Tendo o vetor intermediário (`pos`) formado, é possível utilizá-lo para montar o vetor na representação original.
 
 ##### Transformação para representação original
 
-Chamaremos o quadrado final de `square`.
+O quadrado final, em representação por permutação, será chaamado de `square`.
 
-Para cada `i` (posição, iniciando de `0`) em `pos`, iremos definir o índice `pos[i]` de `square` para `i+1`.
+Para cada `i` (posição, iniciando de `0`) em `pos`, será definido o índice `pos[i]` de `square` para `i+1`.
 
 ###### Exemplo
 
@@ -242,7 +267,7 @@ Alguns logs de execução contendo quadrados mágicos encontrados e o tempo nece
 
 ## Comparação com força bruta
 
-Uma outra versão do aplicativo utilizando apenas força bruta com permutação pode ser encontrada em:
+Uma versão deste aplicativo utilizando apenas força bruta através de permutação foi desenvolvida e pode ser encontrada em:
 https://github.com/guisehn/magic-square-finder
 
 Ele demora diversas horas para encontrar quadrados mágicos acima do tamanho 3x3. Mais detalhes podem ser vistos na página do repositório.
