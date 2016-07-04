@@ -342,10 +342,12 @@ public class MagicSquareFinder {
                 parent2.getSquare(), minimumCrossoverPoint, maximumCrossoverPoint);
 
         int[][] children = result.getChildren();
-        int[] mutationPoints = null;
+        int[][] mutationPoints = new int[children.length][];
  
         // Mutação
-        for (int[] child : children) {
+        for (int i = 0; i < children.length; i++) {
+            int[] child = children[i];
+
             if (Math.random() <= mutationProbability) {
                 int index1, index2;
                 
@@ -359,8 +361,10 @@ public class MagicSquareFinder {
                 child[index1] = child[index2];
                 child[index2] = aux;
 
-                mutationPoints = new int[] { index1, index2 };
-            }   
+                mutationPoints[i] = new int[] { index1, index2 };
+            } else {
+                mutationPoints[i] = null;
+            }
         }
         
         // Monta os objetos do tipo Individual
@@ -368,7 +372,7 @@ public class MagicSquareFinder {
         
         for (int i = 0; i < individuals.length; i++) {
             individuals[i] = new Individual(children[i], parent1.getSquare(),
-                parent2.getSquare(), mutationPoints, result.getDetails(),
+                parent2.getSquare(), mutationPoints[i], result.getDetails(),
                 fitnessCalculator);
         }
         
