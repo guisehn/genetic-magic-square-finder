@@ -65,9 +65,10 @@ public class Crossover2 implements CrossoverOperator {
         int[] pos = new int[N];
         
         for (int i = N - 1; i >= 0; i--) {
+            pos[i] = inv[i];
+
             for (int m = i + 1; m < N; m++) {
                 if (pos[m] >= inv[i]) pos[m]++;
-                pos[i] = inv[i];
             }
         }
         
