@@ -3,3 +3,8 @@
 /logs/
 /nbproject/private/
 .DS_Store
+/misc/crossover-verifier/CrossoverVerifier/build/
+/misc/crossover-verifier/CrossoverVerifier/nbproject/private/
+/misc/crossover-verifier/build/
+/misc/crossover-verifier/dist/
+/misc/crossover-verifier/nbproject/private/
