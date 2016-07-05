@@ -300,13 +300,6 @@ public class MagicSquareFinder {
         while (population.size() < populationSize) {
             Individual i1 = Utils.getRandom(matingPool);
             Individual i2 = Utils.getRandom(matingPool);
-            
-            // Não permite que indivíduo cruze consigo mesmo pois irá gerar
-            // filho idêntico.
-            if (i1 == i2) {
-                continue;
-            }
-            
             Individual[] children = crossoverAndMutate(i1, i2);
             
             if (allowDuplicates) {
