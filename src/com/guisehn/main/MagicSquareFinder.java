@@ -112,7 +112,8 @@ public class MagicSquareFinder {
         log.setLength(0);
 
         generateInitialPopulation();
-
+        boolean published;
+        
         while (!thread.isInterrupted()) {
             sortPopulation();
             addCurrentGenerationToLog();
@@ -120,11 +121,14 @@ public class MagicSquareFinder {
             // Publica o log para a saída a cada N gerações.
             if (generationCount == 0 || generationCount % 200 == 0) {
                 publishAndClearLog();
+                published = true;
+            } else {
+                published = false;
             }
             
             addAndPublishMagicSquares();
             
-            if (checkForCompletion()) {
+            if (checkForCompletion(published)) {
                 break;
             }
             
@@ -182,7 +186,7 @@ public class MagicSquareFinder {
      * Verifica se já encontrou todos os quadrados mágicos esperados.
      * @return Retorna verdadeiro se encontrou todos e deve encerrar algoritmo.
      */
-    private boolean checkForCompletion() {
+    private boolean checkForCompletion(boolean published) {
         int amountFound = magicSquaresFound.size();
         
         if (!thread.isInterrupted() && (
@@ -192,8 +196,11 @@ public class MagicSquareFinder {
         ) {
             listener.actionPerformed(new ActionEvent(this, SEARCH_ENDED_EVENT,
                 null));
+           
+            if (!published) {
+                publishAndClearLog();
+            }
             
-            publishAndClearLog();
             return true;
         }
         
