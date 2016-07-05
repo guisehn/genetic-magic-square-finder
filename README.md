@@ -241,15 +241,15 @@ Montagem do quadrado final:
 pos = [5, 0, 7, 6, 4, 2, 8, 3, 1]
 square = [_, _, _, _, _, _, _, _, _] // todas as posições vazias no início
 
-Iteração 0: pos[0] é 5, logo square[5] é 1 -- square = [_, _, _, _, _, 1, _, _, _]
-Iteração 1: pos[1] é 0, logo square[0] é 2 -- square = [2, _, _, _, _, 1, _, _, _]
-Iteração 2: pos[2] é 7, logo square[7] é 3 -- square = [2, _, _, _, _, 1, _, 3, _]
-Iteração 3: pos[3] é 6, logo square[6] é 4 -- square = [2, _, _, _, _, 1, 4, 3, _]
-Iteração 4: pos[4] é 4, logo square[4] é 5 -- square = [2, _, _, _, 5, 1, 4, 3, _]
-Iteração 5: pos[5] é 2, logo square[2] é 6 -- square = [2, _, 6, _, 5, 1, 4, 3, _]
-Iteração 5: pos[6] é 8, logo square[8] é 7 -- square = [2, _, 6, _, 5, 1, 4, 3, 7]
-Iteração 5: pos[7] é 3, logo square[3] é 8 -- square = [2, _, 6, 8, 5, 1, 4, 3, 7]
-Iteração 5: pos[8] é 1, logo square[1] é 9 -- square = [2, 9, 6, 8, 5, 1, 4, 3, 7]
+Iteração 1: pos[0] é 5, logo square[5] é 1 -- square = [_, _, _, _, _, 1, _, _, _]
+Iteração 2: pos[1] é 0, logo square[0] é 2 -- square = [2, _, _, _, _, 1, _, _, _]
+Iteração 3: pos[2] é 7, logo square[7] é 3 -- square = [2, _, _, _, _, 1, _, 3, _]
+Iteração 4: pos[3] é 6, logo square[6] é 4 -- square = [2, _, _, _, _, 1, 4, 3, _]
+Iteração 5: pos[4] é 4, logo square[4] é 5 -- square = [2, _, _, _, 5, 1, 4, 3, _]
+Iteração 6: pos[5] é 2, logo square[2] é 6 -- square = [2, _, 6, _, 5, 1, 4, 3, _]
+Iteração 7: pos[6] é 8, logo square[8] é 7 -- square = [2, _, 6, _, 5, 1, 4, 3, 7]
+Iteração 8: pos[7] é 3, logo square[3] é 8 -- square = [2, _, 6, 8, 5, 1, 4, 3, 7]
+Iteração 9: pos[8] é 1, logo square[1] é 9 -- square = [2, 9, 6, 8, 5, 1, 4, 3, 7]
 ```
 
 Ao final, `square` é `[2, 9, 6, 8, 5, 1, 4, 3, 7]`.
