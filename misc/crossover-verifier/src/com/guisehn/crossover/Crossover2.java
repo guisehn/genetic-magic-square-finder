@@ -140,8 +140,9 @@ public class Crossover2 implements CrossoverOperator {
         
         int[] square = new int[N];
         for (int i = 0; i < N; i++) {
-            System.out.println("Iteração " + i + ": pos[" + i + "] é " + pos[i]
-                + ", logo square[" + pos[i] + "] é " + (i+1));
+            System.out.println("Iteração " + (i + 1) + ": pos[" + i + "] é "
+                + pos[i] + ", logo square[" + pos[i] + "] é " + (i + 1));
+
             square[pos[i]] = i + 1;
         }
         
