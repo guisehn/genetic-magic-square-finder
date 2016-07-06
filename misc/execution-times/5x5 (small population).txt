@@ -1,12 +1,12 @@
 Tamanho da matriz: 5
-Tamanho da população: 20
+Tamanho da populaÃ§Ã£o: 20
 Tamanho da elite: 10
 Periodo de morte da elite: 60000
 Ponto minimo (cruzamento): 1
 Ponto maximo (cruzamento): 23
-Chance de mutação: 50%
-Exibir histórico completo: não
-Permitir indivíduos idênticos: não
+Chance de mutaÃ§Ã£o: 50%
+Exibir histÃ³rico completo: nÃ£o
+Permitir indivÃ­duos idÃªnticos: nÃ£o
 ---
 
 Quadrado 1 encontrado aos 00:00:54
@@ -16,11 +16,11 @@ Quadrado 1 encontrado aos 00:00:54
 7	6	22	9	21
 25	13	1	23	3
 
-Nº da geração: 154777
+NÂº da geraÃ§Ã£o: 154777
 Pai 1: [19, 18, 20, 9, 2, 6, 11, 13, 14, 15, 4, 23, 16, 8, 12, 5, 21, 17, 10, 22, 25, 7, 1, 24, 3]
 Pai 2: [24, 18, 11, 10, 1, 5, 12, 14, 15, 19, 4, 16, 17, 8, 20, 7, 6, 22, 9, 21, 25, 13, 2, 23, 3]
 Ponto de cruzamento: 1
-Houve mutação? não
+Houve mutaÃ§Ã£o? nÃ£o
 
 Quadrado 2 encontrado aos 00:00:54
 24	18	11	10	2
@@ -29,11 +29,11 @@ Quadrado 2 encontrado aos 00:00:54
 7	6	22	9	21
 25	13	1	23	3
 
-Nº da geração: 154980
+NÂº da geraÃ§Ã£o: 154980
 Pai 1: [24, 18, 11, 10, 1, 5, 12, 14, 15, 7, 4, 16, 17, 8, 20, 19, 6, 22, 9, 21, 25, 13, 2, 23, 3]
 Pai 2: [24, 18, 11, 10, 2, 4, 12, 14, 15, 20, 5, 16, 17, 8, 19, 7, 6, 21, 9, 22, 25, 13, 1, 23, 3]
 Ponto de cruzamento: 18
-Houve mutação? não
+Houve mutaÃ§Ã£o? nÃ£o
 
 Quadrado 3 encontrado aos 00:02:04
 11	22	16	12	4
@@ -42,11 +42,11 @@ Quadrado 3 encontrado aos 00:02:04
 17	14	3	7	24
 9	8	13	25	10
 
-Nº da geração: 351282
+NÂº da geraÃ§Ã£o: 351282
 Pai 1: [11, 22, 15, 12, 4, 5, 19, 16, 20, 6, 23, 2, 18, 1, 21, 17, 14, 3, 7, 24, 9, 8, 13, 25, 10]
 Pai 2: [1, 11, 22, 15, 5, 6, 12, 18, 16, 4, 20, 2, 21, 19, 23, 17, 14, 3, 7, 24, 9, 8, 13, 25, 10]
 Ponto de cruzamento: 20
-Houve mutação? sim, em [2, 7]
+Houve mutaÃ§Ã£o? sim, em [2, 7]
 
 Quadrado 4 encontrado aos 00:10:50
 1	20	18	9	17
@@ -55,11 +55,11 @@ Quadrado 4 encontrado aos 00:10:50
 23	6	8	16	12
 15	11	7	22	10
 
-Nº da geração: 1712230
+NÂº da geraÃ§Ã£o: 1712230
 Pai 1: [2, 20, 18, 9, 17, 1, 25, 19, 14, 5, 24, 3, 13, 4, 21, 23, 6, 8, 16, 12, 15, 11, 7, 22, 10]
 Pai 2: [1, 19, 17, 9, 18, 2, 6, 25, 14, 4, 24, 3, 10, 5, 21, 23, 20, 8, 16, 11, 15, 12, 7, 22, 13]
 Ponto de cruzamento: 2
-Houve mutação? não
+Houve mutaÃ§Ã£o? nÃ£o
 
 Quadrado 5 encontrado aos 00:13:25
 3	7	22	25	8
@@ -68,11 +68,11 @@ Quadrado 5 encontrado aos 00:13:25
 6	24	5	18	12
 17	10	1	16	21
 
-Nº da geração: 2085677
+NÂº da geraÃ§Ã£o: 2085677
 Pai 1: [3, 7, 22, 25, 8, 20, 9, 23, 2, 11, 19, 15, 14, 4, 12, 6, 24, 5, 18, 13, 17, 10, 1, 16, 21]
 Pai 2: [3, 7, 22, 25, 8, 19, 9, 23, 2, 12, 24, 15, 14, 5, 11, 6, 18, 4, 20, 13, 17, 10, 1, 16, 21]
 Ponto de cruzamento: 1
-Houve mutação? sim, em [19, 14]
+Houve mutaÃ§Ã£o? sim, em [19, 14]
 
 Quadrado 6 encontrado aos 00:16:09
 6	9	7	24	19
@@ -81,11 +81,11 @@ Quadrado 6 encontrado aos 00:16:09
 22	13	16	11	3
 12	23	5	15	10
 
-Nº da geração: 2507642
+NÂº da geraÃ§Ã£o: 2507642
 Pai 1: [6, 9, 7, 24, 19, 4, 18, 17, 1, 25, 20, 2, 21, 11, 8, 22, 13, 16, 14, 3, 12, 23, 5, 15, 10]
 Pai 2: [6, 9, 7, 24, 19, 5, 18, 17, 1, 25, 21, 2, 20, 14, 8, 22, 13, 16, 11, 3, 12, 23, 4, 15, 10]
 Ponto de cruzamento: 8
-Houve mutação? não
+Houve mutaÃ§Ã£o? nÃ£o
 
 Quadrado 7 encontrado aos 00:16:57
 13	6	14	21	11
@@ -94,11 +94,11 @@ Quadrado 7 encontrado aos 00:16:57
 5	23	10	15	12
 24	9	17	7	8
 
-Nº da geração: 2631921
+NÂº da geraÃ§Ã£o: 2631921
 Pai 1: [13, 7, 14, 21, 11, 1, 25, 20, 3, 16, 22, 2, 4, 19, 18, 5, 23, 10, 15, 12, 24, 8, 17, 6, 9]
 Pai 2: [13, 6, 14, 20, 11, 1, 25, 19, 3, 18, 22, 2, 4, 21, 16, 5, 23, 10, 15, 12, 24, 9, 17, 7, 8]
 Ponto de cruzamento: 10
-Houve mutação? não
+Houve mutaÃ§Ã£o? nÃ£o
 
 Quadrado 8 encontrado aos 00:26:23
 23	6	10	22	4
@@ -107,11 +107,11 @@ Quadrado 8 encontrado aos 00:26:23
 7	25	14	1	18
 3	20	16	2	24
 
-Nº da geração: 3955238
+NÂº da geraÃ§Ã£o: 3955238
 Pai 1: [23, 6, 10, 22, 4, 15, 5, 13, 21, 11, 17, 9, 12, 19, 8, 7, 25, 14, 1, 18, 2, 20, 16, 3, 24]
 Pai 2: [6, 22, 10, 4, 24, 15, 5, 12, 21, 11, 9, 18, 14, 7, 8, 17, 25, 13, 1, 19, 3, 20, 16, 2, 23]
 Ponto de cruzamento: 2
-Houve mutação? não
+Houve mutaÃ§Ã£o? nÃ£o
 
 Quadrado 9 encontrado aos 00:29:20
 14	19	10	16	6
@@ -120,11 +120,11 @@ Quadrado 9 encontrado aos 00:29:20
 21	23	8	9	4
 12	15	1	20	17
 
-Nº da geração: 4340881
+NÂº da geraÃ§Ã£o: 4340881
 Pai 1: [14, 19, 7, 18, 6, 11, 3, 24, 2, 25, 8, 5, 23, 16, 13, 20, 22, 10, 9, 4, 12, 15, 1, 21, 17]
 Pai 2: [14, 19, 10, 16, 6, 11, 2, 24, 3, 25, 7, 5, 22, 18, 13, 21, 23, 8, 9, 4, 12, 15, 1, 20, 17]
 Ponto de cruzamento: 4
-Houve mutação? não
+Houve mutaÃ§Ã£o? nÃ£o
 
 Quadrado 10 encontrado aos 00:30:26
 15	24	5	4	17
@@ -133,10 +133,10 @@ Quadrado 10 encontrado aos 00:30:26
 19	9	3	20	14
 12	8	13	25	7
 
-Nº da geração: 4487177
+NÂº da geraÃ§Ã£o: 4487177
 Pai 1: [15, 24, 17, 4, 18, 23, 3, 1, 6, 16, 22, 21, 10, 11, 19, 9, 20, 2, 14, 8, 12, 5, 13, 25, 7]
 Pai 2: [15, 24, 5, 4, 17, 20, 2, 23, 6, 14, 1, 22, 21, 10, 11, 18, 9, 3, 19, 16, 12, 8, 13, 25, 7]
 Ponto de cruzamento: 10
-Houve mutação? não
+Houve mutaÃ§Ã£o? nÃ£o
 
 Busca encerrada.
