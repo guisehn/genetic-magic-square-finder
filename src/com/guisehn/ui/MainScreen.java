@@ -632,9 +632,9 @@ public class MainScreen extends javax.swing.JFrame {
             return; 
         }
 
-        if (eliteSize >= populationSize) {
-            showMessageDialog(null, "O tamanho da elite deve ser menor que o"
-                + " tamanho da população geral");
+        if (eliteSize + 1 >= populationSize) {
+            showMessageDialog(null, "O tamanho da elite deve ter no mínimo "
+                + " dois indivíduos a menos que a população total");
             populationSizeTextField.requestFocus();
             return; 
         }
