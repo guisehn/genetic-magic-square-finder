@@ -179,7 +179,7 @@ Tendo o vetor intermediário (`pos`) formado, é possível utilizá-lo para mont
 
 ##### Transformação para representação original
 
-O quadrado final, em representação por permutação, será chaamado de `square`.
+O quadrado final, em representação por permutação, será chamado de `square`.
 
 Para cada `i` (posição, iniciando de `0`) em `pos`, será definido o índice `pos[i]` de `square` para `i+1`.
 
