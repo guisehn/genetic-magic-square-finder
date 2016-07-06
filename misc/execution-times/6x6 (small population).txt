@@ -1,4 +1,4 @@
-Tamanho da matriz: 5
+Tamanho da matriz: 6
 Tamanho da população: 20
 Tamanho da elite: 10
 Periodo de morte da elite: 60000
