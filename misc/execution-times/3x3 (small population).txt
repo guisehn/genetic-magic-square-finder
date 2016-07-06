@@ -1,0 +1,100 @@
+Tamanho da matriz: 3
+Tamanho da população: 10
+Tamanho da elite: 5
+Periodo de morte da elite: 1000
+Ponto minimo (cruzamento): 1
+Ponto maximo (cruzamento): 7
+Chance de mutação: 50%
+Exibir histórico completo: não
+Permitir indivíduos idênticos: não
+---
+
+Quadrado 1 encontrado aos 00:00:00
+8	3	4
+1	5	9
+6	7	2
+
+Nº da geração: 238
+Pai 1: [8, 1, 4, 3, 5, 9, 6, 7, 2]
+Pai 2: [8, 1, 4, 3, 5, 9, 6, 7, 2]
+Ponto de cruzamento: 6
+Houve mutação? sim, em [3, 1]
+
+Quadrado 2 encontrado aos 00:00:00
+4	9	2
+3	5	7
+8	1	6
+
+Nº da geração: 2771
+Pai 1: [5, 9, 2, 3, 4, 7, 8, 1, 6]
+Pai 2: [5, 9, 2, 3, 4, 7, 8, 1, 6]
+Ponto de cruzamento: 3
+Houve mutação? sim, em [4, 0]
+
+Quadrado 3 encontrado aos 00:00:00
+6	1	8
+7	5	3
+2	9	4
+
+Nº da geração: 3004
+Pai 1: [5, 1, 8, 7, 6, 3, 2, 9, 4]
+Pai 2: [7, 4, 6, 1, 5, 2, 8, 9, 3]
+Ponto de cruzamento: 6
+Houve mutação? sim, em [0, 4]
+
+Quadrado 4 encontrado aos 00:00:00
+2	7	6
+9	5	1
+4	3	8
+
+Nº da geração: 3290
+Pai 1: [2, 5, 3, 1, 6, 7, 4, 9, 8]
+Pai 2: [2, 6, 7, 9, 5, 1, 4, 3, 8]
+Ponto de cruzamento: 6
+Houve mutação? sim, em [2, 1]
+
+Quadrado 5 encontrado aos 00:00:00
+6	7	2
+1	5	9
+8	3	4
+
+Nº da geração: 5762
+Pai 1: [1, 6, 7, 9, 8, 2, 4, 3, 5]
+Pai 2: [6, 7, 2, 1, 4, 9, 8, 3, 5]
+Ponto de cruzamento: 5
+Houve mutação? sim, em [4, 8]
+
+Quadrado 6 encontrado aos 00:00:00
+8	1	6
+3	5	7
+4	9	2
+
+Nº da geração: 6185
+Pai 1: [8, 1, 6, 4, 5, 7, 3, 9, 2]
+Pai 2: [8, 4, 9, 6, 1, 7, 3, 2, 5]
+Ponto de cruzamento: 6
+Houve mutação? sim, em [3, 6]
+
+Quadrado 7 encontrado aos 00:00:01
+2	9	4
+7	5	3
+6	1	8
+
+Nº da geração: 10417
+Pai 1: [5, 3, 4, 9, 1, 7, 6, 2, 8]
+Pai 2: [2, 8, 4, 9, 5, 3, 6, 1, 7]
+Ponto de cruzamento: 5
+Houve mutação? não
+
+Quadrado 8 encontrado aos 00:00:01
+4	3	8
+9	5	1
+2	7	6
+
+Nº da geração: 15770
+Pai 1: [4, 3, 9, 8, 5, 1, 2, 7, 6]
+Pai 2: [1, 8, 6, 7, 2, 5, 9, 3, 4]
+Ponto de cruzamento: 6
+Houve mutação? não
+
+Busca encerrada.
