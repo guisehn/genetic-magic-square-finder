@@ -74,6 +74,24 @@ public class MainScreen extends javax.swing.JFrame {
         if (size > 0) {
             minimumCrossoverPointTextField.setText("" + min);
             maximumCrossoverPointTextField.setText("" + max);
+            
+            if(size <= 3){
+                eliteDeathPeriodTextField.setText(""+ 0);
+            }
+            if(size == 4){
+                eliteDeathPeriodTextField.setText(""+ 15000);
+            }
+            if(size == 5){
+                eliteDeathPeriodTextField.setText(""+ 30000);
+            }
+            if(size == 6){
+                eliteDeathPeriodTextField.setText(""+ 90000);
+            }
+            if(size == 7){
+                eliteDeathPeriodTextField.setText(""+ 150000);
+            }else if(size >= 8){
+                eliteDeathPeriodTextField.setText(""+ 200000);
+            }
         }
     }
 
