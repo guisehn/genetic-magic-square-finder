@@ -255,7 +255,7 @@ Iteração 9: pos[8] é 1, logo square[1] é 9 -- square = [2, 9, 6, 8, 5, 1, 4,
 Ao final, `square` é `[2, 9, 6, 8, 5, 1, 4, 3, 7]`.
 
 ### Funcionamento da mutação
-A mutação pode ocorrer ou não após um cruzamento, ocorrendo aleatoriamente. Quando uma mutação ocorre, dois genes são trocados de posição aleatoriamente. Exemplo:
+A mutação pode ocorrer ou não após um cruzamento e acontece aleatoriamente. Quando uma mutação ocorre, dois genes são trocados de posição aleatoriamente. Exemplo:
 
 - Indivíduo original: `[1, 2, 3, 4, 5, 6, 7, 8, 9]`
 - Posições de mutação (aleatórias, índice começa em 0): `[3, 6]`
