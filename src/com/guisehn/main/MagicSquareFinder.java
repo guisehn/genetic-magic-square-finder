@@ -263,7 +263,7 @@ public class MagicSquareFinder {
         List<Individual> matingPool = new ArrayList<>();
         
         int poolSize = populationSize / 2;
-        for (int i = 0; i < poolSize; i++) {
+        while (matingPool.size() < poolSize) {
             Individual i1 = Utils.getRandom(population);
             Individual i2 = Utils.getRandom(population);
             
