@@ -1,5 +1,7 @@
 # Genetic Magic Square Finder
 
+[⬇️ Download da última versão](https://github.com/guisehn/genetic-magic-square-finder/releases/latest)
+
 Trabalho Prático de Inteligência Artificial - UNISC 2016/1
 
 Alunos: Gabriel Bittencourt, Guilherme Sehn, Mateus Leonhardt
