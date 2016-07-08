@@ -12,49 +12,48 @@ public class Crossover2 implements CrossoverOperator {
     public CrossoverResult crossover(int[] square1, int[] square2,
             int minimumCrossoverPoint, int maximumCrossoverPoint) {
         
-        System.out.println("Montando sequência de inversão do pai 1");
+        System.out.println("Mounting inversion sequence for first parent");
         System.out.println("=======================================");
         int[] inv1 = buildInversionSequenceFromSquare(square1);
         System.out.println();
         
-        System.out.println("Montando sequência de inversão do pai 2");
+        System.out.println("Mounting inversion sequence for second parent");
         System.out.println("=======================================");
         int[] inv2 = buildInversionSequenceFromSquare(square2);
         
         int crossoverPoint = generateCrossoverPoint(minimumCrossoverPoint, maximumCrossoverPoint);
         
         System.out.println("=======================================");
-        System.out.println("Portanto:");
-        System.out.println("inv pai 1 = " + getRepresentation(inv1));
-        System.out.println("inv pai 2 = " + getRepresentation(inv2));
-        System.out.println("Ponto de crossover = " + crossoverPoint);
+        System.out.println("inv of 1st parent = " + getRepresentation(inv1));
+        System.out.println("inv of 2nd parent = " + getRepresentation(inv2));
+        System.out.println("Crossover point = " + crossoverPoint);
         System.out.println("=======================================");
         System.out.println();
         
-        System.out.println("Cruzando filho 1");
+        System.out.println("First child crossover");
         System.out.println("=======================================");
         int[] invCross1 = crossInversionSequences(inv1, inv2, crossoverPoint);
-        System.out.println("inv do filho 1 = " + getRepresentation(invCross1));
+        System.out.println("inv of 1st child = " + getRepresentation(invCross1));
         System.out.println();
         
-        System.out.println("Transformando filho 1 de volta");
+        System.out.println("Transforming first child to permutation representation");
         System.out.println("=======================================");
         int[] child1 = buildSquareFromInversionSequence(invCross1);
         System.out.println();
 
-        System.out.println("Cruzando filho 2");
+        System.out.println("Second child crossover");
         System.out.println("=======================================");
         int[] invCross2 = crossInversionSequences(inv2, inv1, crossoverPoint);
-        System.out.println("inv do filho 2 = " + getRepresentation(invCross2));
+        System.out.println("inv of 2nd child = " + getRepresentation(invCross2));
         System.out.println();
         
-        System.out.println("Transformando filho 2 de volta");
+        System.out.println("Transforming second child to permutation representation");
         System.out.println("=======================================");
         int[] child2 = buildSquareFromInversionSequence(invCross2);
         
         return new CrossoverResult(
             new int[][] { child1, child2 },
-            "Ponto de cruzamento: " + crossoverPoint);
+            "Crossover point: " + crossoverPoint);
     }
     
     private int generateCrossoverPoint(int min, int max) {
@@ -87,7 +86,7 @@ public class Crossover2 implements CrossoverOperator {
         System.out.println();
         
         for (int i = 0, n = 1; i < N; i++, n++) {
-            System.out.println("Iteração " + n);
+            System.out.println("Iteration #" + n);
             
             inversion[i] = 0;
             
@@ -95,8 +94,8 @@ public class Crossover2 implements CrossoverOperator {
                 if (square[j] > n) inversion[i]++;
             }
             
-            System.out.println("À esquerda de " + n + " há " + inversion[i]
-                + " números maiores que ele.");
+            System.out.println("To the left of " + n + " there are " + inversion[i]
+                + " numbers greather than it.");
             System.out.println("inv = " + getRepresentation(inversion));
             System.out.println();
         }
@@ -109,11 +108,11 @@ public class Crossover2 implements CrossoverOperator {
         int[] pos = new int[N];
         
         Arrays.fill(pos, -1);
-        System.out.println("Inicializa pos = " + getRepresentation(pos));
+        System.out.println("Initialize pos = " + getRepresentation(pos));
         System.out.println();
         
         for (int i = N - 1; i >= 0; i--) {
-            System.out.println("Iteração i=" + i);
+            System.out.println("Iteration i=" + i);
             
             pos[i] = inv[i];
             
@@ -136,12 +135,12 @@ public class Crossover2 implements CrossoverOperator {
             System.out.println();
         }
         
-        System.out.println("Montagem do quadrado final:");
+        System.out.println("Mounting final representation:");
         
         int[] square = new int[N];
         for (int i = 0; i < N; i++) {
-            System.out.println("Iteração " + (i + 1) + ": pos[" + i + "] é "
-                + pos[i] + ", logo square[" + pos[i] + "] é " + (i + 1));
+            System.out.println("Iteration #" + (i + 1) + ": pos[" + i + "] is "
+                + pos[i] + ", thus square[" + pos[i] + "] is " + (i + 1));
 
             square[pos[i]] = i + 1;
         }

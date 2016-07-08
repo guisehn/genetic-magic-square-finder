@@ -9,15 +9,15 @@ public class CrossoverVerifier {
         Scanner reader = new Scanner(System.in);
         int firstMutationPoint, secondMutationPoint;
         
-        System.out.print("Pai 1: ");
+        System.out.print("1st parent: ");
         int[] parent1 = stringToSquare(reader.nextLine());
         //int[] parent1 = stringToSquare("[2, 7, 6, 9, 5, 1, 4, 3, 8]");
         
-        System.out.print("Pai 2: ");
+        System.out.print("2nd parent: ");
         int[] parent2 = stringToSquare(reader.nextLine());
         //int[] parent2 = stringToSquare("[9, 2, 8, 3, 4, 7, 5, 1, 6]");
 
-        System.out.print("Ponto de cruzamento: ");
+        System.out.print("Crossover point: ");
         int crossoverPoint = reader.nextInt();
         //int crossoverPoint = 5;
 
