@@ -75,22 +75,18 @@ public class MainScreen extends javax.swing.JFrame {
             minimumCrossoverPointTextField.setText("" + min);
             maximumCrossoverPointTextField.setText("" + max);
             
-            if(size <= 3){
-                eliteDeathPeriodTextField.setText(""+ 0);
-            }
-            if(size == 4){
-                eliteDeathPeriodTextField.setText(""+ 15000);
-            }
-            if(size == 5){
-                eliteDeathPeriodTextField.setText(""+ 30000);
-            }
-            if(size == 6){
-                eliteDeathPeriodTextField.setText(""+ 90000);
-            }
-            if(size == 7){
-                eliteDeathPeriodTextField.setText(""+ 150000);
-            }else if(size >= 8){
-                eliteDeathPeriodTextField.setText(""+ 200000);
+            if (size <= 3) {
+                eliteDeathPeriodTextField.setText("" + 0);
+            } else if (size == 4) {
+                eliteDeathPeriodTextField.setText("" + 15_000);
+            } else if (size == 5) {
+                eliteDeathPeriodTextField.setText("" + 30_000);
+            } else if (size == 6) {
+                eliteDeathPeriodTextField.setText("" + 90_000);
+            } else if (size == 7) {
+                eliteDeathPeriodTextField.setText("" + 150_000);
+            } else if (size >= 8) {
+                eliteDeathPeriodTextField.setText("" + 200_000);
             }
         }
     }
@@ -109,7 +105,7 @@ public class MainScreen extends javax.swing.JFrame {
     }
     
     private void setGenerationCounterLabelText(long count) {
-        generationCountLabel.setText("Geração " + String.format("%,d", count));
+        generationCountLabel.setText("Generation " + String.format("%,d", count));
     }
     
     private void generateFileWriter() {
@@ -183,21 +179,21 @@ public class MainScreen extends javax.swing.JFrame {
                             break;
 
                         case MagicSquareFinder.MAGIC_SQUARE_FOUND_EVENT:
-                            foundSquaresTextArea.append("Quadrado " + (++amountFound) + " encontrado aos ");
+                            foundSquaresTextArea.append("Magic square #" + (++amountFound) + " found in ");
                             foundSquaresTextArea.append(chronometerLabel.getText());
                             foundSquaresTextArea.append("\n" + textToAppend);
                             foundSquaresTextArea.append("\n\n");
                             break;
                             
                         case MagicSquareFinder.SEARCH_ENDED_EVENT:
-                            foundSquaresTextArea.append("Busca encerrada.");
+                            foundSquaresTextArea.append("Search is complete.");
                             closeFileWriter();
                             chronometer.stop();
                             break;
                     }
                 } catch (OutOfMemoryError err) {
-                    JOptionPane.showMessageDialog(null, "Estouro de memória!",
-                        "Erro", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Memory overflow!",
+                        "Error", JOptionPane.ERROR_MESSAGE);
                     
                     chronometer.stop();
                     
@@ -298,7 +294,7 @@ public class MainScreen extends javax.swing.JFrame {
         foundSquaresTextArea.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jScrollPane1.setViewportView(foundSquaresTextArea);
 
-        startButton.setText("Iniciar");
+        startButton.setText("Start");
         startButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 startButtonActionPerformed(evt);
@@ -310,7 +306,7 @@ public class MainScreen extends javax.swing.JFrame {
 
         generationCountLabel.setText("[Generation count]");
 
-        foundSquaresLabel.setText("Matrizes encontradas");
+        foundSquaresLabel.setText("Found magic squares");
 
         generationLogTextArea.setColumns(20);
         generationLogTextArea.setRows(5);
@@ -318,9 +314,9 @@ public class MainScreen extends javax.swing.JFrame {
         generationLogTextArea.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jScrollPane2.setViewportView(generationLogTextArea);
 
-        generationHistoryLabel.setText("Histórico do algoritmo genético");
+        generationHistoryLabel.setText("Genetic algorithm population log");
 
-        stopButton.setText("Parar");
+        stopButton.setText("Stop");
         stopButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 stopButtonActionPerformed(evt);
@@ -328,13 +324,13 @@ public class MainScreen extends javax.swing.JFrame {
         });
 
         clearLogCheckBox.setSelected(true);
-        clearLogCheckBox.setText("Limpar histórico periodicamente");
+        clearLogCheckBox.setText("Clear log periodically");
         clearLogCheckBox.setToolTipText("");
 
-        populationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("População"));
+        populationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Population"));
         populationPanel.setToolTipText("");
 
-        squareSizeLabel.setText("Tamanho da matriz:");
+        squareSizeLabel.setText("Square size:");
 
         squareSizeTextField.setText("4");
         squareSizeTextField.setNextFocusableComponent(populationSizeTextField);
@@ -344,12 +340,12 @@ public class MainScreen extends javax.swing.JFrame {
             }
         });
 
-        populationSizeLabel.setText("Tamanho da população:");
+        populationSizeLabel.setText("Population size:");
 
         populationSizeTextField.setText("200");
         populationSizeTextField.setNextFocusableComponent(allowDuplicatesCheckBox);
 
-        allowDuplicatesCheckBox.setText("Permitir indivíduos idênticos");
+        allowDuplicatesCheckBox.setText("Allow identical individuals");
         allowDuplicatesCheckBox.setToolTipText("");
         allowDuplicatesCheckBox.setNextFocusableComponent(eliteSizeTextField);
 
@@ -359,16 +355,16 @@ public class MainScreen extends javax.swing.JFrame {
             populationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(populationPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(populationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(populationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(populationPanelLayout.createSequentialGroup()
+                        .addComponent(populationSizeLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(populationSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(populationPanelLayout.createSequentialGroup()
                         .addComponent(squareSizeLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(squareSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(populationPanelLayout.createSequentialGroup()
-                        .addComponent(populationSizeLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(populationSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(squareSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(32, 32, 32))
             .addGroup(populationPanelLayout.createSequentialGroup()
                 .addComponent(allowDuplicatesCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -389,15 +385,15 @@ public class MainScreen extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        elitismPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Elitismo"));
+        elitismPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Elitism"));
 
-        eliteSizeLabel.setText("Tamanho da elite:");
+        eliteSizeLabel.setText("Elite size:");
 
         eliteSizeTextField.setText("180");
         eliteSizeTextField.setToolTipText("");
         eliteSizeTextField.setNextFocusableComponent(eliteDeathPeriodTextField);
 
-        eliteDeathPeriodLabel.setText("Período de morte da elite:");
+        eliteDeathPeriodLabel.setText("Elite death period:");
 
         eliteDeathPeriodTextField.setText("15000");
         eliteDeathPeriodTextField.setToolTipText("");
@@ -416,7 +412,7 @@ public class MainScreen extends javax.swing.JFrame {
                         .addComponent(eliteSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(elitismPanelLayout.createSequentialGroup()
                         .addComponent(eliteDeathPeriodLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                         .addComponent(eliteDeathPeriodTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -434,16 +430,16 @@ public class MainScreen extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        crossoverPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Cruzamento"));
+        crossoverPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Crossover"));
         crossoverPanel.setToolTipText("");
 
         mutationProbabilityTextField.setText("50");
         mutationProbabilityTextField.setToolTipText("");
         mutationProbabilityTextField.setNextFocusableComponent(showGenerationDetailsCheckBox);
 
-        mutationProbabilityLabel.setText("Chance de mutação (%):");
+        mutationProbabilityLabel.setText("Mutation chance (%):");
 
-        minimumCrossoverPointLabel.setText("Ponto mínimo:");
+        minimumCrossoverPointLabel.setText("Minimum point:");
 
         minimumCrossoverPointTextField.setToolTipText("");
         minimumCrossoverPointTextField.setNextFocusableComponent(maximumCrossoverPointTextField);
@@ -451,7 +447,7 @@ public class MainScreen extends javax.swing.JFrame {
         maximumCrossoverPointTextField.setToolTipText("");
         maximumCrossoverPointTextField.setNextFocusableComponent(mutationProbabilityTextField);
 
-        maximumCrossoverPointLabel.setText("Ponto máximo:");
+        maximumCrossoverPointLabel.setText("Maximum point:");
 
         javax.swing.GroupLayout crossoverPanelLayout = new javax.swing.GroupLayout(crossoverPanel);
         crossoverPanel.setLayout(crossoverPanelLayout);
@@ -466,7 +462,7 @@ public class MainScreen extends javax.swing.JFrame {
                             .addComponent(minimumCrossoverPointLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, crossoverPanelLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap(12, Short.MAX_VALUE)
                         .addComponent(mutationProbabilityLabel)
                         .addGap(18, 18, 18)))
                 .addGroup(crossoverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -493,19 +489,22 @@ public class MainScreen extends javax.swing.JFrame {
                 .addGap(43, 43, 43))
         );
 
-        outputPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Saída"));
+        outputPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Output"));
         outputPanel.setToolTipText("");
 
-        showGenerationDetailsCheckBox.setText("Exibir histórico completo");
+        showGenerationDetailsCheckBox.setText("Show generation details");
 
-        saveToFileCheckBox.setText("Gravar histórico completo em arquivo");
+        saveToFileCheckBox.setText("Output full population log to file");
 
         javax.swing.GroupLayout outputPanelLayout = new javax.swing.GroupLayout(outputPanel);
         outputPanel.setLayout(outputPanelLayout);
         outputPanelLayout.setHorizontalGroup(
             outputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(showGenerationDetailsCheckBox)
-            .addComponent(saveToFileCheckBox)
+            .addGroup(outputPanelLayout.createSequentialGroup()
+                .addGroup(outputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(showGenerationDetailsCheckBox)
+                    .addComponent(saveToFileCheckBox))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         outputPanelLayout.setVerticalGroup(
             outputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -514,12 +513,12 @@ public class MainScreen extends javax.swing.JFrame {
                 .addComponent(showGenerationDetailsCheckBox)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(saveToFileCheckBox)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jMenu1.setText("Ajuda");
+        jMenu1.setText("Help");
 
-        aboutMenuItem.setText("Sobre o programa");
+        aboutMenuItem.setText("About the app");
         aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 aboutMenuItemActionPerformed(evt);
@@ -548,9 +547,9 @@ public class MainScreen extends javax.swing.JFrame {
                                 .addComponent(populationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(elitismPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(crossoverPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(outputPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
@@ -561,7 +560,7 @@ public class MainScreen extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(generationHistoryLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 606, Short.MAX_VALUE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 599, Short.MAX_VALUE))
                                     .addComponent(jScrollPane2)))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -576,12 +575,12 @@ public class MainScreen extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(outputPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(populationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(elitismPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(crossoverPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(outputPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(crossoverPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(startButton)
@@ -619,54 +618,53 @@ public class MainScreen extends javax.swing.JFrame {
         boolean showGenerationDetails = showGenerationDetailsCheckBox.isSelected();
         
         if (size <= 0) {
-            showMessageDialog(null, "O tamanho da matriz deve ser um valor"
-                + " inteiro e positivo");
+            showMessageDialog(null, "The square size must be a positive integer");
             squareSizeTextField.requestFocus();
             return;
         }
         
         if (populationSize <= 0) {
-            showMessageDialog(null, "O tamanho da população deve ser um valor"
-                + " inteiro e positivo");
+            showMessageDialog(null, "The population size must be a positive integer");
             populationSizeTextField.requestFocus();
             return; 
         }
 
         if (eliteSize + 1 >= populationSize) {
-            showMessageDialog(null, "O tamanho da elite deve ter no mínimo "
-                + " dois indivíduos a menos que a população total");
+            showMessageDialog(null, "The elite size must be at least two units"
+                + " less than the total population size");
             populationSizeTextField.requestFocus();
             return; 
         }
         
         if (eliteDeathPeriod < 0) {
-            showMessageDialog(null, "O período de morte da elite deve ser um número" +
-                "inteiro maior ou igual a 0. Use 0 para que a elite nunca morra.");
+            showMessageDialog(null, "The elite death period must be an integer"
+                + " greather or equal to 0. Use 0 to deactivate the elite death"
+                + " behavior.");
             eliteDeathPeriodTextField.requestFocus();
             return; 
         }
         
         if (mutationProbability == -1) {
-            showMessageDialog(null, "A chance de mutação deve ser um valor"
-                + " inteiro de 0 e 100");
+            showMessageDialog(null, "The mutation change must be an integer"
+                + " from 0 to 100");
             mutationProbabilityTextField.requestFocus();
             return;            
         }
         
         if (minimumCrossoverPoint < minimumCrossoverPointAllowed ||
                 maximumCrossoverPoint > maximumCrossoverPointAllowed) {
-            showMessageDialog(null, "Os pontos mínimos e máximos de crossover são" +
-                " respectivamente " + minimumCrossoverPointAllowed + " e " +
-                maximumCrossoverPointAllowed + "\npara matrizes " + size + "x" +
-                size + ".");
+            showMessageDialog(null, "The minimum and maximum crossover points"
+                + " allowed are " + minimumCrossoverPointAllowed + " and "
+                + maximumCrossoverPointAllowed + "respectively\nfor " + size
+                + "x" + size + " squares.");
             return;
         }
         
         if (size == 2) {
             JOptionPane.showMessageDialog(null,
-                "Não existem quadrados mágicos 2x2. Mas iremos deixar o "
-                + "algoritmo tentar encontrá-los! :)",
-                "Resultado impossível", JOptionPane.INFORMATION_MESSAGE);
+                "There are no 2x2 magic squares. But let's leave the algorithm"
+                + " trying to solve it! :)",
+                "Impossible result", JOptionPane.INFORMATION_MESSAGE);
         }
         
         startChronometer();

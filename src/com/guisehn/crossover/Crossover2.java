@@ -2,6 +2,7 @@ package com.guisehn.crossover;
 
 import java.util.Random;
 
+// Crossover method described in
 // http://www.ceng.metu.edu.tr/~ucoluk/research/publications/tspnew.pdf
 public class Crossover2 implements CrossoverOperator {
     
@@ -22,7 +23,7 @@ public class Crossover2 implements CrossoverOperator {
         
         return new CrossoverResult(
             new int[][] { child1, child2 },
-            "Ponto de cruzamento: " + crossoverPoint);
+            "Crossover point: " + crossoverPoint);
     }
     
     private int generateCrossoverPoint(int min, int max) {

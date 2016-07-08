@@ -71,9 +71,6 @@ public class MagicSquareFinder {
         this.listener = listener;
     }
     
-    /**
-     * Inicia busca
-     */
     public void start() {
         stop();
         
@@ -87,26 +84,16 @@ public class MagicSquareFinder {
         thread.start();
     }
     
-    /**
-     * Encerra busca
-     */
     public void stop() {
         if (thread != null) {
             thread.interrupt();
         }
     }
-    
-    /**
-     * Retorna contagem de geração atual
-     * @return contagem de geração atual
-     */
+
     public int getGenerationCount() {
         return generationCount;
     }
-    
-    /**
-     * Inicia o algoritmo genético
-     */
+
     private void startGeneticAlgorithm() {
         generationCount = amountOfGenerationsSinceLastNewMagicSquare = 0;
         log.setLength(0);
@@ -139,14 +126,14 @@ public class MagicSquareFinder {
     }
     
     /**
-     * Ordena população conforme a aptidão
+     * Sorts the population by fitness score
      */
     private void sortPopulation() {
         Collections.sort(population, comparator);
     }
     
     /**
-     * Gera a população inicial aleatoriamente
+     * Generates the initial population randomly
      */
     private void generateInitialPopulation() {
         population.clear();
@@ -158,8 +145,9 @@ public class MagicSquareFinder {
     }
 
     /**
-     * Caso existam novos quadrados mágicos na geração atual, adiciona-os
-     * na lista e publica para a saída
+     * Checks if there are new magic squares on the current generation.
+     * If there are new ones, add them to the magic square list and publishes
+     * them to the action listener.
      */
     private void addAndPublishMagicSquares() {
         Individual[] magicSquares = population.stream()
@@ -172,19 +160,13 @@ public class MagicSquareFinder {
             if (added) {
                 amountOfGenerationsSinceLastNewMagicSquare = 0;
                 publishMagicSquare(magicSquare);
-            } else {
-                /*System.out.println("achou igual!" + Arrays.toString(magicSquare.getSquare()));
-                System.out.println("pai1=" + Arrays.toString(magicSquare.getParent1()));
-                System.out.println("pai2=" + Arrays.toString(magicSquare.getParent2()));
-                System.out.println("crossover=" + magicSquare.getCrossoverDetails());
-                System.out.println("---");*/
             }
         }
     }
     
     /**
-     * Verifica se já encontrou todos os quadrados mágicos esperados.
-     * @return Retorna verdadeiro se encontrou todos e deve encerrar algoritmo.
+     * Verifies if the magic squares list reached the limit.
+     * @return Returns true if 10 magic squares were found and ends the search.
      */
     private boolean checkForCompletion(boolean published) {
         int amountFound = magicSquaresFound.size();
@@ -208,17 +190,17 @@ public class MagicSquareFinder {
     }
     
     /**
-     * Adiciona a geração atual para o log
+     * Adds the individuals of the current generation to the log.
      */
     private void addCurrentGenerationToLog() {
-        log.append("======================\nGeração ").append(generationCount)
+        log.append("======================\nGeneration ").append(generationCount)
             .append("\n======================");
 
         int i = 0;
         
         for (Individual individual : population) {
             if (showGenerationDetails) {
-                log.append("\nIndivíduo ").append(++i);
+                log.append("\nIndividual #").append(++i);
             }
             
             log.append("\n").append(individual.toString(true));
@@ -248,7 +230,7 @@ public class MagicSquareFinder {
         StringBuilder sb = new StringBuilder();
         sb.append(SquareFormatter.format(magicSquare.getSquare()));
         sb.append("\n");
-        sb.append("\nNº da geração: ").append(generationCount);
+        sb.append("\nGeneration number: ").append(generationCount);
         sb.append("\n").append(magicSquare.getGenerationDetails(false));
 
         listener.actionPerformed(new ActionEvent(this, MAGIC_SQUARE_FOUND_EVENT,
@@ -332,10 +314,10 @@ public class MagicSquareFinder {
     }
     
     /**
-     * Faz crossover de dois indivíduos e mutação
-     * @param parent1 primeiro pai
-     * @param parent2 segundo pai
-     * @return filhos gerados
+     * Performs the crossover of two individuals and (possibily) mutation
+     * @param parent1 1st parent
+     * @param parent2 2nd parent
+     * @return children
      */
     private Individual[] crossoverAndMutate(Individual parent1, Individual parent2) {
         CrossoverResult result = crossoverOperator.crossover(parent1.getSquare(),
@@ -344,7 +326,7 @@ public class MagicSquareFinder {
         int[][] children = result.getChildren();
         int[][] mutationPoints = new int[children.length][];
  
-        // Mutação
+        // Mutation
         for (int i = 0; i < children.length; i++) {
             int[] child = children[i];
 
@@ -367,7 +349,7 @@ public class MagicSquareFinder {
             }
         }
         
-        // Monta os objetos do tipo Individual
+        // Transforms the int arrays to Individual objects
         Individual[] individuals = new Individual[children.length];
         
         for (int i = 0; i < individuals.length; i++) {

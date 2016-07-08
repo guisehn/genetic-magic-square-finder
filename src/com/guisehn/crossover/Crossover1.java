@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+// Rudimentary (and not very good) crossover method
 public class Crossover1 implements CrossoverOperator {
 
     private final Random random = new Random();
@@ -12,7 +13,6 @@ public class Crossover1 implements CrossoverOperator {
     public CrossoverResult crossover(int[] square1, int[] square2,
         int minimumCrossoverPoint, int maximumCrossoverPoint) {
         int arraySize = square1.length;
-        int maxIndex = arraySize - 1;
         int crossoverPoint = generateCrossoverPoint(minimumCrossoverPoint, maximumCrossoverPoint);
         int[] newSquare = new int[arraySize];
         Set<Integer> used = new HashSet<>();
@@ -31,7 +31,7 @@ public class Crossover1 implements CrossoverOperator {
         }
         
         return new CrossoverResult(new int[][] { newSquare },
-            "Ponto de cruzamento: " + crossoverPoint);
+            "Crossover point: " + crossoverPoint);
     }
     
     private int generateCrossoverPoint(int min, int max) {

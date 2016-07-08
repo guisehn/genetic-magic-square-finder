@@ -68,23 +68,23 @@ public class Individual {
     public String getGenerationDetails(boolean showBelongsToElite) {
         StringBuilder sb = new StringBuilder();
         
-        sb.append("Pai 1: ").append(parent1 == null ? "(nenhum)" : Arrays.toString(parent1));
-        sb.append("\nPai 2: ").append(parent2 == null ? "(nenhum)" : Arrays.toString(parent2));
+        sb.append("1st parent: ").append(parent1 == null ? "(none)" : Arrays.toString(parent1));
+        sb.append("\n2nd parent: ").append(parent2 == null ? "(none)" : Arrays.toString(parent2));
         
         if (showBelongsToElite) {
-            sb.append("\nElite: ").append(belongsToElite() ? "sim" : "não");
+            sb.append("\nElite member: ").append(belongsToElite() ? "yes" : "no");
         }
         
         if (!crossoverDetails.isEmpty()) {
             sb.append("\n").append(crossoverDetails);
         }
         
-        sb.append("\nHouve mutação? ");
+        sb.append("\nMutated? ");
 
         if (isMutated()) {
-            sb.append("sim, em ").append(Arrays.toString(mutationPoints));
+            sb.append("yes, on ").append(Arrays.toString(mutationPoints));
         } else {
-            sb.append("não");
+            sb.append("no");
         }
         
         return sb.toString();

@@ -6,12 +6,12 @@
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="jMenu1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Ajuda"/>
+            <Property name="text" type="java.lang.String" value="Help"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="aboutMenuItem">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Sobre o programa"/>
+                <Property name="text" type="java.lang.String" value="About the app"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="aboutMenuItemActionPerformed"/>
@@ -59,9 +59,9 @@
                               <Component id="populationPanel" min="-2" pref="234" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="elitismPanel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="crossoverPanel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="outputPanel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
@@ -74,7 +74,7 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
                                       <Component id="generationHistoryLabel" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="606" max="32767" attributes="0"/>
+                                      <EmptySpace pref="599" max="32767" attributes="0"/>
                                   </Group>
                                   <Component id="jScrollPane2" max="32767" attributes="0"/>
                               </Group>
@@ -98,13 +98,13 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="outputPanel" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="populationPanel" max="32767" attributes="0"/>
                       <Component id="elitismPanel" max="32767" attributes="0"/>
                       <Component id="crossoverPanel" alignment="0" min="-2" pref="130" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="outputPanel" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -156,7 +156,7 @@
     </Container>
     <Component class="javax.swing.JButton" name="startButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Iniciar"/>
+        <Property name="text" type="java.lang.String" value="Start"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="startButtonActionPerformed"/>
@@ -175,7 +175,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="foundSquaresLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Matrizes encontradas"/>
+        <Property name="text" type="java.lang.String" value="Found magic squares"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane2">
@@ -201,12 +201,12 @@
     </Container>
     <Component class="javax.swing.JLabel" name="generationHistoryLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Hist&#xf3;rico do algoritmo gen&#xe9;tico"/>
+        <Property name="text" type="java.lang.String" value="Genetic algorithm population log"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="stopButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Parar"/>
+        <Property name="text" type="java.lang.String" value="Stop"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stopButtonActionPerformed"/>
@@ -215,7 +215,7 @@
     <Component class="javax.swing.JCheckBox" name="clearLogCheckBox">
       <Properties>
         <Property name="selected" type="boolean" value="true"/>
-        <Property name="text" type="java.lang.String" value="Limpar hist&#xf3;rico periodicamente"/>
+        <Property name="text" type="java.lang.String" value="Clear log periodically"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
@@ -223,7 +223,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Popula&#xe7;&#xe3;o"/>
+            <TitledBorder title="Population"/>
           </Border>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value=""/>
@@ -234,19 +234,19 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="populationSizeLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="populationSizeTextField" min="-2" pref="55" max="-2" attributes="0"/>
+                      </Group>
                       <Group type="102" attributes="0">
                           <Component id="squareSizeLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="squareSizeTextField" min="-2" pref="55" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" attributes="0">
-                          <Component id="populationSizeLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="populationSizeTextField" min="-2" pref="55" max="-2" attributes="0"/>
-                      </Group>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
                   <Component id="allowDuplicatesCheckBox" min="-2" pref="246" max="-2" attributes="0"/>
@@ -277,7 +277,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="squareSizeLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Tamanho da matriz:"/>
+            <Property name="text" type="java.lang.String" value="Square size:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="squareSizeTextField">
@@ -293,7 +293,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="populationSizeLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Tamanho da popula&#xe7;&#xe3;o:"/>
+            <Property name="text" type="java.lang.String" value="Population size:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="populationSizeTextField">
@@ -306,7 +306,7 @@
         </Component>
         <Component class="javax.swing.JCheckBox" name="allowDuplicatesCheckBox">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Permitir indiv&#xed;duos id&#xea;nticos"/>
+            <Property name="text" type="java.lang.String" value="Allow identical individuals"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
             <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
               <ComponentRef name="eliteSizeTextField"/>
@@ -319,7 +319,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Elitismo"/>
+            <TitledBorder title="Elitism"/>
           </Border>
         </Property>
       </Properties>
@@ -337,7 +337,7 @@
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="eliteDeathPeriodLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="24" max="32767" attributes="0"/>
                           <Component id="eliteDeathPeriodTextField" min="-2" pref="66" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -366,7 +366,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="eliteSizeLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Tamanho da elite:"/>
+            <Property name="text" type="java.lang.String" value="Elite size:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="eliteSizeTextField">
@@ -380,7 +380,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="eliteDeathPeriodLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Per&#xed;odo de morte da elite:"/>
+            <Property name="text" type="java.lang.String" value="Elite death period:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="eliteDeathPeriodTextField">
@@ -398,7 +398,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Cruzamento"/>
+            <TitledBorder title="Crossover"/>
           </Border>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value=""/>
@@ -418,7 +418,7 @@
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="12" max="32767" attributes="0"/>
                           <Component id="mutationProbabilityLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                       </Group>
@@ -467,12 +467,12 @@
         </Component>
         <Component class="javax.swing.JLabel" name="mutationProbabilityLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Chance de muta&#xe7;&#xe3;o (%):"/>
+            <Property name="text" type="java.lang.String" value="Mutation chance (%):"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="minimumCrossoverPointLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Ponto m&#xed;nimo:"/>
+            <Property name="text" type="java.lang.String" value="Minimum point:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="minimumCrossoverPointTextField">
@@ -493,7 +493,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="maximumCrossoverPointLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Ponto m&#xe1;ximo:"/>
+            <Property name="text" type="java.lang.String" value="Maximum point:"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -502,7 +502,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Sa&#xed;da"/>
+            <TitledBorder title="Output"/>
           </Border>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value=""/>
@@ -511,8 +511,13 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="showGenerationDetailsCheckBox" min="-2" max="-2" attributes="0"/>
-              <Component id="saveToFileCheckBox" min="-2" max="-2" attributes="0"/>
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="showGenerationDetailsCheckBox" min="-2" max="-2" attributes="0"/>
+                      <Component id="saveToFileCheckBox" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -522,7 +527,7 @@
                   <Component id="showGenerationDetailsCheckBox" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="saveToFileCheckBox" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="48" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -530,12 +535,12 @@
       <SubComponents>
         <Component class="javax.swing.JCheckBox" name="showGenerationDetailsCheckBox">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Exibir hist&#xf3;rico completo"/>
+            <Property name="text" type="java.lang.String" value="Show generation details"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JCheckBox" name="saveToFileCheckBox">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Gravar hist&#xf3;rico completo em arquivo"/>
+            <Property name="text" type="java.lang.String" value="Output full population log to file"/>
           </Properties>
         </Component>
       </SubComponents>
