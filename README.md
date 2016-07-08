@@ -1,51 +1,51 @@
 # Genetic Magic Square Finder
 
-Trabalho Prático de Inteligência Artificial - UNISC 2016/1
+Project for Artificial Intelligence module (2016/1) | [University of Santa Cruz do Sul (UNISC)](http://www.unisc.br)
 
-Alunos: Gabriel Bittencourt, Guilherme Sehn, Mateus Leonhardt
+Authors: Gabriel Bittencourt, Guilherme Sehn, Mateus Leonhardt
 
-Este aplicativo encontra [quadrados mágicos](https://pt.wikipedia.org/wiki/Quadrado_m%C3%A1gico) através de algoritmo genético. Um quadrado mágico é uma tabela quadrada de números em progressão aritmética em que a soma de cada coluna, de cada linha e das duas diagonais são iguais.
+This app finds [magic squares](https://en.wikipedia.org/wiki/Magic_square) using a [genetic algorithm](https://en.wikipedia.org/wiki/Genetic_algorithm). A magic square is an arrangement of distinct numbers in arithmetical progression in a square grid, where the numbers in each row, and in each column, and the numbers in the main and secondary diagonals, all add up to the same number.
 
-![Quadrado mágico](https://wikimedia.org/api/rest_v1/media/math/render/svg/3bc23e727d4029de3d46c2b70b8eafd4fa718b70)
+![Magic square](https://wikimedia.org/api/rest_v1/media/math/render/svg/3bc23e727d4029de3d46c2b70b8eafd4fa718b70)
 
-## Opções do programa
-![User interface](https://cloud.githubusercontent.com/assets/830208/16548042/c9d52c22-4157-11e6-8f2f-a925643891bb.png)
+## Algorithm parameters
+![User interface](https://cloud.githubusercontent.com/assets/830208/16735832/e6e83336-4760-11e6-8c72-30d0a8b4e395.png)
 
-### População
+### Population
 
-As opções disponíveis são:
+The available parameters are:
 
-1. **Tamanho da matriz:** tamanho do lado do quadrado mágico a ser encontrado.
+1. **Square size:** size of the magic square
 
-2. **Tamanho da população:** quantidade de indivíduos na população. Este número é fixo para todas as gerações.
+2. **Population size:** amount of individuals in the population. This number is fixed for all generations of the genetic algorithm.
 
-3. **Permitir indivíduos idênticos:** o algoritmo tende a gerar indivíduos idênticos enquanto avança, dificultando a convergência. Se esta opção é marcada, o algoritmo não irá permitir indivíduos duplicados na população. Quando isso ocorrer, se um cruzamento resultar em um indivíduo que já está na próxima geração, este será descartado e outros dois pais serão selecionados dentro da *mating pool* para gerar um novo indivíduo. É recomendado manter esta opção ativa para convergência mais rápida.
+3. **Allow identical individuals:** the algorithm tends to generate identical individuals while advancing, making it difficult to converge to new magic squares. If this option is checked, the algorithm will not allow duplicate individuals in the population. In this case, if a crossover between two parents end up resulting an individual which is already in the next generation, this individual will be discarded and two different parents will be selected within the mating pool to cross over and generate another individual. It is recommended to keep this option active for faster convergence.
 
-### Elitismo
+### Elitism
 
-1. **Tamanho da elite:** a quantidade de indivíduos com maior aptidão entre a população que serão transferidos para a próxima geração automaticamente. Deve ser menor que o tamanho da população, caso contrário o algoritmo não irá gerar novos indivíduos. Caso seja definido como 0, não haverá elitismo na execução do algoritmo genético. Nos testes realizados, foi percebido que uma elite grande em relação à população acelera a convergência.
+1. **Elite size:** amount of individuals with the highest fitness scores among the population, that will be transferred to the next generation automatically. The value of this option must be less than the size of the population, otherwise the algorithm won't be able to generate new individuals. If this option is set to `0`, there won't be elitism behavior on the execution of the genetic algorithm. Based on the tests performed so far, it was noticed that a big elite accelerates the convergence for this problem.
 
-2. **Período de morte da elite**: valor que indica a quantidade máxima de gerações em que a elite pode sobreviver sem que o algoritmo encontre novos quadrados mágicos. Se o valor 0 for informado, esta opção é desabilitada. Se um número positivo *N* for informado, após *N* gerações do algoritmo genético sem resultar em novos quadrados mágicos, a elite será desconsiderada da *mating pool* e não será transferida para a próxima geração. Após isso, uma nova elite será formada através do cruzamento dos indivíduos restantes na população. Manter esta opção ativada geralmente melhora a performance do algoritmo genético para este problema específico.
+2. **Elite death period**: a value that indicates the maximum amount of generations that the elite can survive without finding new magic squares. If this option is set to `0` this option will be disabled. If a positive number *N* is set, after *N* generations without finding new magic squares the individuals belonging to the elite will not be considered to form the *mating pool* and will not be transferred to the next generation. After that, a new elite will be formed through the crossover of the individuals remaining in the population. Keeping this option active generally improves the performance of the genetic algorithm for this problem, specially for big square sizes.
 
-### Cruzamento
+### Crossover
 
-1. **Ponto mínimo e ponto máximo:** o cruzamento implementado no programa é de um ponto apenas. Este ponto é gerado aleatoriamente, e o usuário pode informar nestes campos os pontos mínimos e máximo aceitos, que podem ir de `0` até `N-1`, onde `N` é o tamanho do vetor do quadrado mágico (9 para um quadrado 3x3). Mais informações podem ser vistas na seção sobre [função de cruzamento](#função-de-cruzamento).
+1. **Minimum point and maximum point:** the algorithm uses a simple one-point crossover. The crossover point is selected randomly and these fields can be used to define the range allowed for the random selector, which can be in between `0` (inclusive) and `N` (exclusive) where `N` is the size of the magic square array (e.g. 9 for a 3x3 square). More information can be seen in the [crossover function](#crossover-function) section.
 
-2. **Chance de mutação:** porcentagem dos novos indivíduos gerados por cruzamento que sofrerão [mutação](#funcionamento-da-mutação).
+2. **Mutation chance:** percentage of new individuals generated by crossover which will suffer [mutation](#mutation-behavior).
 
-### Saída
+### Output
 
-1. **Exibir histórico completo:** Se marcado, o sistema irá exibir informações completas sobre a origem dos indivíduos na seção de histórico (primeiro pai, segundo pai, se faz parte da elite, e pontos de mutação). Para melhor performance, recomenda-se deixar desativado.
+1. **Show generation details:** if checked, the system will present full information about the origin of the individuals in the log section (first parent, second parent, whether it belongs to elite or not, and mutation points). For better performance, it is recommended to keep it unchecked.
 
-2. **Gravar histórico completo em arquivo:** Se marcado, irá criar um novo arquivo na pasta `output` no mesmo diretório onde o programa se encontra com todo o histórico de gerações. Recomenda-se deixar desmarcado para melhor performance e evitar uso de espaço em disco. **Importante: os arquivos gerados podem se tornar grandes rapidamente devido a quantidade de dados gerados. Uma execução para quadrados 4x4 pode ocupar mais de 1 GB de dados de histórico.**
+2. **Output full population log to file:** if checked, it will create a new file containing all the generation log in the `output` folder on the same directory where the app is located. It is recommended to keep it deactivated for better performance and to avoid high usage of disk space. **Important: the output files can become large quickly because of the amount of data generated. Running the algorithm for 4x4 square might create files larger than 1 GB.**
 
-3. **Limpar histórico periodicamente:** Caso esteja desmarcado, o aplicativo tentará mostrar o histórico completo de gerações do algoritmo genético na tela. **Importante: É recomendado manter ativado, caso contrário haverá estouro de memória após um determinado tempo de execução.**
+3. **Clear log periodically:** If it's unchecked, the app will attempt to show all the genetic algorithm log into the screen. It's recommended to keep this option **activated** otherwise it is very likely that a memory overflow will happen after some time of execution.
 
-## Técnicas utilizadas
+## Algorithm definitions
 
-### Representação do indivíduo
+### Individual representation
 
-Cada indivíduo é representado na população através de um vetor plano com as linhas da matriz em sequência. Sendo assim, um vetor `[2, 7, 6, 9, 5, 1, 4, 3, 8]` representa o quadrado:
+Each individual is represented using a plain array with the lines of the matrix in sequence. Therefore an array `[2, 7, 6, 9, 5, 1, 4, 3, 8]` represents the square:
 
 ```
 2 7 6
@@ -53,20 +53,20 @@ Cada indivíduo é representado na população através de um vetor plano com as
 4 3 8
 ```
 
-### Função de aptidão
+### Fitness function
 
-1. Calcula-se o número mágico, que é o resultado esperado para a soma de todas as linhas, colunas e diagonais, através da fórmula `(L+(L^3))/2`, onde `L` é o tamanho do lado da matriz. Chamaremos o valor calculado de `M` daqui em diante.
+1. The *magic number* is calculated using the formula `(L+(L^3))/2` where `L` is the square size. This is the expected value for the sum of each line, column and diagonal of a square for it to be considered a magic square. We'll call this value `M` from now on.
 
-2. Para cada linha, coluna e diagonal, é feita a soma dos números (denominada `S`), e calcula-se `N = |M-S|`
+2. The sum `S` for each line, column and diagonal is calculated. Also, for each line, it's calculated `N = |M-S|` (*magic number - sum*)
 
-3. Todos os `N`s gerados são somados, formando a função de aptidão que é melhor quanto mais próxima de 0. Um quadrado mágico terá aptidão 0, e a aptidão aumenta conforme a "distância" necessária para se tornar um quadrado mágico.
+3. All calculated `N`s summed up result in the fitness value which is better the closer to 0. A magic square will have fitness value `0`, and the fitness value increases proportionally to the "distance" required for it to become a magic square.
 
-#### Exemplo
+#### Example
 
 ```
-Tamanho: 3x3
+Size: 3x3
 
-Quadrado:
+Square:
 1 2 3
 4 5 6
 7 8 9
@@ -74,27 +74,27 @@ Quadrado:
 L = 3
 M = (3+(3^3))/2 = 15
 
-Linha 1:
+Line 1:
 S = 1+2+3 = 6
 N = |M-S| = |15-6| = 9
 
-Linha 2:
+Line 2:
 S = 4+5+6 = 15
 N = |M-S| = |15-15| = 0
 
-Linha 3:
+Line 3:
 S = 7+8+9 = 24
 N = |M-S| = |15-24| = 9
 
-Coluna 1:
+Column 1:
 S = 1+4+7 = 12
 N = |M-S| = |15-12| = 3
 
-Coluna 2:
+Column 2:
 S = 2+5+8 = 15
 N = |M-S| = |15-15| = 0
 
-Coluna 3:
+Column 3:
 S = 3+6+9 = 18
 N = |M-S| = |15-18| = 3
 
@@ -106,168 +106,141 @@ Diagonal 2:
 S = 3+5+7 = 15
 N = |M-S| = |15-15| = 0
 
-Aptidão = soma de todos N = 9+0+9+3+0+3+0+0 = 24
+Fitness = sum of all N values = 9+0+9+3+0+3+0+0 = 24
 ```
 
-### Seleção para cruzamento
-Os indivíduos são selecionados para cruzamento através da [técnica de torneio](https://en.wikipedia.org/wiki/Tournament_selection). O tamanho da *mating pool* é sempre igual à metade do tamanho da população.
+### Selection for crossover
+The individuals are selected for crossover through [tournment selection](https://en.wikipedia.org/wiki/Tournament_selection). The size of the mating pool is equal to half of the population size.
 
-Sendo o tamanho da população 200, teremos um `mating pool` do tamanho 100. A cada geração, instancia-se uma *mating pool* vazia. Selecionam-se dois indivíduos aleatórios na população, e o que tiver maior cálculo de aptidão entre eles é inserido na *mating pool*. Caso ocorra empate, um dos indivíduos é selecionado para a *mating pool*. Repete-se o processo até que a lista chegue no tamanho esperado.
+Therefore if the size of the population is 200, the size of the mating pool will be 100. For each new generation, a new empty mating pool is created. Two new individuals are selected randomly from the population and the one with the highess fitness score is added to the mating pool. In case of tie, one of the individuals is added to the mating pool. This procedure is repeated until the mating pool gets to the expected size.
 
-### Função de cruzamento
-Uma das características de quadrados mágicos é não poder repetir elementos, ou seja, não é permitido ter genes repetidos no vetor de representaçào do indivíduo. Os métodos de cruzamento mais básicos são inviáveis pois geram indivíduos inválidos com probabilidade muito alta. Por conta disso, torna-se necessário buscar um método de cruzamento mais sofisticado.
+### Crossover function
+One of the characteristics of a magic square is that numbers can't repeat, that is, it's not allowed to have repeated genes on the individual representation array. The most basic crossover methods are infeasible because they generate invalid individuals with high probabibility. Because of this, it's necessary to seek a more sophisticated crossover method.
 
-Foi utilizada a função de cruzamento proposta no artigo [*Genetic Algorithm Solution of the TSP Avoiding Special Crossover and Mutation*](http://www.ceng.metu.edu.tr/~ucoluk/research/publications/tspnew.pdf) pelo autor Göktürk Üçoluk. O artigo propõe um método de cruzamento para o [*TSP - Travelling Salesman Problem*](https://en.wikipedia.org/wiki/Travelling_salesman_problem) (problema do caixeiro-viajante), mas que também pode ser utilizado para o problema do quadrado mágico, visto que ambos utilizam codificação por permutação, na qual os genes não podem se repetir.
+The crossover function used by the program was proposed on the paper [*Genetic Algorithm Solution of the TSP Avoiding Special Crossover and Mutation*](http://www.ceng.metu.edu.tr/~ucoluk/research/publications/tspnew.pdf) written by Göktürk Üçoluk. The paper proposes a crossover method for the [*Travelling Salesman Problem*](https://en.wikipedia.org/wiki/Travelling_salesman_problem), which can also be used for the magic square problem since both problems use permutation representation, in which genes cannot repeat.
 
-Cada cruzamento utiliza dois indivíduos como parentes. Para cada parente é calculado um vetor denominado sequência de inversão, que é uma representação alternativa e reversível do mesmo indivíduo. Por reversível entende-se que, através da sequência de inversão, é possível recalcular a representação original do indivíduo.
+Each crossover uses two individuals as parents. For each parent the inversion sequence array is calculated, which is an alternative and reversible representation of the same individual. Being reversible means that we can recalculate the original permutation representation having the inversion sequence as the input.
 
-#### Cálculo da sequência de inversão
+#### Inversion sequence creation example
 
-Inicia-se o cálculo com um vetor vazio `inv` com o mesmo tamanho do vetor que representa o indivíduo. Para facilitar a explicação desta etapa, será considerado que o vetor inicia no índice 1.
+For calculating the inversion sequence of `[2, 7, 6, 9, 5, 1, 4, 3, 8]`, an empty array of the same size is created and the following steps happen:
 
-Para cada posição do vetor (seja `i` a posição do vetor), procura-se a localização do número `i` no vetor de representação original do quadrado mágico, e conta-se quantos indivíduos à esquerda de `i` possuem valor maior que ele. O resultado desta conta é o valor na posição `i` da sequência de inversão.
+1. On the 1st iteration, we search for the value `1` in the original array and count the amount of elements on the left of it which are bigger than it. In this case, there are five: 2, 7, 6, 9 and 5. Therefore, the value of the 1st position of the inversion sequence will be `5`. On this iteration, `inv = [5, _, _, _, _, _, _, _, _]`.
 
-##### Exemplo
+2. On the 2nd iteration, we search for the value `2` in the original array and count the amount of elements on the left of it which are bigger than it. There are no numbers on the left of it, so the value of the 2nd position of the inversion sequence will be `0`. On this iteration, `inv = [5, 0, _, _, _, _, _, _, _]`.
 
-Para o vetor de representação normal `[2, 7, 6, 9, 5, 1, 4, 3, 8]`, iniciamos um novo vetor de mesmo tamanho que irá representar a sua sequência de inversão. Executa-se, iniciando de 1, os seguintes cálculos:
+3. On the 3rd iteration, we search for the value `3` in the original array and count the amount of elements on the left of it which are bigger than it. There are five numbers bigger than it on the left: 7, 6, 9, 5 and 4. Therefore the value on the 3rd position is `5`. On this iteration, `inv = [5, 0, 5, _, _, _, _, _, _]`.
 
-1. O valor 1 está localizado na sexta posição do vetor original. À esquerda, possuimos cinco números maiores: 2, 7, 6, 9 e 5. Portanto, o valor na posição 1 da sequência de inversão será 5. Nesse passo, `inv = [5, _, _, _, _, _, _, _, _]`.
+Those steps are repeated until the inversion sequence array is filled. It the end the inversion sequence of `[2, 7, 6, 9, 5, 1, 4, 3, 8]` is `[5, 0, 5, 4, 3, 1, 0, 1, 0]`.
 
-2. O valor 2 está localizado na primeira posição do vetor original. À esquerda, não possuimos nenhum número, portanto o valor na posição 2 da sequência de inversão será 0. Nesse passo, `inv = [5, 0, _, _, _, _, _, _, _]`.
+This representation of the square can now be crossed over without generating an invalid individual.
 
-3. O valor 3 está localizado na oitava posição do vetor original. À esquerda, possuimos cinco números maiores: 7, 6, 9, 5 e 4. Portanto, o valor na posição 3 da sequência de inversão será 5. Nesse passo, `inv = [5, 0, 5, _, _, _, _, _, _]`.
+#### Generating the children arrays
 
-4. O valor 4 está localizado na sétima posição do vetor original. À esquerda, possuimos quatro números maiores: 7, 6, 9 e 5. Portanto, o valor na posição 4 da sequência de inversão será 4. Nesse passo, `inv = [5, 0, 5, 4, _, _, _, _, _]`.
+Having the inversion sequence of the two parents, a simple one-point crossover method is used to generate two children. The crossover point is generated randomly between the limits `A` and `B` (inclusive) specified by the user on the application interface.
 
-Repetem-se estes passos para as demais posições, e ao final encontra-se a seguinte sequência de inversão calculada para este indivíduo:
+If we have the following inputs:
 
-`[5, 0, 5, 4, 3, 1, 0, 1, 0]`
+- First parent = `[5, 0, 5, 4, 3, 1, 0, 1, 0]`
+- Second parent = `[1, 6, 6, 0, 0, 0, 2, 1, 0]`
+- Crossover point = `5`
 
-Esta representação é adequada para o cruzamento pois nela é permitido repetir genes mantendo ainda assim uma representação válida de quadrado mágico. Ao final, reverte-se os filhos do cruzamento para a representação original do vetor tendo como resultado um quadrado mágico válido, sem genes de valores repetidos.
+The following children will be generated from it:
 
-#### Geração dos filhos
+- First child = `[5, 0, 5, 4, 3, 1, 2, 1, 0]`
+- Second child = `[1, 6, 6, 0, 0, 0, 0, 1, 0]`
 
-Tendo a sequência de inversão calculada para os dois parentes, é utilizado o cruzamento simples de um ponto para gerar dois filhos. O ponto de cruzamento é gerado aleatoriamente entre os limites `A` e `B` definidos na interface do aplicativo. O ponto pode ser de `0` a `N-1`, sendo N o tamanho do vetor (N é 9 para quadrados 3x3). Para a descrição desta etapa, será considerado que o vetor se inicia no índice 0.
+The first one contains the first six elements of the first parent (elements from index `0` to `5`) and the rest of the second parent, and the second one contains the first six elements of the second parent and the rest of the first parent.
 
-##### Exemplo
+These new individuals are represented as inversion sequences, and now we need to transform it back to the permutation representation.
 
-Tendo duas sequências de inversão `[5, 0, 5, 4, 3, 1, 0, 1, 0]` (parente 1) e `[1, 6, 6, 0, 0, 0, 2, 1, 0]` (parente 2), e ponto de cruzamento 5, são gerados dois filhos.
+#### Transforming back to permutation representation (example)
 
-O primeiro possui uma cópia até a posição 5 (inclusive) do parente 1 e o restante do parente 2, e o segundo possui uma cópia até a posição 5 (inclusive) do parente 2 e o restante do parente 1. Portanto:
-
-- Filho 1 = `[5, 0, 5, 4, 3, 1, 2, 1, 0]`
-- Filho 2 = `[1, 6, 6, 0, 0, 0, 0, 1, 0]`
-
-Os filhos, assim como os pais, estão representados como sequências de inversão. Agora é necessário transformá-los de volta para a representação original do problema (por permutação).
-
-#### Reversão da sequência de inversão
-
-Para transformar um vetor na sequência de inversão para a representação original do quadrado mágico (permutação), é necessário primeiro  compor um vetor intermediário.
-
-##### Composição do vetor intermediário
-
-O vetor intermediário será chamado de `pos`, e o vetor de sequência de inversão como `inv`.
-
-O algoritmo é descrito abaixo:
-
-1. Iniciar o vetor `pos` vazio com a mesma quantidade de posições que `inv`.
-2. Iniciar iteração (`i`) de `N-1` (última posição do vetor) até `0` (primeira posição do vetor), Dentro dessa iteração:
-  1. Copiar `inv[i]` para `pos[i]`
-  2. Comparar todos os valores à direita do índice `i` em `pos` com `inv`. Para cada item à direita do índice `i` em `pos` maior que `inv[i]`, incrementar o índice em `pos`.
-  
-Tendo o vetor intermediário (`pos`) formado, é possível utilizá-lo para montar o vetor na representação original.
-
-##### Transformação para representação original
-
-O quadrado final, em representação por permutação, será chamado de `square`.
-
-Para cada `i` (posição, iniciando de `0`) em `pos`, será definido o índice `pos[i]` de `square` para `i+1`.
-
-###### Exemplo
-
-Calculando o vetor intermediário:
+First, let's calculate an intermediate array called `pos` with the same size as que array that represents the square and the inversion sequence.
 
 ```
-Início do algoritmo:
+Start of algorithm:
 inv = [5, 0, 5, 4, 3, 1, 2, 1, 0]
-pos = [_, _, _, _, _, _, _, _, _] // todas as posições vazias no início
+pos = [_, _, _, _, _, _, _, _, _] // all positions of "pos" are empty
 
-Primeira iteração (i=8):
-pos = [_, _, _, _, _, _, _, _, 0] // copia-se inv[8] para pos[8]
-Não temos nenhum item à direita de pos[8], então a iteração finaliza assim.
+1st iteration (i = 8):
+Copy inv[8] to pos[8]: pos = [_, _, _, _, _, _, _, _, 0]
+There are no elements to the left of pos[8], so the 1st iteration is done.
 
-Seguda iteração (i=7):
-pos = [_, _, _, _, _, _, _, 1, 0] // copia-se inv[7] para pos[7]
-Não temos nenhum item à direita de pos[7] que seja maior ou igual a inv[7], então não efetua mais nenhuma alteração em "pos".
+2nd iteration (i = 7):
+Copy inv[7] to pos[7]: pos = [_, _, _, _, _, _, _, 1, 0]
+Search for elements to the right of pos[7] which are greather or equal to its value (1).
+No elements found, so the 2nd iteration is done.
 
-Terceira iteração (i=6):
-pos = [_, _, _, _, _, _, 2, 1, 0] // copia-se inv[6] para pos[6]
-Não temos nenhum item à direita de pos[6] que seja maior ou igual a inv[6], então não efetua mais nenhuma alteração em "pos".
+3rd iteration (i = 6):
+Copy inv[6] to pos[6]: pos = [_, _, _, _, _, _, 2, 1, 0]
+Search for elements to the right of pos[6] which are greather or equal to its value (2).
+No elements found, so the 3rd iteration is done.
 
-Quarta iteração (i=5):
-pos = [_, _, _, _, _, 1, 2, 1, 0] // copia-se inv[5] para pos[5]
-Temos dois itens à direita do índice 5 em "pos" maiores ou iguais a inv[5] (2 e 1 são >= 1), então iremos incrementá-los. Logo:
-pos = [_, _, _, _, _, 1, 3, 2, 0]
+4th iteration (i = 5):
+Copy inv[5] to pos[5]: pos = [_, _, _, _, _, 1, 2, 1, 0]
+Search for elements to the right of pos[5] which are greather or equal to its value (1).
+Two elements found: pos[6] is 2 and pos[7] is 1. Increment these values (pos[6]++ and pos[7]++).
+In the end of this iteration, pos = [_, _, _, _, _, 1, 3, 2, 0]
 
-Quinta iteração (i=4):
-pos = [_, _, _, _, 3, 1, 3, 2, 0] // copia-se inv[4] para pos[4]
-Temos um item à direita do índice 4 em "pos" maior ou igual a inv[4] (3 >= 3), então iremos incrementá-lo. Logo:
-pos = [_, _, _, _, 3, 1, 4, 2, 0]
+5th iteração (i = 4):
+Copy inv[4] to pos[4]: pos = [_, _, _, _, 3, 1, 3, 2, 0]
+pos[6] >= pos[4], so pos[6]++
+In the end of this iteration, pos = [_, _, _, _, 3, 1, 4, 2, 0]
 
-Sexta iteração (i=3):
-pos = [_, _, _, 4, 3, 1, 4, 2, 0] // copia-se inv[3] para pos[3]
-Temos um item à direita do índice 3 em "pos" maior ou igual a inv[3] (4 >= 4), então iremos incrementá-lo. Logo:
-pos = [_, _, _, 4, 3, 1, 5, 2, 0]
+6th iteration (i = 3):
+Copy inv[3] to pos[3]: pos = [_, _, _, 4, 3, 1, 4, 2, 0]
+pos[6] >= pos[3], so pos[6]++
+In the end of this iteration, pos = [_, _, _, 4, 3, 1, 5, 2, 0]
 
-Sétima iteração (i=2):
-pos = [_, _, 5, 4, 3, 1, 5, 2, 0] // copia-se inv[2] para pos[2]
-Temos um item à direita do índice 2 em "pos" maior ou igual a inv[2] (5 >= 5), então iremos incrementá-lo. Logo:
-pos = [_, _, 5, 4, 3, 1, 6, 2, 0]
+7th iteration (i = 2):
+Copy inv[2] to pos[2]: pos = [_, _, 5, 4, 3, 1, 5, 2, 0]
+pos[6] >= pos[2], so pos[6]++
+In the end of this iteration, pos = [_, _, 5, 4, 3, 1, 6, 2, 0]
 
-Oitava iteração (i=1):
-pos = [_, 0, 5, 4, 3, 1, 6, 2, 0] // copia-se inv[1] para pos[1]
-Todos os itens à direita do índice 1 em "pos" são maiores ou iguais a inv[1], logo iremos incrementar todos eles:
-pos = [_, 0, 6, 5, 4, 2, 7, 3, 1]
+8th iteration (i = 1):
+Copy inv[1] to pos[1]: pos = [_, 0, 5, 4, 3, 1, 6, 2, 0]
+All items to the right of pos[1] are greather or equal than it, so all of them will be incremented.
+In the end of this iteration, pos = [_, 0, 6, 5, 4, 2, 7, 3, 1]
 
-Nona iteração (i=0):
-pos = [5, 0, 6, 5, 4, 2, 7, 3, 1] // copia-se inv[0] para pos[0]
-Temos três itens à direita do índice 0 em "pos" que são maiores ou iguais a inv[0] (5, 6 e 7 são >= 5), então iremos incrementá-los. Logo:
+9th iteration (i = 0):
+Copy inv[0] to pos[0]: pos = [5, 0, 6, 5, 4, 2, 7, 3, 1]
+pos[2], pos[3] and pos[6] >= pos[0], so pos[2]++, pos[3]++, pos[6]++
+In the end of this iteration, pos = [5, 0, 7, 6, 4, 2, 8, 3, 1]
+
+The loop ended and "pos" is ready, now let's use "pos" to mount the final representation.
+
 pos = [5, 0, 7, 6, 4, 2, 8, 3, 1]
+square = [_, _, _, _, _, _, _, _, _] // all positions of "square" are empty
 
-Vetor "pos" está finalizado.
+Iteration 1: if pos[0] is 5 then square[5] = 1, so square is [_, _, _, _, _, 1, _, _, _]
+Iteration 2: if pos[1] is 0 then square[0] = 2, so square is [2, _, _, _, _, 1, _, _, _]
+Iteration 3: if pos[2] is 7 then square[7] = 3, so square is [2, _, _, _, _, 1, _, 3, _]
+Iteration 4: if pos[3] is 6 then square[6] = 4, so square is [2, _, _, _, _, 1, 4, 3, _]
+Iteration 5: if pos[4] is 4 then square[4] = 5, so square is [2, _, _, _, 5, 1, 4, 3, _]
+Iteration 6: if pos[5] is 2 then square[2] = 6, so square is [2, _, 6, _, 5, 1, 4, 3, _]
+Iteration 7: if pos[6] is 8 then square[8] = 7, so square is [2, _, 6, _, 5, 1, 4, 3, 7]
+Iteration 8: if pos[7] is 3 then square[3] = 8, so square is [2, _, 6, 8, 5, 1, 4, 3, 7]
+Iteration 9: if pos[8] is 1 then square[1] = 9, so square is [2, 9, 6, 8, 5, 1, 4, 3, 7]
 
-Montagem do quadrado final:
-
-pos = [5, 0, 7, 6, 4, 2, 8, 3, 1]
-square = [_, _, _, _, _, _, _, _, _] // todas as posições vazias no início
-
-Iteração 1: pos[0] é 5, logo square[5] é 1 -- square = [_, _, _, _, _, 1, _, _, _]
-Iteração 2: pos[1] é 0, logo square[0] é 2 -- square = [2, _, _, _, _, 1, _, _, _]
-Iteração 3: pos[2] é 7, logo square[7] é 3 -- square = [2, _, _, _, _, 1, _, 3, _]
-Iteração 4: pos[3] é 6, logo square[6] é 4 -- square = [2, _, _, _, _, 1, 4, 3, _]
-Iteração 5: pos[4] é 4, logo square[4] é 5 -- square = [2, _, _, _, 5, 1, 4, 3, _]
-Iteração 6: pos[5] é 2, logo square[2] é 6 -- square = [2, _, 6, _, 5, 1, 4, 3, _]
-Iteração 7: pos[6] é 8, logo square[8] é 7 -- square = [2, _, 6, _, 5, 1, 4, 3, 7]
-Iteração 8: pos[7] é 3, logo square[3] é 8 -- square = [2, _, 6, 8, 5, 1, 4, 3, 7]
-Iteração 9: pos[8] é 1, logo square[1] é 9 -- square = [2, 9, 6, 8, 5, 1, 4, 3, 7]
+(iteration X: if pos[X-1] is Y then square[Y] = X)
 ```
 
-Ao final, `square` é `[2, 9, 6, 8, 5, 1, 4, 3, 7]`.
+In the end of the execution, `square` (first children) is `[2, 9, 6, 8, 5, 1, 4, 3, 7]`. The same calculation happens for the second child.
 
-### Funcionamento da mutação
-A mutação pode ocorrer ou não após um cruzamento, ocorrendo aleatoriamente. Quando uma mutação ocorre, dois genes são trocados de posição aleatoriamente. Exemplo:
+### Mutation behavior
+Mutation is random and may occur or not after a crossover. When a mutation occurs, two random positions from the array are swapped. Example:
 
-- Indivíduo original: `[1, 2, 3, 4, 5, 6, 7, 8, 9]`
-- Posições de mutação (aleatórias, índice começa em 0): `[3, 6]`
-- Indivíduo após mutação: `[1, 2, 3, 7, 5, 6, 4, 8, 9]`
+- Original individual: `[1, 2, 3, 4, 5, 6, 7, 8, 9]`
+- Mutation positions (random, array starts at `0` position): `[3, 6]`
+- Individual after mutation: `[1, 2, 3, 7, 5, 6, 4, 8, 9]`
 
-# Resultados
+# Results and benchmarks
 
-Alguns logs de execução contendo quadrados mágicos encontrados e o tempo necessário para faze-los podem ser encontrados na pasta [misc/execution-times](https://github.com/guisehn/genetic-magic-square-finder/tree/master/misc/execution-times) deste repositório.
+Some execution logs can be found on the folder [misc/execution-times](https://github.com/guisehn/genetic-magic-square-finder/tree/master/misc/execution-times) of this repository. They contain the parameters used for running the tests, the magic squares found along with all their crossover information and the time consumed by the program to find them.
 
-## Comparação com força bruta
+## Comparision with brute force
 
-Uma versão deste aplicativo utilizando apenas força bruta através de permutação foi desenvolvida e pode ser encontrada em:
-https://github.com/guisehn/magic-square-finder
+Another version of this app using only brute force through permutation can be found at https://github.com/guisehn/magic-square-finder
 
-Ele demora diversas horas para encontrar quadrados mágicos acima do tamanho 3x3. Mais detalhes podem ser vistos na página do repositório.
+It takes several hours to find magic squares bigger than 3x3. More details can be found on the repo page.
