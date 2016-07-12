@@ -105,7 +105,6 @@ public class MagicSquareFinder {
             sortPopulation();
             addCurrentGenerationToLog();
             
-            // Publica o log para a saída a cada N gerações.
             if (generationCount == 0 || generationCount % 200 == 0) {
                 publishAndClearLog();
                 published = true;
@@ -125,16 +124,10 @@ public class MagicSquareFinder {
         stop();
     }
     
-    /**
-     * Sorts the population by fitness score
-     */
     private void sortPopulation() {
         Collections.sort(population, comparator);
     }
     
-    /**
-     * Generates the initial population randomly
-     */
     private void generateInitialPopulation() {
         population.clear();
 
@@ -164,10 +157,6 @@ public class MagicSquareFinder {
         }
     }
     
-    /**
-     * Verifies if the magic squares list reached the limit.
-     * @return Returns true if 10 magic squares were found and ends the search.
-     */
     private boolean checkForCompletion(boolean published) {
         int amountFound = magicSquaresFound.size();
         
@@ -189,9 +178,6 @@ public class MagicSquareFinder {
         return false;
     }
     
-    /**
-     * Adds the individuals of the current generation to the log.
-     */
     private void addCurrentGenerationToLog() {
         log.append("======================\nGeneration ").append(generationCount)
             .append("\n======================");
@@ -215,17 +201,13 @@ public class MagicSquareFinder {
     }
     
     /**
-     * Publica o log para a saída e limpa-o
+     * Outputs the log
      */
     private void publishAndClearLog() {
         listener.actionPerformed(new ActionEvent(this, LOG_EVENT, log.toString()));
         log.setLength(0);
     }
     
-    /**
-     * Publica um quadrado mágico para a saída
-     * @param magicSquare Indivíduo contendo o quadrado mágico
-     */
     private void publishMagicSquare(Individual magicSquare) {
         StringBuilder sb = new StringBuilder();
         sb.append(SquareFormatter.format(magicSquare.getSquare()));
@@ -237,10 +219,6 @@ public class MagicSquareFinder {
             sb.toString()));
     }
     
-    /**
-     * Seleciona os indivíduos para cruzamento utilizando torneio
-     * @return Indivíduos selecionados para cruzamento após torneio
-     */
     private List<Individual> createMatingPool() {
         List<Individual> matingPool = new ArrayList<>();
         
@@ -259,13 +237,10 @@ public class MagicSquareFinder {
         return matingPool;
     }
     
-    /**
-     * Cria nova geração
-     */
     private void createNewGeneration() {
         generationCount++;
 
-        // Mata a elite a cada N gerações sem um novo quadrado mágico
+        // Applies the elite death period
         if (eliteDeathPeriod != 0 && amountOfGenerationsSinceLastNewMagicSquare > eliteDeathPeriod) {
             population.subList(0, eliteSize).clear();
             amountOfGenerationsSinceLastNewMagicSquare = 0;
@@ -273,12 +248,9 @@ public class MagicSquareFinder {
             amountOfGenerationsSinceLastNewMagicSquare++;
         }
         
-        // Cruza os indivíduos
         List<Individual> matingPool = createMatingPool();
         
-        // Elitismo. Mantém os melhores N indivíduos (que estão no inicio
-        // da população, já que ela é ordenada pelo fitness) para a próxima
-        // geração.
+        // Elitism. Transfers the N best individuals to the next generation.
         try {
             population.subList(eliteSize, populationSize).clear();
             population.stream().forEach(individual -> {
