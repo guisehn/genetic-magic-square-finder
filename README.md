@@ -1,5 +1,7 @@
 # Genetic Magic Square Finder
 
+[⬇️ Download executable](https://github.com/guisehn/genetic-magic-square-finder/releases/latest)
+
 Project for Artificial Intelligence module (2016/1) | [University of Santa Cruz do Sul (UNISC)](http://www.unisc.br)
 
 Authors: Gabriel Bittencourt, Guilherme Sehn, Mateus Leonhardt
