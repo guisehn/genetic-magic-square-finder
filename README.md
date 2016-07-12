@@ -1,6 +1,6 @@
 # Genetic Magic Square Finder
 
-[⬇️ Download da última versão](https://github.com/guisehn/genetic-magic-square-finder/releases/latest)
+[⬇️ Download da última versão](https://github.com/guisehn/genetic-magic-square-finder/releases/tag/v1.0.0-pt-br)
 
 Trabalho Prático de Inteligência Artificial - UNISC 2016/1
 
