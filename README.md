@@ -154,7 +154,7 @@ The following children will be generated from it:
 
 The first one contains the first six elements of the first parent (elements from index `0` to `5`) and the rest of the second parent, and the second one contains the first six elements of the second parent and the rest of the first parent.
 
-These new individuals are represented as inversion sequences, and now we need to transform it back to the permutation representation.
+These new individuals are represented as inversion sequences, and now we need to transform them back to the permutation representation.
 
 #### Transforming back to permutation representation (example)
 
@@ -163,11 +163,11 @@ First, let's calculate an intermediate array called `pos` with the same size as 
 ```
 Start of algorithm:
 inv = [5, 0, 5, 4, 3, 1, 2, 1, 0]
-pos = [_, _, _, _, _, _, _, _, _] // all positions of "pos" are empty
+pos = [_, _, _, _, _, _, _, _, _] (all positions of "pos" are empty)
 
 1st iteration (i = 8):
 Copy inv[8] to pos[8]: pos = [_, _, _, _, _, _, _, _, 0]
-There are no elements to the left of pos[8], so the 1st iteration is done.
+There are no elements to the right of pos[8], so the 1st iteration is done.
 
 2nd iteration (i = 7):
 Copy inv[7] to pos[7]: pos = [_, _, _, _, _, _, _, 1, 0]
@@ -241,7 +241,7 @@ Mutation is random and may occur or not after a crossover. When a mutation occur
 
 Some execution logs can be found on the folder [misc/execution-times](https://github.com/guisehn/genetic-magic-square-finder/tree/master/misc/execution-times) of this repository. They contain the parameters used for running the tests, the magic squares found along with all their crossover information and the time consumed by the program to find them.
 
-## Comparision with brute force
+## Comparison with brute force
 
 Another version of this app using only brute force through permutation can be found at https://github.com/guisehn/magic-square-finder
 
