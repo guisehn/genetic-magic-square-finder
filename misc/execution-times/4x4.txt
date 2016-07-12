@@ -9,7 +9,7 @@ Show generation details: no
 Allow identical individuals: no
 ---
 
-Magic square # found in 00:00:04
+Magic square #1 found in 00:00:04
 16	1	14	3
 9	6	11	8
 4	15	2	13
@@ -21,7 +21,7 @@ Generation number: 1361
 Crossover point: 13
 Mutated? yes, on [15, 6]
 
-Magic square # found in 00:00:04
+Magic square #2 found in 00:00:04
 14	1	16	3
 9	8	11	6
 4	13	2	15
@@ -33,7 +33,7 @@ Generation number: 1593
 Crossover point: 12
 Mutated? no
 
-Magic square # found in 00:00:05
+Magic square #3 found in 00:00:05
 16	2	9	7
 11	5	14	4
 6	12	3	13
@@ -45,7 +45,7 @@ Generation number: 2037
 Crossover point: 13
 Mutated? yes, on [2, 15]
 
-Magic square # found in 00:00:06
+Magic square #4 found in 00:00:06
 1	14	4	15
 7	12	6	9
 16	3	13	2
@@ -57,7 +57,7 @@ Generation number: 2486
 Crossover point: 12
 Mutated? yes, on [5, 14]
 
-Magic square # found in 00:00:07
+Magic square #5 found in 00:00:07
 14	9	8	3
 1	7	10	16
 4	6	11	13
@@ -69,7 +69,7 @@ Generation number: 3065
 Crossover point: 14
 Mutated? yes, on [15, 4]
 
-Magic square # found in 00:00:08
+Magic square #6 found in 00:00:08
 13	7	10	4
 2	9	8	15
 3	6	11	14
@@ -81,7 +81,7 @@ Generation number: 3200
 Crossover point: 14
 Mutated? yes, on [6, 2]
 
-Magic square # found in 00:00:08
+Magic square #7 found in 00:00:08
 13	1	16	4
 12	8	9	5
 3	15	2	14
@@ -93,7 +93,7 @@ Generation number: 3242
 Crossover point: 14
 Mutated? yes, on [7, 12]
 
-Magic square # found in 00:00:09
+Magic square #8 found in 00:00:09
 1	15	8	10
 6	12	3	13
 11	5	14	4
@@ -105,7 +105,7 @@ Generation number: 3534
 Crossover point: 14
 Mutated? yes, on [4, 15]
 
-Magic square # found in 00:00:10
+Magic square #9 found in 00:00:10
 15	2	12	5
 9	8	14	3
 6	11	1	16
@@ -117,7 +117,7 @@ Generation number: 3952
 Crossover point: 8
 Mutated? no
 
-Magic square # found in 00:00:10
+Magic square #10 found in 00:00:10
 14	1	15	4
 12	7	9	6
 3	16	2	13

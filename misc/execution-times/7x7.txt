@@ -9,7 +9,7 @@ Show generation details: no
 Allow identical individuals: no
 ---
 
-Magic square # found in 00:04:39
+Magic square #1 found in 00:04:39
 24	22	37	29	41	8	14
 11	49	20	38	33	21	3
 25	13	2	32	45	35	23
@@ -24,7 +24,7 @@ Generation number: 39799
 Crossover point: 47
 Mutated? yes, on [0, 14]
 
-Magic square # found in 00:11:48
+Magic square #2 found in 00:11:48
 23	24	37	29	41	8	13
 11	49	20	38	33	21	3
 22	14	2	32	45	35	25
@@ -39,7 +39,7 @@ Generation number: 105533
 Crossover point: 47
 Mutated? yes, on [0, 1]
 
-Magic square # found in 00:38:43
+Magic square #3 found in 00:38:43
 24	22	37	29	41	9	13
 11	49	19	36	34	21	5
 25	14	1	31	46	35	23
@@ -54,7 +54,7 @@ Generation number: 355929
 Crossover point: 46
 Mutated? yes, on [0, 14]
 
-Magic square # found in 00:40:08
+Magic square #4 found in 00:40:08
 24	23	36	29	41	10	12
 11	49	19	37	33	21	5
 25	14	1	32	46	35	22
@@ -69,7 +69,7 @@ Generation number: 369128
 Crossover point: 46
 Mutated? yes, on [40, 26]
 
-Magic square # found in 00:45:15
+Magic square #5 found in 00:45:15
 24	23	36	29	41	10	12
 11	49	19	37	33	21	5
 25	14	1	32	46	35	22
@@ -84,7 +84,7 @@ Generation number: 414097
 Crossover point: 40
 Mutated? yes, on [42, 44]
 
-Magic square # found in 00:56:34
+Magic square #6 found in 00:56:34
 25	22	37	29	41	10	11
 12	49	18	36	33	21	6
 23	14	1	31	47	35	24
@@ -99,7 +99,7 @@ Generation number: 511939
 Crossover point: 47
 Mutated? yes, on [20, 14]
 
-Magic square # found in 00:57:55
+Magic square #7 found in 00:57:55
 24	22	37	29	41	9	13
 10	49	19	36	34	21	6
 25	14	1	31	46	35	23
@@ -114,7 +114,7 @@ Generation number: 524898
 Crossover point: 47
 Mutated? yes, on [34, 13]
 
-Magic square # found in 01:01:08
+Magic square #8 found in 01:01:08
 25	22	37	29	41	9	12
 10	49	19	36	34	21	6
 24	14	1	31	47	35	23
@@ -129,7 +129,7 @@ Generation number: 555733
 Crossover point: 47
 Mutated? yes, on [34, 13]
 
-Magic square # found in 01:07:18
+Magic square #9 found in 01:07:18
 26	23	36	29	41	9	11
 12	48	19	37	33	21	5
 24	17	1	30	46	35	22
@@ -144,7 +144,7 @@ Generation number: 615799
 Crossover point: 47
 Mutated? yes, on [3, 17]
 
-Magic square # found in 01:37:59
+Magic square #10 found in 01:37:59
 25	22	36	29	40	11	12
 9	49	19	37	35	21	5
 24	17	1	30	46	34	23
