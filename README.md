@@ -2,6 +2,8 @@
 
 [⬇️ Download executable](https://github.com/guisehn/genetic-magic-square-finder/releases/latest)
 
+[🇧🇷 Versão em português](https://github.com/guisehn/genetic-magic-square-finder/tree/pt-br)
+
 Project for Artificial Intelligence module (2016/1) | [University of Santa Cruz do Sul (UNISC)](http://www.unisc.br)
 
 Authors: Gabriel Bittencourt, Guilherme Sehn, Mateus Leonhardt
