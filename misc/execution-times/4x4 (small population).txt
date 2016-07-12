@@ -1,132 +1,132 @@
-Tamanho da matriz: 4
-Tamanho da população: 20
-Tamanho da elite: 10
-Periodo de morte da elite: 60000
-Ponto minimo (cruzamento): 1
-Ponto maximo (cruzamento): 14
-Chance de mutação: 50%
-Exibir histórico completo: não
-Permitir indivíduos idênticos: não
+Square size: 4
+Population size: 20
+Elite size: 10
+Elite death period: 60000
+Minimum point (crossover): 1
+Maximum point (crossover): 14
+Mutation chance: 50%
+Show generation details: no
+Allow identical individuals: no
 ---
 
-Quadrado 1 encontrado aos 00:00:00
+Magic square # found in 00:00:00
 8	10	15	1
 3	6	13	12
 14	11	4	5
 9	7	2	16
 
-Nº da geração: 2697
-Pai 1: [8, 10, 15, 1, 3, 6, 12, 13, 14, 11, 4, 5, 9, 7, 2, 16]
-Pai 2: [8, 10, 16, 1, 3, 6, 13, 12, 14, 11, 4, 5, 9, 7, 2, 15]
-Ponto de cruzamento: 12
-Houve mutação? não
+Generation number: 2697
+1st parent: [8, 10, 15, 1, 3, 6, 12, 13, 14, 11, 4, 5, 9, 7, 2, 16]
+2nd parent: [8, 10, 16, 1, 3, 6, 13, 12, 14, 11, 4, 5, 9, 7, 2, 15]
+Crossover point: 12
+Mutated? no
 
-Quadrado 2 encontrado aos 00:00:00
+Magic square # found in 00:00:00
 8	9	16	1
 3	6	11	14
 13	12	5	4
 10	7	2	15
 
-Nº da geração: 2736
-Pai 1: [10, 7, 16, 1, 3, 6, 11, 15, 12, 13, 5, 4, 9, 8, 2, 14]
-Pai 2: [8, 9, 16, 1, 3, 6, 11, 14, 13, 12, 4, 5, 10, 7, 2, 15]
-Ponto de cruzamento: 5
-Houve mutação? não
+Generation number: 2736
+1st parent: [10, 7, 16, 1, 3, 6, 11, 15, 12, 13, 5, 4, 9, 8, 2, 14]
+2nd parent: [8, 9, 16, 1, 3, 6, 11, 14, 13, 12, 4, 5, 10, 7, 2, 15]
+Crossover point: 5
+Mutated? no
 
-Quadrado 3 encontrado aos 00:00:00
+Magic square # found in 00:00:00
 9	7	16	2
 3	6	13	12
 14	11	4	5
 8	10	1	15
 
-Nº da geração: 3430
-Pai 1: [8, 3, 10, 16, 13, 12, 14, 1, 6, 11, 4, 2, 5, 9, 7, 15]
-Pai 2: [9, 7, 16, 2, 3, 6, 12, 13, 14, 11, 4, 5, 8, 10, 1, 15]
-Ponto de cruzamento: 9
-Houve mutação? não
+Generation number: 3430
+1st parent: [8, 3, 10, 16, 13, 12, 14, 1, 6, 11, 4, 2, 5, 9, 7, 15]
+2nd parent: [9, 7, 16, 2, 3, 6, 12, 13, 14, 11, 4, 5, 8, 10, 1, 15]
+Crossover point: 9
+Mutated? no
 
-Quadrado 4 encontrado aos 00:00:13
+Magic square # found in 00:00:13
 9	7	16	2
 12	6	13	3
 5	11	4	14
 8	10	1	15
 
-Nº da geração: 49660
-Pai 1: [9, 7, 16, 2, 13, 6, 12, 3, 4, 11, 5, 14, 8, 10, 1, 15]
-Pai 2: [9, 7, 16, 2, 3, 6, 12, 13, 14, 11, 5, 4, 8, 10, 1, 15]
-Ponto de cruzamento: 10
-Houve mutação? sim, em [10, 8]
+Generation number: 49660
+1st parent: [9, 7, 16, 2, 13, 6, 12, 3, 4, 11, 5, 14, 8, 10, 1, 15]
+2nd parent: [9, 7, 16, 2, 3, 6, 12, 13, 14, 11, 5, 4, 8, 10, 1, 15]
+Crossover point: 10
+Mutated? yes, on [10, 8]
 
-Quadrado 5 encontrado aos 00:00:31
+Magic square # found in 00:00:31
 1	12	13	8
 7	14	11	2
 16	5	4	9
 10	3	6	15
 
-Nº da geração: 110909
-Pai 1: [1, 13, 12, 8, 7, 14, 5, 11, 3, 16, 4, 15, 9, 2, 10, 6]
-Pai 2: [1, 12, 14, 8, 7, 13, 11, 2, 16, 5, 4, 9, 10, 3, 6, 15]
-Ponto de cruzamento: 11
-Houve mutação? não
+Generation number: 110909
+1st parent: [1, 13, 12, 8, 7, 14, 5, 11, 3, 16, 4, 15, 9, 2, 10, 6]
+2nd parent: [1, 12, 14, 8, 7, 13, 11, 2, 16, 5, 4, 9, 10, 3, 6, 15]
+Crossover point: 11
+Mutated? no
 
-Quadrado 6 encontrado aos 00:00:31
+Magic square # found in 00:00:31
 1	14	11	8
 7	13	12	2
 16	4	5	9
 10	3	6	15
 
-Nº da geração: 110942
-Pai 1: [1, 14, 11, 8, 7, 13, 12, 2, 16, 5, 4, 9, 10, 3, 6, 15]
-Pai 2: [1, 14, 13, 8, 7, 15, 11, 2, 16, 4, 5, 9, 10, 3, 6, 12]
-Ponto de cruzamento: 3
-Houve mutação? não
+Generation number: 110942
+1st parent: [1, 14, 11, 8, 7, 13, 12, 2, 16, 5, 4, 9, 10, 3, 6, 15]
+2nd parent: [1, 14, 13, 8, 7, 15, 11, 2, 16, 4, 5, 9, 10, 3, 6, 12]
+Crossover point: 3
+Mutated? no
 
-Quadrado 7 encontrado aos 00:01:03
+Magic square # found in 00:01:03
 4	14	15	1
 7	9	12	6
 10	8	5	11
 13	3	2	16
 
-Nº da geração: 233894
-Pai 1: [4, 14, 15, 1, 7, 8, 12, 6, 10, 9, 5, 11, 13, 3, 2, 16]
-Pai 2: [4, 15, 14, 1, 7, 8, 13, 6, 10, 9, 5, 12, 11, 3, 2, 16]
-Ponto de cruzamento: 8
-Houve mutação? sim, em [9, 5]
+Generation number: 233894
+1st parent: [4, 14, 15, 1, 7, 8, 12, 6, 10, 9, 5, 11, 13, 3, 2, 16]
+2nd parent: [4, 15, 14, 1, 7, 8, 13, 6, 10, 9, 5, 12, 11, 3, 2, 16]
+Crossover point: 8
+Mutated? yes, on [9, 5]
 
-Quadrado 8 encontrado aos 00:01:03
+Magic square # found in 00:01:03
 4	15	14	1
 7	9	12	6
 10	8	5	11
 13	2	3	16
 
-Nº da geração: 234656
-Pai 1: [5, 15, 14, 1, 6, 9, 12, 7, 10, 8, 4, 11, 13, 2, 3, 16]
-Pai 2: [5, 15, 14, 1, 7, 9, 12, 6, 10, 8, 4, 11, 13, 2, 3, 16]
-Ponto de cruzamento: 7
-Houve mutação? sim, em [0, 10]
+Generation number: 234656
+1st parent: [5, 15, 14, 1, 6, 9, 12, 7, 10, 8, 4, 11, 13, 2, 3, 16]
+2nd parent: [5, 15, 14, 1, 7, 9, 12, 6, 10, 8, 4, 11, 13, 2, 3, 16]
+Crossover point: 7
+Mutated? yes, on [0, 10]
 
-Quadrado 9 encontrado aos 00:01:04
+Magic square # found in 00:01:04
 4	15	14	1
 6	9	12	7
 11	8	5	10
 13	2	3	16
 
-Nº da geração: 237723
-Pai 1: [4, 15, 14, 1, 6, 9, 12, 7, 10, 8, 5, 11, 13, 2, 3, 16]
-Pai 2: [4, 15, 14, 1, 6, 9, 12, 7, 10, 8, 5, 11, 13, 2, 3, 16]
-Ponto de cruzamento: 6
-Houve mutação? sim, em [11, 8]
+Generation number: 237723
+1st parent: [4, 15, 14, 1, 6, 9, 12, 7, 10, 8, 5, 11, 13, 2, 3, 16]
+2nd parent: [4, 15, 14, 1, 6, 9, 12, 7, 10, 8, 5, 11, 13, 2, 3, 16]
+Crossover point: 6
+Mutated? yes, on [11, 8]
 
-Quadrado 10 encontrado aos 00:01:04
+Magic square # found in 00:01:04
 4	14	15	1
 6	9	12	7
 11	8	5	10
 13	3	2	16
 
-Nº da geração: 238105
-Pai 1: [14, 6, 11, 1, 15, 9, 5, 10, 4, 8, 12, 7, 13, 2, 3, 16]
-Pai 2: [4, 15, 14, 1, 6, 9, 12, 7, 11, 8, 5, 10, 13, 3, 2, 16]
-Ponto de cruzamento: 12
-Houve mutação? não
+Generation number: 238105
+1st parent: [14, 6, 11, 1, 15, 9, 5, 10, 4, 8, 12, 7, 13, 2, 3, 16]
+2nd parent: [4, 15, 14, 1, 6, 9, 12, 7, 11, 8, 5, 10, 13, 3, 2, 16]
+Crossover point: 12
+Mutated? no
 
-Busca encerrada.
+Search is complete.
