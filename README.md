@@ -6,7 +6,7 @@
 
 Project for Artificial Intelligence module (2016/1) | [University of Santa Cruz do Sul (UNISC)](http://www.unisc.br)
 
-Authors: Gabriel Bittencourt, Guilherme Sehn, Mateus Leonhardt
+Authors: Guilherme Sehn, Gabriel Bittencourt, Mateus Leonhardt
 
 This app finds [magic squares](https://en.wikipedia.org/wiki/Magic_square) using a [genetic algorithm](https://en.wikipedia.org/wiki/Genetic_algorithm). A magic square is an arrangement of distinct numbers in arithmetical progression in a square grid, where the numbers in each row, and in each column, and the numbers in the main and secondary diagonals, all add up to the same number.
 
