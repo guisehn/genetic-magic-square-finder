@@ -4,7 +4,7 @@
 
 Trabalho Prático de Inteligência Artificial - UNISC 2016/1
 
-Alunos: Gabriel Bittencourt, Guilherme Sehn, Mateus Leonhardt
+Alunos: Guilherme Sehn, Gabriel Bittencourt, Mateus Leonhardt
 
 Este aplicativo encontra [quadrados mágicos](https://pt.wikipedia.org/wiki/Quadrado_m%C3%A1gico) através de algoritmo genético. Um quadrado mágico é uma tabela quadrada de números em progressão aritmética em que a soma de cada coluna, de cada linha e das duas diagonais são iguais.
 
